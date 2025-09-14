@@ -18,7 +18,7 @@ urlpatterns = [
     path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema', permission_classes=[permissions.AllowAny]), name='swagger-ui'),
 
     # My API
-    # path('api/dictionary/', include('apps.dictionary.urls'))
+    path('api/shop/', include('shop.urls'))
 ]
 
 if settings.DEBUG:
