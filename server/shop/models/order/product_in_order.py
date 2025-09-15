@@ -54,4 +54,4 @@ class ProductInOrder(models.Model):
 
     @property
     def cost(self):
-        return self.product_variant.price * self.quantity
+        return self.price * self.quantity

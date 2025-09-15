@@ -18,7 +18,7 @@ class Product(models.Model):
         help_text=_('Введите описание товара'),
         blank=False
     )
-    category = models.ForeignKey(
+    product_category = models.ForeignKey(
         ProductCategory,
         on_delete=models.CASCADE,
         verbose_name=_('Категория товара'),
@@ -44,8 +44,8 @@ class Product(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['category', 'title'],
-                name='unique_products_per_category'
+                fields=['product_category', 'title'],
+                name='unique_products_per_product_category'
             )
         ]
         verbose_name = _('Товар')

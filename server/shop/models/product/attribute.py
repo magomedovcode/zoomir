@@ -27,7 +27,7 @@ class Attribute(models.Model):
         help_text=_('Выберите вариацию товара'),
         related_name='attributes'
     )
-    category = models.ForeignKey(
+    attribute_category = models.ForeignKey(
         AttributeCategory,
         on_delete=models.CASCADE,
         verbose_name=_('Категория аттрибута товара'),

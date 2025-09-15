@@ -64,6 +64,3 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Заказ #{self.id} от {self.user.username}"
-
-    def get_status_display(self):
-        return dict(self.Status.choices)[self.status]

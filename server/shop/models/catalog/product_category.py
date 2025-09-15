@@ -12,7 +12,7 @@ class ProductCategory(models.Model):
         blank=False,
         null=False
     )
-    chapter = models.ForeignKey(
+    product_chapter = models.ForeignKey(
         ProductChapter,
         on_delete=models.CASCADE,
         verbose_name=_('Раздел товара'),
@@ -24,8 +24,8 @@ class ProductCategory(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['chapter', 'name'],
-                name='unique_category_per_chapter'
+                fields=['product_chapter', 'name'],
+                name='unique_category_per_product_chapter'
             )
         ]
         verbose_name = _('Категория товаров')

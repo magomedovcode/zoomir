@@ -12,7 +12,7 @@ class Tag(models.Model):
         blank=False,
         null=False
     )
-    products = models.ManyToManyField(
+    product = models.ManyToManyField(
         Product,
         verbose_name=_('Товары'),
         help_text=_('Выберите товары, связанные с этим тегом'),
