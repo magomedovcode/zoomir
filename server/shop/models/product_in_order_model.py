@@ -14,7 +14,7 @@ class ProductInOrder(models.Model):
     )
     product_variant = models.ForeignKey(
         ProductVariant,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         verbose_name=_('Вариация товара'),
         help_text=_('Выберите вариацию товара'),
         related_name='products_in_orders'
