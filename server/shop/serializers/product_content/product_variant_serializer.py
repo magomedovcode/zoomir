@@ -1,9 +1,7 @@
 from shop.models import ProductVariant
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from .attribute_serializer import AttributeSerializer
-from .product_serializer import ProductSerializer
-from .product_image_serializer import ProductImageSerializer
+from shop.serializers import AttributeSerializer, ProductSerializer, ProductImageSerializer
 
 
 @extend_schema_serializer(component_name='ProductVariant')

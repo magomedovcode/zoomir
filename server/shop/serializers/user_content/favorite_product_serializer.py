@@ -1,7 +1,7 @@
 from shop.models import FavoriteProduct
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from .product_serializer import ProductSerializer
+from shop.serializers import ProductSerializer
 
 
 @extend_schema_serializer(component_name='FavoriteProduct')

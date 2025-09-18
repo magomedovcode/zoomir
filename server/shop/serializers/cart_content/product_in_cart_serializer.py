@@ -1,7 +1,7 @@
 from shop.models import ProductInCart, Cart
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from .product_variant_serializer import ProductVariantSerializer
+from shop.serializers import ProductVariantSerializer
 
 
 @extend_schema_serializer(component_name='ProductInCart')

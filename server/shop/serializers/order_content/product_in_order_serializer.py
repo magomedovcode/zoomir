@@ -1,7 +1,7 @@
 from shop.models import ProductInOrder
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from .product_variant_serializer import ProductVariantSerializer
+from shop.serializers import ProductVariantSerializer
 from rest_framework import serializers as _serializers  # to avoid confusion
 
 
