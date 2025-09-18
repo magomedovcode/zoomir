@@ -1,7 +1,7 @@
 from shop.models import Attribute
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from shop.serializers import AttributeCategorySerializer
+from .attribute_category_serializer import AttributeCategorySerializer
 
 
 @extend_schema_serializer(component_name='Attribute')

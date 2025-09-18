@@ -1,8 +1,8 @@
 from shop.models import Order, ProductInOrder, ProductVariant
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from shop.serializers import ProductInOrderSerializer
 from django.utils.translation import gettext_lazy as _
+from .product_in_order_serializer import ProductInOrderSerializer
 
 
 @extend_schema_serializer(component_name='Order')

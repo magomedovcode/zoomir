@@ -1,8 +1,9 @@
 from shop.models import Review, ReviewPhoto
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from shop.serializers import ProductSerializer, ReviewPhotoSerializer
 from django.utils.translation import gettext_lazy as _
+from .product_serializer import ProductSerializer
+from .review_photo_serializer import ReviewPhotoSerializer
 
 
 @extend_schema_serializer(component_name='Review')
