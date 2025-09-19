@@ -1,30 +1,38 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, OpenApiParameter
-from rest_framework import permissions, generics
 from rest_framework.filters import SearchFilter
 from shop.pagination import ProductPagination
 from shop.filters import ProductVariantFilter
+from drf_spectacular.utils import (
+    extend_schema,
+    OpenApiParameter
+)
+from rest_framework import (
+    permissions,
+    generics
+)
 from shop.models import (
     Brand,
     Country,
     ProductChapter,
     ProductCategory,
-    ProductVariant
+    ProductVariant,
+    AttributeCategory
 )
 from shop.serializers import (
     BrandSerializer,
     CountrySerializer,
     ProductChapterSerializer,
     ProductCategorySerializer,
-    ProductVariantSerializer
+    ProductVariantListSerializer,
+    AttributeCategorySerializer
 )
 
 
-@extend_schema(tags=['Главы категорий продуктов'])
+@extend_schema(tags=['Главы категорий товаров'])
 class ProductChapterListView(generics.ListAPIView):
     """
-    Получение списка всех глав категорий продуктов
+    Получение списка всех глав категорий товаров
     """
     queryset = ProductChapter.objects.all()
     serializer_class = ProductChapterSerializer
@@ -33,11 +41,11 @@ class ProductChapterListView(generics.ListAPIView):
 
 
 @extend_schema(
-    tags=['Категории продукта'],
+    tags=['Категории товаров'],
     parameters=[
         OpenApiParameter(
             name='product_chapter',
-            description='Фильтр по главе категорий продукта (ID)',
+            description='Фильтр по главе категорий товара (ID)',
             required=False,
             type=OpenApiTypes.INT
         )
@@ -53,6 +61,17 @@ class ProductCategoryListView(generics.ListAPIView):
     pagination_class = None
     permission_classes = [permissions.AllowAny]
     queryset = ProductCategory.objects.select_related('product_chapter').all()
+
+
+@extend_schema(tags=['Категории аттрибутов товаров'])
+class AttributeCategoryListView(generics.ListAPIView):
+    """
+    Получение списка всех глав категорий аттрибутов товаров
+    """
+    queryset = AttributeCategory.objects.all()
+    serializer_class = AttributeCategorySerializer
+    pagination_class = None
+    permission_classes = [permissions.AllowAny]
 
 
 @extend_schema(tags=['Бренды'])
@@ -116,7 +135,7 @@ class ProductListView(generics.ListAPIView):
     """
     Получение списка всех вариаций продукта с фильтрацией
     """
-    serializer_class = ProductVariantSerializer
+    serializer_class = ProductVariantListSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_class = ProductVariantFilter
     permission_classes = [permissions.AllowAny]

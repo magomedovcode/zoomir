@@ -1,14 +1,18 @@
-from shop.models import ProductInCart, Cart
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from shop.serializers.product_content.product_variant_serializer import ProductVariantSerializer
+from shop.serializers.product_content.product_variant_serializer import ProductVariantListSerializer
+from shop.models import (
+    ProductInCart,
+    Cart
+)
 
 
 @extend_schema_serializer(component_name='ProductInCart')
 class ProductInCartSerializer(serializers.ModelSerializer):
-    product_variant = ProductVariantSerializer(
+    product_variant = ProductVariantListSerializer(
         read_only=True
     )
+
     class Meta:
         model = ProductInCart
         fields = [

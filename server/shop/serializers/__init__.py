@@ -2,8 +2,14 @@ from .product_filters.product_chapter_serializer import ProductChapterSerializer
 from .product_filters.product_category_serializer import ProductCategorySerializer
 from .product_filters.brand_serializer import BrandSerializer
 from .product_filters.country_serializer import CountrySerializer
-from .product_content.product_serializer import ProductSerializer
-from .product_content.product_variant_serializer import ProductVariantSerializer
+from .product_content.product_serializer import (
+    ProductSerializer,
+    ProductDetailSerializer
+)
+from .product_content.product_variant_serializer import (
+    VariantInProductSerializer,
+    ProductVariantListSerializer
+)
 from .product_content.product_image_serializer import ProductImageSerializer
 from .product_content.tag_serializer import TagSerializer
 from .product_filters.attribute_category_serializer import AttributeCategorySerializer

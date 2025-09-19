@@ -2,6 +2,7 @@ import django_filters
 from django.db import models
 from shop.models import ProductVariant
 
+
 class ProductVariantFilter(django_filters.FilterSet):
     brand = django_filters.NumberFilter(field_name='product__brand_id')
     product_category = django_filters.NumberFilter(field_name='product__product_category_id')

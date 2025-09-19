@@ -5,8 +5,8 @@ from shop.serializers.product_content.attribute_serializer import AttributeSeria
 from shop.serializers.product_content.product_image_serializer import ProductImageSerializer
 
 
-@extend_schema_serializer(component_name='ProductVariant')
-class ProductVariantSerializer(serializers.ModelSerializer):
+@extend_schema_serializer(component_name='VariantInProduct')
+class VariantInProductSerializer(serializers.ModelSerializer):
     product_images = ProductImageSerializer(
         many=True,
         read_only=True
