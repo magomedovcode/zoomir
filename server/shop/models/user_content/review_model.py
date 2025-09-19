@@ -1,8 +1,11 @@
-from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
-from shop.models import Product
+from shop.models.product_content.product_model import Product
+from django.core.validators import (
+    MinValueValidator,
+    MaxValueValidator
+)
 
 
 class Review(models.Model):

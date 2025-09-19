@@ -1,6 +1,9 @@
 from django.db import models
+from django.db.models import Avg
 from django.utils.translation import gettext_lazy as _
-from shop.models import ProductCategory, Country, Brand
+from shop.models.product_filters.brand_model import Brand
+from shop.models.product_filters.country_model import Country
+from shop.models.product_filters.product_category_model import ProductCategory
 
 
 class Product(models.Model):
@@ -37,7 +40,8 @@ class Product(models.Model):
         on_delete=models.CASCADE,
         verbose_name=_('Бренд товара'),
         help_text=_('Выберите бренд товара'),
-        related_name='products'
+        related_name='products',
+        blank=True
     )
     objects = models.Manager()
 
@@ -52,5 +56,11 @@ class Product(models.Model):
         verbose_name_plural = _('Товары')
         ordering = ['title']
 
+    def average_rating(self):
+        return self.reviews.aggregate(avg=Avg("rating"))["avg"] or 0
+
+    def reviews_count(self):
+        return self.reviews.count()
+
     def __str__(self):
-        return self.title
+        return f"{self.title} ({self.product_category.name})"

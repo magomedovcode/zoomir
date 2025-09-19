@@ -1,7 +1,7 @@
 from shop.models import FavoriteProduct
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from shop.serializers import ProductSerializer
+from shop.serializers.product_content.product_serializer import ProductSerializer
 
 
 @extend_schema_serializer(component_name='FavoriteProduct')
@@ -9,9 +9,11 @@ class FavoriteProductSerializer(serializers.ModelSerializer):
     product = ProductSerializer(
         read_only=True
     )
-    user = serializers.StringRelatedField(
-        read_only=True
+    user = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='username'
     )
+
     class Meta:
         model = FavoriteProduct
         fields = [

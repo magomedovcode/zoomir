@@ -2,7 +2,7 @@ import os
 import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from shop.models import ProductVariant
+from shop.models.product_content.product_variant_model import ProductVariant
 
 
 def product_image_path(instance, filename):
@@ -14,8 +14,8 @@ class ProductImage(models.Model):
     product_variant = models.ForeignKey(
         ProductVariant,
         on_delete=models.CASCADE,
-        verbose_name=_('Вариация продукта'),
-        help_text=_('Выберите вариацию продукта'),
+        verbose_name=_('Вариация товара'),
+        help_text=_('Выберите вариацию товара'),
         related_name='product_images'
     )
     image = models.ImageField(
@@ -39,4 +39,4 @@ class ProductImage(models.Model):
         ordering = ['-id']
 
     def __str__(self):
-        return f"Изображение для {self.product_variant.name} ({self.id})"
+        return f"Изображение для {self.product_variant.name}"

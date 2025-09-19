@@ -1,7 +1,7 @@
 from shop.models import Cart
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from shop.serializers import ProductInCartSerializer
+from shop.serializers.cart_content.product_in_cart_serializer import ProductInCartSerializer
 
 
 @extend_schema_serializer(component_name='Cart')
@@ -10,9 +10,11 @@ class CartSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True
     )
-    user = serializers.StringRelatedField(
-        read_only=True
+    user = serializers.SlugRelatedField(
+        read_only=True,
+        slug_field='username'
     )
+
     class Meta:
         model = Cart
         fields = [

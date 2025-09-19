@@ -1,7 +1,8 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from shop.models import Order, ProductVariant
+from shop.models.order_content.order_model import Order
+from shop.models.product_content.product_variant_model import ProductVariant
 
 
 class ProductInOrder(models.Model):
@@ -25,6 +26,7 @@ class ProductInOrder(models.Model):
         verbose_name=_('Цена за товар на момент покупки'),
         unique=False,
         help_text=_('Введите цену за товар на момент покупки'),
+        validators=[MinValueValidator(0)],
         blank=False,
         null=False
     )
@@ -51,7 +53,3 @@ class ProductInOrder(models.Model):
 
     def __str__(self):
         return f"{self.product_variant.name} в заказе {self.order.user.username}"
-
-    @property
-    def cost(self):
-        return self.price * self.quantity

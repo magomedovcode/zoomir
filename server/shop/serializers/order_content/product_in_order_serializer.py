@@ -1,8 +1,7 @@
 from shop.models import ProductInOrder
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
-from shop.serializers import ProductVariantSerializer
-from rest_framework import serializers as _serializers  # to avoid confusion
+from shop.serializers.product_content.product_variant_serializer import ProductVariantSerializer
 
 
 @extend_schema_serializer(component_name='ProductInOrder')
@@ -10,16 +9,13 @@ class ProductInOrderSerializer(serializers.ModelSerializer):
     product_variant = ProductVariantSerializer(
         read_only=True
     )
-    order = _serializers.PrimaryKeyRelatedField(read_only=True)
-    cost = serializers.ReadOnlyField()
+
     class Meta:
         model = ProductInOrder
         fields = [
             'id',
-            'product_variant',
-            'order',
             'price',
             'quantity',
-            'cost'
+            'product_variant'
         ]
         read_only_fields = fields

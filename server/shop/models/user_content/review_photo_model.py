@@ -2,7 +2,7 @@ import os
 import uuid
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from shop.models import Review
+from shop.models.user_content.review_model import Review
 
 
 def review_photo_path(instance, filename):
@@ -40,4 +40,4 @@ class ReviewPhoto(models.Model):
         ordering = ['-id']
 
     def __str__(self):
-        return f"Фотография для {self.review.title} ({self.id})"
+        return f"Фотография для {self.review.title}"

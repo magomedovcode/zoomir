@@ -2,27 +2,25 @@ from shop.models import Review, ReviewPhoto
 from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
-from shop.serializers import ProductSerializer, ReviewPhotoSerializer
+from shop.serializers.user_content.review_photo_serializer import ReviewPhotoSerializer
 
 
 @extend_schema_serializer(component_name='Review')
 class ReviewSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField(
-        read_only=True
-    )
-    product = ProductSerializer(
+    user = serializers.SlugRelatedField(
         read_only=True,
+        slug_field='username'
     )
     review_photos = ReviewPhotoSerializer(
         many=True,
         read_only=True
     )
+
     class Meta:
         model = Review
         fields = [
             'id',
             'user',
-            'product',
             'title',
             'comment',
             'rating',
@@ -46,6 +44,7 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(
         default=serializers.CurrentUserDefault()
     )
+
     class Meta:
         model = Review
         fields = [

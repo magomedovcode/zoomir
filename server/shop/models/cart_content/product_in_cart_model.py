@@ -1,7 +1,8 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from shop.models import Cart, ProductVariant
+from shop.models.cart_content.cart_model import Cart
+from shop.models.product_content.product_variant_model import ProductVariant
 
 
 class ProductInCart(models.Model):

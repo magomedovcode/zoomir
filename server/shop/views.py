@@ -3,7 +3,7 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiParameter
 from rest_framework import permissions, generics
 from rest_framework.filters import SearchFilter
-
+from shop.pagination import ProductPagination
 from shop.filters import ProductVariantFilter
 from shop.models import (
     Brand,
@@ -12,8 +12,6 @@ from shop.models import (
     ProductCategory,
     ProductVariant
 )
-from shop.pagination import ProductPagination
-
 from shop.serializers import (
     BrandSerializer,
     CountrySerializer,
@@ -47,7 +45,7 @@ class ProductChapterListView(generics.ListAPIView):
 )
 class ProductCategoryListView(generics.ListAPIView):
     """
-    Получение списка всех категорий продуктов
+    Получение списка всех категорий товаров
     """
     serializer_class = ProductCategorySerializer
     filter_backends = [DjangoFilterBackend, ]
@@ -80,7 +78,7 @@ class CountryListView(generics.ListAPIView):
 
 
 @extend_schema(
-    tags=['Список продуктов'],
+    tags=['Список товаров'],
     parameters=[
         OpenApiParameter(
             name='brand',
@@ -90,7 +88,7 @@ class CountryListView(generics.ListAPIView):
         ),
         OpenApiParameter(
             name='product_category',
-            description='Фильтр по ID категории продукта',
+            description='Фильтр по ID категории товара',
             required=False,
             type=OpenApiTypes.INT
         ),
@@ -108,7 +106,7 @@ class CountryListView(generics.ListAPIView):
         ),
         OpenApiParameter(
             name='search',
-            description='Поиск по названию и описанию продукта',
+            description='Поиск по названию и описанию товара',
             required=False,
             type=OpenApiTypes.STR
         ),
@@ -123,6 +121,7 @@ class ProductListView(generics.ListAPIView):
     filterset_class = ProductVariantFilter
     permission_classes = [permissions.AllowAny]
     pagination_class = ProductPagination
+    ordering_fields = ['price']
 
     queryset = ProductVariant.objects.select_related(
         'product',

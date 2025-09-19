@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
-from shop.models import ProductChapter
+from shop.models.product_filters.product_chapter_model import ProductChapter
 
 
 class ProductCategory(models.Model):
@@ -33,4 +33,4 @@ class ProductCategory(models.Model):
         ordering = ['name']
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.product_chapter.name})"
