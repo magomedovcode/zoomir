@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from shop.models.product_content.product_variant_model import ProductVariant
-from shop.models.product_filters.attribute_category_model import AttributeCategory
+from shop.models.product_content.attribute_category_model import AttributeCategory
 
 
 class Attribute(models.Model):

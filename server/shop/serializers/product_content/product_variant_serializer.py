@@ -1,8 +1,12 @@
+from drf_spectacular.types import OpenApiTypes
 from shop.models import ProductVariant
-from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 from shop.serializers.product_content.attribute_serializer import AttributeSerializer
 from shop.serializers.product_content.product_image_serializer import ProductImageSerializer
+from drf_spectacular.utils import (
+    extend_schema_serializer,
+    extend_schema_field
+)
 
 
 @extend_schema_serializer(component_name='VariantInProduct')
@@ -46,15 +50,17 @@ class ProductVariantListSerializer(serializers.ModelSerializer):
             "reviews_count",
         ]
 
-    @staticmethod
-    def get_first_image(obj):
-        image = obj.product_images.first()
-        return image.image.url if image else None
+    @extend_schema_field(OpenApiTypes.URI)
+    def get_first_image(self, obj):
+        first_image = obj.product_images.first()
+        if first_image and first_image.image:
+            return first_image.image.url
+        return None
 
-    @staticmethod
+    @extend_schema_field(OpenApiTypes.FLOAT)
     def get_average_rating(self, obj):
         return obj.product.average_rating()
 
-    @staticmethod
+    @extend_schema_field(OpenApiTypes.INT)
     def get_reviews_count(self, obj):
         return obj.product.reviews_count()

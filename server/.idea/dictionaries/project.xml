@@ -3,6 +3,7 @@
     <words>
       <w>collectstatic</w>
       <w>corsheaders</w>
+      <w>sameorigin</w>
       <w>zoomir</w>
       <w>тэги</w>
     </words>

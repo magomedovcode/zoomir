@@ -21,6 +21,14 @@ urlpatterns = [
         'admin/',
         admin.site.urls
     ),
+    path(
+        'nested_admin/',
+        include('nested_admin.urls')
+    ),
+    path(
+        'i18n/',
+        include('django.conf.urls.i18n')
+    ),
 
     # JWT
     path(

@@ -16,16 +16,14 @@ from shop.models import (
     Country,
     ProductChapter,
     ProductCategory,
-    ProductVariant,
-    AttributeCategory
+    ProductVariant
 )
 from shop.serializers import (
     BrandSerializer,
     CountrySerializer,
     ProductChapterSerializer,
     ProductCategorySerializer,
-    ProductVariantListSerializer,
-    AttributeCategorySerializer
+    ProductVariantListSerializer
 )
 
 
@@ -61,17 +59,6 @@ class ProductCategoryListView(generics.ListAPIView):
     pagination_class = None
     permission_classes = [permissions.AllowAny]
     queryset = ProductCategory.objects.select_related('product_chapter').all()
-
-
-@extend_schema(tags=['Категории аттрибутов товаров'])
-class AttributeCategoryListView(generics.ListAPIView):
-    """
-    Получение списка всех глав категорий аттрибутов товаров
-    """
-    queryset = AttributeCategory.objects.all()
-    serializer_class = AttributeCategorySerializer
-    pagination_class = None
-    permission_classes = [permissions.AllowAny]
 
 
 @extend_schema(tags=['Бренды'])
@@ -118,12 +105,6 @@ class CountryListView(generics.ListAPIView):
             type=OpenApiTypes.INT
         ),
         OpenApiParameter(
-            name='attribute_category',
-            description='Фильтр по ID категории атрибута',
-            required=False,
-            type=OpenApiTypes.INT
-        ),
-        OpenApiParameter(
             name='search',
             description='Поиск по названию и описанию товара',
             required=False,
@@ -150,6 +131,5 @@ class ProductListView(generics.ListAPIView):
     ).prefetch_related(
         'product_images',
         'attributes',
-        'attributes__attribute_category',
-        'product__tags'
+        'attributes__attribute_category'
     ).all()

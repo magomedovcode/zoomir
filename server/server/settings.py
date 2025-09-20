@@ -9,9 +9,16 @@ DEBUG = os.getenv('DEBUG', True)
 ALLOWED_HOSTS = ['*']
 CORS_ALLOW_ALL_ORIGINS = True
 
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 CSRF_TRUSTED_ORIGINS = ['https://my-future-host.com', 'http://localhost:8000']
 
 INSTALLED_APPS = [
+    'nested_admin',
+    'admin_interface',
+    'colorfield',
+    'django_admin_index',
+    'ordered_model',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,6 +38,7 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -99,7 +107,7 @@ REST_FRAMEWORK = {
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Zoomir API',
-    'DESCRIPTION': 'API для сайта онлайн магазина товаров для домашних животных.',
+    'DESCRIPTION': 'API для сайта магазина товаров для домашних животных.',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
     'COMPONENT_SPLIT_REQUEST': True,
@@ -114,9 +122,10 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'UTC'
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
 
 DOMAIN = os.getenv('DOMAIN', 'http://localhost:8000')

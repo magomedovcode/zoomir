@@ -5,9 +5,10 @@ from .product_filters.country_model import Country
 from .product_content.product_model import Product
 from .product_content.product_variant_model import ProductVariant
 from .product_content.product_image_model import ProductImage
-from .product_content.tag_model import Tag
-from .product_filters.attribute_category_model import AttributeCategory
+from .product_content.attribute_category_model import AttributeCategory
 from .product_content.attribute_model import Attribute
+from .product_content.tag_model import Tag
+from .product_content.connected_tag_model import ConnectedTag
 from .user_content.review_model import Review
 from .user_content.review_photo_model import ReviewPhoto
 from .cart_content.cart_model import Cart
