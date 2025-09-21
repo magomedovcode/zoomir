@@ -88,4 +88,9 @@ urlpatterns = [
         views.ReviewCreateView.as_view(),
         name='review-create'
     ),
+    path(
+        'reviews/delete/<int:pk>/',
+        views.ReviewDeleteView.as_view(),
+        name='review-delete'
+    ),
 ]
