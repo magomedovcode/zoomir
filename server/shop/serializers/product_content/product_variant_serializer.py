@@ -1,7 +1,7 @@
 from drf_spectacular.types import OpenApiTypes
 from shop.models import ProductVariant
 from rest_framework import serializers
-from shop.serializers.product_content.attribute_serializer import AttributeSerializer
+from shop.serializers.product_content.attribute_category_serializer import AttributesPerCategorySerializer
 from shop.serializers.product_content.product_image_serializer import ProductImageSerializer
 from drf_spectacular.utils import (
     extend_schema_serializer,
@@ -15,7 +15,7 @@ class VariantInProductSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True
     )
-    attributes = AttributeSerializer(
+    attributes = AttributesPerCategorySerializer(
         many=True,
         read_only=True
     )
@@ -27,7 +27,7 @@ class VariantInProductSerializer(serializers.ModelSerializer):
             "name",
             "price",
             "product_images",
-            "attributes"
+            "attributes",
         ]
         read_only_fields = fields
 

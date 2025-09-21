@@ -23,7 +23,6 @@ class FavoriteProduct(models.Model):
         auto_now_add=True,
         verbose_name=_('Время добавления в избранное')
     )
-    objects = models.Manager()
 
     class Meta:
         constraints = [
@@ -32,9 +31,12 @@ class FavoriteProduct(models.Model):
                 name='user_favorite_products',
             )
         ]
+        indexes = [
+            models.Index(fields=['date'])
+        ]
         verbose_name = _('Избранный товар')
         verbose_name_plural = _('Избранные товары')
         ordering = ['-date']
 
     def __str__(self):
-        return f"{self.user} - {self.product.title}"
+        return f'{self.user} - {self.product.title}'

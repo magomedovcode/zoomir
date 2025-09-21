@@ -7,7 +7,7 @@ from shop.models.user_content.review_model import Review
 
 def review_photo_path(instance, filename):
     ext = os.path.splitext(filename)[1]
-    return f"photos/reviews/{uuid.uuid4()}{ext}"
+    return f'photos/reviews/{uuid.uuid4()}{ext}'
 
 
 class ReviewPhoto(models.Model):
@@ -21,12 +21,8 @@ class ReviewPhoto(models.Model):
     photo = models.ImageField(
         verbose_name=_('Фотография к отзыву'),
         upload_to=review_photo_path,
-        unique=False,
-        help_text=_('Загрузите фотографию к отзыву'),
-        blank=False,
-        null=False
+        help_text=_('Загрузите фотографию к отзыву')
     )
-    objects = models.Manager()
 
     class Meta:
         constraints = [
@@ -40,4 +36,4 @@ class ReviewPhoto(models.Model):
         ordering = ['-id']
 
     def __str__(self):
-        return f"Фотография для {self.review.title}"
+        return f'Фотография для {self.review.title}'

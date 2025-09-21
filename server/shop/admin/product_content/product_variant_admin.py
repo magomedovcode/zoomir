@@ -11,7 +11,7 @@ from shop.admin.inlines import (
 class ProductVariantAdmin(NestedModelAdmin):
     list_display = ('name', 'price', 'product')
     list_filter = ('product', )
-    search_fields = ('name',)
+    search_fields = ('name', 'product__title')
     ordering = ['-id']
     autocomplete_fields = ['product']
     inlines = [AttributeInline, ProductImageInline]

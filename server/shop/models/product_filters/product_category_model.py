@@ -5,12 +5,9 @@ from shop.models.product_filters.product_chapter_model import ProductChapter
 
 class ProductCategory(models.Model):
     name = models.CharField(
-        max_length=100,
+        max_length=50,
         verbose_name=_('Название категории'),
-        unique=False,
-        help_text=_('Введите название категории товара'),
-        blank=False,
-        null=False
+        help_text=_('Введите название категории товара')
     )
     product_chapter = models.ForeignKey(
         ProductChapter,
@@ -19,7 +16,6 @@ class ProductCategory(models.Model):
         help_text=_('Выберите раздел товара'),
         related_name='product_categories'
     )
-    objects = models.Manager()
 
     class Meta:
         constraints = [
@@ -33,4 +29,4 @@ class ProductCategory(models.Model):
         ordering = ['name']
 
     def __str__(self):
-        return f"{self.name} ({self.product_chapter.name})"
+        return f'{self.name} ({self.product_chapter.name})'

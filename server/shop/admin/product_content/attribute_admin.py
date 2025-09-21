@@ -7,7 +7,7 @@ from shop.models import Attribute
 class AttributeAdmin(NestedModelAdmin):
     list_display = ('name', 'value', 'product_variant', 'attribute_category')
     list_filter = ('product_variant', 'attribute_category')
-    search_fields = ('name', )
+    search_fields = ('name', 'product_variant__name')
     ordering = ['-id']
     autocomplete_fields = ['product_variant', 'attribute_category']
     list_per_page = 20

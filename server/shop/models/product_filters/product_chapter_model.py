@@ -4,14 +4,11 @@ from django.utils.translation import gettext_lazy as _
 
 class ProductChapter(models.Model):
     name = models.CharField(
-        max_length=100,
+        max_length=50,
         verbose_name=_('Название раздела'),
         unique=True,
-        help_text=_('Введите название раздела товара'),
-        blank=False,
-        null=False
+        help_text=_('Введите название раздела товара')
     )
-    objects = models.Manager()
 
     class Meta:
         verbose_name = _('Раздел товаров')

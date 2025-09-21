@@ -6,26 +6,21 @@ from django.utils.translation import gettext_lazy as _
 
 def manufacturer_flag_path(instance, filename):
     ext = os.path.splitext(filename)[1]
-    return f"images/flags/{uuid.uuid4()}{ext}"
+    return f'images/flags/{uuid.uuid4()}{ext}'
 
 
 class Country(models.Model):
     name = models.CharField(
-        max_length=100,
+        max_length=30,
         verbose_name=_('Название страны'),
         unique=True,
-        help_text=_('Введите название страны производства'),
-        blank=False,
-        null=False
+        help_text=_('Введите название страны производства')
     )
     flag = models.ImageField(
         verbose_name=_('Флаг страны'),
         upload_to=manufacturer_flag_path,
-        help_text=_('Загрузите флаг страны производства'),
-        blank=False,
-        null=False
+        help_text=_('Загрузите флаг страны производства')
     )
-    objects = models.Manager()
 
     class Meta:
         verbose_name = _('Страна производства')

@@ -4,14 +4,11 @@ from django.utils.translation import gettext_lazy as _
 
 class Tag(models.Model):
     name = models.CharField(
-        max_length=100,
+        max_length=50,
         verbose_name=_('Название тега'),
         unique=True,
-        help_text=_('Введите название тега'),
-        blank=False,
-        null=False
+        help_text=_('Введите название тега')
     )
-    objects = models.Manager()
 
     class Meta:
         indexes = [

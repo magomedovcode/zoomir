@@ -1,27 +1,22 @@
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from shop.models.product_content.tag_model import Tag
 from shop.models.product_content.product_model import Product
 
 
 class ProductVariant(models.Model):
     name = models.CharField(
-        max_length=100,
+        max_length=50,
         verbose_name=_('Название вариации товара'),
-        unique=False,
-        help_text=_('Введите название вариации товара'),
-        blank=False,
-        null=False
+        help_text=_('Введите название вариации товара')
     )
     price = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         verbose_name=_('Цена за вариацию'),
-        unique=False,
         help_text=_('Введите цену за вариацию товара'),
-        validators=[MinValueValidator(0)],
-        blank=False,
-        null=False
+        validators=[MinValueValidator(0)]
     )
     product = models.ForeignKey(
         Product,
@@ -30,7 +25,12 @@ class ProductVariant(models.Model):
         help_text=_('Выберите товар'),
         related_name='product_variants'
     )
-    objects = models.Manager()
+    tags = models.ManyToManyField(
+        Tag,
+        through="shop.ConnectedTag",
+        verbose_name=_('Теги вариации'),
+        related_name="product_variants"
+    )
 
     class Meta:
         constraints = [
@@ -44,4 +44,4 @@ class ProductVariant(models.Model):
         ordering = ['name']
 
     def __str__(self):
-        return f"{self.product.title} - {self.name}"
+        return f'{self.product.title} - {self.name}'

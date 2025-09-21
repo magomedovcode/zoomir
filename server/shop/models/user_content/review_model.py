@@ -26,10 +26,7 @@ class Review(models.Model):
     title = models.CharField(
         max_length=255,
         verbose_name=_('Заголовок отзыва'),
-        unique=False,
-        help_text=_('Введите заголовок отзыва'),
-        blank=False,
-        null=False
+        help_text=_('Введите заголовок отзыва')
     )
     rating = models.PositiveSmallIntegerField(
         verbose_name=_('Рейтинг товара'),
@@ -38,14 +35,12 @@ class Review(models.Model):
     )
     comment = models.TextField(
         verbose_name=_('Текст отзыва'),
-        help_text=_('Введите текст отзыва'),
-        blank=False
+        help_text=_('Введите текст отзыва')
     )
     date = models.DateTimeField(
         auto_now_add=True,
         verbose_name=_('Время отзыва')
     )
-    objects = models.Manager()
 
     class Meta:
         constraints = [
@@ -54,9 +49,12 @@ class Review(models.Model):
                 name='unique_user_per_product',
             )
         ]
+        indexes = [
+            models.Index(fields=['date'])
+        ]
         verbose_name = _('Отзыв')
         verbose_name_plural = _('Отзывы')
         ordering = ['-date']
 
     def __str__(self):
-        return f"Отзыв {self.user.username} на {self.product.title}"
+        return f'Отзыв {self.user.username} на {self.product.title}'

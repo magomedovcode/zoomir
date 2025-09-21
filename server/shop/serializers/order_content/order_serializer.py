@@ -1,7 +1,11 @@
-from drf_spectacular.utils import extend_schema_serializer
+from drf_spectacular.types import OpenApiTypes
 from rest_framework import serializers
 from django.utils.translation import gettext_lazy as _
 from shop.serializers.order_content.product_in_order_serializer import ProductInOrderSerializer
+from drf_spectacular.utils import (
+    extend_schema_serializer,
+    extend_schema_field
+)
 from shop.models import (
     Order,
     ProductVariant,
@@ -19,6 +23,7 @@ class OrderSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='username'
     )
+    total_price = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
@@ -30,9 +35,14 @@ class OrderSerializer(serializers.ModelSerializer):
             'delivery_date',
             'date',
             'status',
+            'total_price',
             'products_in_orders'
         ]
         read_only_fields = fields
+
+    @extend_schema_field(OpenApiTypes.FLOAT)
+    def get_total_price(self, obj):
+        return obj.order.total_price()
 
 
 @extend_schema_serializer(component_name='OrderCreate')

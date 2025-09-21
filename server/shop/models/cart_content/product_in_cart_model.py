@@ -23,12 +23,8 @@ class ProductInCart(models.Model):
     quantity = models.PositiveIntegerField(
         verbose_name=_('Количество товаров'),
         help_text=_('Введите количество товара'),
-        unique=False,
-        validators=[MinValueValidator(1)],
-        blank=False,
-        null=False
+        validators=[MinValueValidator(1)]
     )
-    objects = models.Manager()
 
     class Meta:
         constraints = [
@@ -42,4 +38,4 @@ class ProductInCart(models.Model):
         ordering = ['-id']
 
     def __str__(self):
-        return f"{self.product_variant.name} в корзине {self.cart.user.username}"
+        return f'{self.product_variant.name} в корзине {self.cart.user.username}'

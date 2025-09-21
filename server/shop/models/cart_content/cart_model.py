@@ -15,7 +15,6 @@ class Cart(models.Model):
         auto_now_add=True,
         verbose_name=_('Время создания корзины')
     )
-    objects = models.Manager()
 
     class Meta:
         indexes = [
@@ -25,5 +24,11 @@ class Cart(models.Model):
         verbose_name_plural = _('Корзины')
         ordering = ['-date']
 
+    def total_items(self):
+        return sum(item.quantity for item in self.products_in_carts.all())
+
+    def total_price(self):
+        return sum(item.quantity * item.product_variant.price for item in self.products_in_carts.all())
+
     def __str__(self):
-        return f"Корзина {self.user.username}"
+        return f'Корзина {self.user.username}'

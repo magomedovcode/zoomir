@@ -6,12 +6,12 @@ from shop.models import Order
 
 @admin.register(Order)
 class OrderAdmin(NestedModelAdmin):
-    list_display = ('user', 'address', 'phone', 'delivery_date', 'status')
-    list_filter = ('user', 'status')
-    search_fields = ('address', 'phone', 'delivery_date',)
-    ordering = ['-date']
+    list_display = ('id', 'user', 'address', 'phone', 'delivery_date', 'status')
+    list_filter = ('status', 'delivery_date')
+    search_fields = ('id', 'user__username', 'address', 'phone')
     autocomplete_fields = ['user']
     inlines = [ProductInOrderInline]
+    readonly_fields = ('date',)
     list_per_page = 20
 
     fieldsets = (

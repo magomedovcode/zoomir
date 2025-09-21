@@ -19,7 +19,6 @@ class ConnectedTag(models.Model):
         help_text=_('Выберите тег'),
         related_name='connected_tags'
     )
-    objects = models.Manager()
 
     class Meta:
         constraints = [
@@ -33,4 +32,4 @@ class ConnectedTag(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return f"{self.product_variant} - {self.tag.name}"
+        return f'{self.product_variant} - {self.tag.name}'

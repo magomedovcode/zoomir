@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path(
         'product-chapters-list/',
@@ -26,5 +27,65 @@ urlpatterns = [
         'product-list/',
         views.ProductListView.as_view(),
         name='product-list'
-    )
+    ),
+    path(
+        'product/<int:pk>/',
+        views.ProductDetailView.as_view(),
+        name='product-detail'
+    ),
+    path(
+        'cart/',
+        views.CartDetailView.as_view(),
+        name='cart-detail'
+    ),
+    path(
+        'cart/add/',
+        views.AddToCartView.as_view(),
+        name='add-to-cart'
+    ),
+    path(
+        'cart/remove/<int:pk>/',
+        views.RemoveFromCartView.as_view(),
+        name='remove-from-cart'
+    ),
+    path(
+        'orders/create/',
+        views.OrderCreateView.as_view(),
+        name='order-create'
+    ),
+    path(
+        'orders/',
+        views.OrderListView.as_view(),
+        name='order-list'
+    ),
+    path(
+        'orders/<int:pk>/status/',
+        views.OrderStatusUpdateView.as_view(),
+        name='order-status-update'
+    ),
+    path(
+        'favorites/',
+        views.FavoriteProductListView.as_view(),
+        name='favorite-list'
+    ),
+    path(
+        'favorites/add/',
+        views.FavoriteProductCreateView.as_view(),
+        name='favorite-add'
+    ),
+    path(
+        'favorites/remove/<int:pk>/',
+        views.FavoriteProductDeleteView.as_view(),
+        name='favorite-remove'
+    ),
+    path(
+        'product/<int:product_id>/reviews/',
+        views.ReviewListView.as_view(),
+        name='review-list'
+    ),
+    path(
+        'reviews/create/',
+        views.ReviewCreateView.as_view(),
+        name='review-create'
+    ),
 ]

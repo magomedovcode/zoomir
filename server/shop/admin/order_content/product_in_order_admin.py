@@ -7,8 +7,9 @@ from shop.models import ProductInOrder
 class ProductInOrderAdmin(NestedModelAdmin):
     list_display = ('order', 'product_variant', 'price', 'quantity')
     list_filter = ('order', 'product_variant')
-    ordering = ['id']
+    search_fields = ('order__user__username', 'product_variant__name')
     autocomplete_fields = ['order', 'product_variant']
+    ordering = ['id']
     list_per_page = 20
 
     fieldsets = (

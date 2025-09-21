@@ -24,21 +24,14 @@ class ProductInOrder(models.Model):
         max_digits=10,
         decimal_places=2,
         verbose_name=_('Цена за товар на момент покупки'),
-        unique=False,
         help_text=_('Введите цену за товар на момент покупки'),
-        validators=[MinValueValidator(0)],
-        blank=False,
-        null=False
+        validators=[MinValueValidator(0)]
     )
     quantity = models.PositiveIntegerField(
         verbose_name=_('Количество товаров'),
         help_text=_('Введите количество товара'),
-        unique=False,
-        validators=[MinValueValidator(1)],
-        blank=False,
-        null=False
+        validators=[MinValueValidator(1)]
     )
-    objects = models.Manager()
 
     class Meta:
         constraints = [
@@ -52,4 +45,4 @@ class ProductInOrder(models.Model):
         ordering = ['-id']
 
     def __str__(self):
-        return f"{self.product_variant.name} в заказе {self.order.user.username}"
+        return f'{self.product_variant.name} в заказе {self.order.user.username}'

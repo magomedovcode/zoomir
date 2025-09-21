@@ -25,10 +25,6 @@ class ProductInCartSerializer(serializers.ModelSerializer):
 
 @extend_schema_serializer(component_name='ProductInCartCreate')
 class ProductInCartCreateSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(
-        default=serializers.CurrentUserDefault()
-    )
-
     class Meta:
         model = ProductInCart
         fields = [

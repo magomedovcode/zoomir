@@ -6,20 +6,14 @@ from shop.models.product_content.attribute_category_model import AttributeCatego
 
 class Attribute(models.Model):
     name = models.CharField(
-        max_length=100,
-        verbose_name=_('Название аттрибута'),
-        unique=False,
-        help_text=_('Введите название аттрибута товара'),
-        blank=False,
-        null=False
+        max_length=50,
+        verbose_name=_('Название атрибута'),
+        help_text=_('Введите название атрибута товара')
     )
     value = models.CharField(
         max_length=100,
-        verbose_name=_('Значение аттрибута'),
-        unique=False,
-        help_text=_('Введите значение аттрибута товара'),
-        blank=False,
-        null=False
+        verbose_name=_('Значение атрибута'),
+        help_text=_('Введите значение атрибута товара')
     )
     product_variant = models.ForeignKey(
         ProductVariant,
@@ -31,22 +25,21 @@ class Attribute(models.Model):
     attribute_category = models.ForeignKey(
         AttributeCategory,
         on_delete=models.CASCADE,
-        verbose_name=_('Категория аттрибута товара'),
-        help_text=_('Выберите категорию аттрибута товара'),
+        verbose_name=_('Категория атрибута товара'),
+        help_text=_('Выберите категорию атрибута товара'),
         related_name='attributes'
     )
-    objects = models.Manager()
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
-                fields=['product_variant', 'name'],
-                name='unique_attributes_per_product_variant'
+                fields=['product_variant', 'attribute_category', 'name'],
+                name='unique_attributes_per_category_per_product_variant'
             )
         ]
-        verbose_name = _('Аттрибут товара')
-        verbose_name_plural = _('Аттрибуты товара')
+        verbose_name = _('Атрибут товара')
+        verbose_name_plural = _('Атрибуты товара')
         ordering = ['-id']
 
     def __str__(self):
-        return f"{self.name}: {self.value}"
+        return f'{self.name}: {self.value}'

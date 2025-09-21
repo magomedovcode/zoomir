@@ -7,7 +7,7 @@ from shop.models.product_content.product_variant_model import ProductVariant
 
 def product_image_path(instance, filename):
     ext = os.path.splitext(filename)[1]
-    return f"images/products/{uuid.uuid4()}{ext}"
+    return f'images/products/{uuid.uuid4()}{ext}'
 
 
 class ProductImage(models.Model):
@@ -21,11 +21,8 @@ class ProductImage(models.Model):
     image = models.ImageField(
         verbose_name=_('Изображение товара'),
         upload_to=product_image_path,
-        help_text=_('Загрузите изображение товара'),
-        blank=False,
-        null=False
+        help_text=_('Загрузите изображение товара')
     )
-    objects = models.Manager()
 
     class Meta:
         constraints = [
@@ -39,4 +36,4 @@ class ProductImage(models.Model):
         ordering = ['-id']
 
     def __str__(self):
-        return f"Изображение для {self.product_variant.name}"
+        return f'Изображение для {self.product_variant.name}'

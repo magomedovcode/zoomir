@@ -1,7 +1,11 @@
+from drf_spectacular.types import OpenApiTypes
 from shop.models import Cart
-from drf_spectacular.utils import extend_schema_serializer
 from rest_framework import serializers
 from shop.serializers.cart_content.product_in_cart_serializer import ProductInCartSerializer
+from drf_spectacular.utils import (
+    extend_schema_serializer,
+    extend_schema_field
+)
 
 
 @extend_schema_serializer(component_name='Cart')
@@ -14,6 +18,8 @@ class CartSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field='username'
     )
+    total_items = serializers.SerializerMethodField()
+    total_price = serializers.SerializerMethodField()
 
     class Meta:
         model = Cart
@@ -21,6 +27,16 @@ class CartSerializer(serializers.ModelSerializer):
             'id',
             'user',
             'date',
+            'total_items',
+            'total_price',
             'products_in_carts'
         ]
         read_only_fields = fields
+
+    @extend_schema_field(OpenApiTypes.FLOAT)
+    def get_total_items(self, obj):
+        return obj.cart.total_items()
+
+    @extend_schema_field(OpenApiTypes.INT)
+    def get_total_price(self, obj):
+        return obj.cart.total_price()

@@ -13,26 +13,19 @@ class Order(models.Model):
         related_name='orders'
     )
     address = models.CharField(
-        max_length=500,
+        max_length=255,
         verbose_name=_('Адрес для доставки заказа'),
-        unique=False,
-        help_text=_('Введите адрес для доставки заказа'),
-        blank=False,
-        null=False
+        help_text=_('Введите адрес для доставки заказа')
     )
     phone = models.CharField(
         max_length=20,
         verbose_name=_('Номер телефона заказчика'),
         help_text=_('Введите номер телефона заказчика'),
-        validators=[RegexValidator(regex=r'^\+?\d{7,15}$', message=_('Введите корректный номер телефона'))],
-        blank=False,
-        null=False
+        validators=[RegexValidator(regex=r'^\+?\d{7,15}$', message=_('Введите корректный номер телефона'))]
     )
     delivery_date = models.DateField(
         verbose_name=_('Дата доставки заказа'),
-        help_text=_('Выберите дату доставки заказа'),
-        blank=False,
-        null=False
+        help_text=_('Выберите дату доставки заказа')
     )
     date = models.DateTimeField(
         auto_now_add=True,
@@ -62,5 +55,8 @@ class Order(models.Model):
         verbose_name_plural = _('Заказы')
         ordering = ['-date']
 
+    def total_price(self):
+        return sum(item.price * item.quantity for item in self.products_in_orders.all())
+
     def __str__(self):
-        return f"Заказ #{self.id} от {self.user.username}"
+        return f'Заказ #{self.id} от {self.user.username}'

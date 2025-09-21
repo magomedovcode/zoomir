@@ -7,19 +7,13 @@ from shop.models.product_filters.product_category_model import ProductCategory
 
 
 class Product(models.Model):
-    title = models.CharField(
-        max_length=255,
+    title = models.TextField(
         verbose_name=_('Название товара'),
-        unique=False,
-        help_text=_('Введите название товара'),
-        blank=False,
-        null=False
+        help_text=_('Введите название товара')
     )
     description = models.TextField(
         verbose_name=_('Описание товара'),
-        unique=False,
-        help_text=_('Введите описание товара'),
-        blank=False
+        help_text=_('Введите описание товара')
     )
     product_category = models.ForeignKey(
         ProductCategory,
@@ -41,9 +35,9 @@ class Product(models.Model):
         verbose_name=_('Бренд товара'),
         help_text=_('Выберите бренд товара'),
         related_name='products',
-        blank=True
+        blank=True,
+        null=True
     )
-    objects = models.Manager()
 
     class Meta:
         constraints = [
@@ -63,4 +57,4 @@ class Product(models.Model):
         return self.reviews.count()
 
     def __str__(self):
-        return f"{self.title} ({self.product_category.name})"
+        return f'{self.title} ({self.product_category.name})'
