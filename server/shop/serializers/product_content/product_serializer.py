@@ -39,9 +39,15 @@ class ProductSerializer(serializers.ModelSerializer):
 
 @extend_schema_serializer(component_name='ProductDetail')
 class ProductDetailSerializer(serializers.ModelSerializer):
-    brand = serializers.CharField(source="brand.name")
-    country = serializers.CharField(source="country.name")
-    product_category = serializers.CharField(source="product_category.name")
+    brand = BrandSerializer(
+        read_only=True
+    )
+    country = CountrySerializer(
+        read_only=True
+    )
+    product_category = ProductCategorySerializer(
+        read_only=True
+    )
     product_variants = VariantInProductSerializer(
         many=True,
         read_only=True

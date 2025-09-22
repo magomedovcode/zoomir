@@ -8,3 +8,5 @@ python manage.py runserver
 pip freeze > requirements.txt
 pytest -v --tb=short
 python manage.py migrate admin_index
+python -m venv .venv
+venv\Scripts\activate.bat
