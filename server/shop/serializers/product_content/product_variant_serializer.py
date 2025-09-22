@@ -1,6 +1,7 @@
 from drf_spectacular.types import OpenApiTypes
 from shop.models import ProductVariant
 from rest_framework import serializers
+from shop.serializers.product_content.attribute_serializer import AttributeSerializer
 from shop.serializers.product_content.attribute_category_serializer import AttributesPerCategorySerializer
 from shop.serializers.product_content.product_image_serializer import ProductImageSerializer
 from drf_spectacular.utils import (
@@ -15,10 +16,7 @@ class VariantInProductSerializer(serializers.ModelSerializer):
         many=True,
         read_only=True
     )
-    attributes = AttributesPerCategorySerializer(
-        many=True,
-        read_only=True
-    )
+    attributes = serializers.SerializerMethodField()
 
     class Meta:
         model = ProductVariant
@@ -30,6 +28,23 @@ class VariantInProductSerializer(serializers.ModelSerializer):
             "attributes",
         ]
         read_only_fields = fields
+
+    @extend_schema_field(AttributesPerCategorySerializer(many=True))
+    def get_attributes(self, obj):
+        attributes_by_category = {}
+        for attribute in obj.attributes.all().select_related('attribute_category'):
+            category = attribute.attribute_category
+            if category.id not in attributes_by_category:
+                attributes_by_category[category.id] = {
+                    'id': category.id,
+                    'name': category.name,
+                    'attributes': []
+                }
+            attributes_by_category[category.id]['attributes'].append(
+                AttributeSerializer(attribute).data
+            )
+
+        return list(attributes_by_category.values())
 
 
 @extend_schema_serializer(component_name='ProductVariantList')

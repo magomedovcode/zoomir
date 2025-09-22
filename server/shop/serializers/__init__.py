@@ -11,10 +11,7 @@ from .product_content.product_variant_serializer import (
     ProductVariantListSerializer
 )
 from .product_content.product_image_serializer import ProductImageSerializer
-from shop.serializers.product_content.attribute_category_serializer import (
-    AttributeCategorySerializer,
-    AttributesPerCategorySerializer
-)
+from shop.serializers.product_content.attribute_category_serializer import AttributesPerCategorySerializer
 from .product_content.attribute_serializer import AttributeSerializer
 from .user_content.review_serializer import (
     ReviewSerializer,
