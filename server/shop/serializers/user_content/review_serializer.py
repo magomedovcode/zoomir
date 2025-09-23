@@ -52,7 +52,6 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         model = Review
         fields = [
             'user',
-            'product',
             'title',
             'rating',
             'comment',

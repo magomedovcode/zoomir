@@ -10,7 +10,7 @@ from drf_spectacular.utils import (
 
 @extend_schema_serializer(component_name='Cart')
 class CartSerializer(serializers.ModelSerializer):
-    products_in_carts = ProductInCartSerializer(
+    products_in_cart = ProductInCartSerializer(
         many=True,
         read_only=True
     )
@@ -29,7 +29,7 @@ class CartSerializer(serializers.ModelSerializer):
             'date',
             'total_items',
             'total_price',
-            'products_in_carts'
+            'products_in_cart'
         ]
         read_only_fields = fields
 

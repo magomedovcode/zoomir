@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import permissions
+from shop import views
 from django.urls import (
     path,
     include
@@ -40,6 +41,11 @@ urlpatterns = [
         'api/token/refresh/',
         TokenRefreshView.as_view(),
         name='token_refresh'
+    ),
+    path(
+        "api/register/",
+        views.RegisterView.as_view(),
+        name="register"
     ),
 
     # Schema & Docs

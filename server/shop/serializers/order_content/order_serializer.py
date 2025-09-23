@@ -15,7 +15,7 @@ from shop.models import (
 
 @extend_schema_serializer(component_name='Order')
 class OrderSerializer(serializers.ModelSerializer):
-    products_in_orders = ProductInOrderSerializer(
+    products_in_order = ProductInOrderSerializer(
         many=True,
         read_only=True
     )
@@ -36,7 +36,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'date',
             'status',
             'total_price',
-            'products_in_orders'
+            'products_in_order'
         ]
         read_only_fields = fields
 

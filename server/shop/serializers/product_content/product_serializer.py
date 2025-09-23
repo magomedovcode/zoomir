@@ -23,18 +23,23 @@ class ProductSerializer(serializers.ModelSerializer):
     country = CountrySerializer(
         read_only=True
     )
+    average_rating = serializers.SerializerMethodField()
 
     class Meta:
         model = Product
         fields = [
             'id',
             'title',
-            'description',
             'country',
             'product_category',
+            'average_rating',
             'brand'
         ]
         read_only_fields = fields
+
+    @extend_schema_field(OpenApiTypes.FLOAT)
+    def get_average_rating(self, obj):
+        return obj.average_rating()
 
 
 @extend_schema_serializer(component_name='ProductDetail')

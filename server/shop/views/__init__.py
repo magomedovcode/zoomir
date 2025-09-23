@@ -16,3 +16,5 @@ from .order.order_status_update_view import OrderStatusUpdateView
 from .favorite_product.favorite_product_list_view import FavoriteProductListView
 from .favorite_product.favorite_product_create_view import FavoriteProductCreateView
 from .favorite_product.favorite_product_delete_view import FavoriteProductDeleteView
+from .favorite_product.favorite_product_clear_view import FavoriteProductClearView
+from .register.register_view import RegisterView

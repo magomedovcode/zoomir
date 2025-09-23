@@ -1,7 +1,7 @@
 from rest_framework.pagination import PageNumberPagination
 
 
-class ProductPagination(PageNumberPagination):
+class Pagination(PageNumberPagination):
     """
     Пагинация для списка продуктов:
     - По умолчанию 40 элементов на страницу

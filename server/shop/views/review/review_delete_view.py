@@ -1,26 +1,27 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.response import Response
 from shop.models import Review
 from shop.serializers import ReviewSerializer
 from rest_framework import (
     generics,
-    permissions,
-    status
+    permissions
 )
 
 
 @extend_schema(tags=['Отзывы'])
 class ReviewDeleteView(generics.DestroyAPIView):
     """
-    Удаление отзыва
+    Удаление отзыва по ID для конкретного товара
     """
-    permission_classes = [permissions.IsAuthenticated]
     serializer_class = ReviewSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Review.objects.filter(user=self.request.user)
-
-    def delete(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        """
+        Ограничиваем queryset отзывами текущего пользователя
+        и только в рамках указанного товара.
+        """
+        product_id = self.kwargs['product_id']
+        return Review.objects.filter(
+            product_id=product_id,
+            user=self.request.user
+        )

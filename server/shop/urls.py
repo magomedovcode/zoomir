@@ -14,22 +14,22 @@ urlpatterns = [
         name='product-categories-list'
     ),
     path(
-        'brand-list/',
+        'brands-list/',
         views.BrandListView.as_view(),
         name='brand-list'
     ),
     path(
-        'country-list/',
+        'countries-list/',
         views.CountryListView.as_view(),
         name='country-list'
     ),
     path(
-        'product-list/',
+        'products-list/',
         views.ProductListView.as_view(),
         name='product-list'
     ),
     path(
-        'product/<int:pk>/',
+        'products/<int:pk>/',
         views.ProductDetailView.as_view(),
         name='product-detail'
     ),
@@ -79,17 +79,22 @@ urlpatterns = [
         name='favorite-remove'
     ),
     path(
-        'product/<int:product_id>/reviews/',
+        'favorites/clear/',
+        views.FavoriteProductClearView.as_view(),
+        name='favorite-clear'
+    ),
+    path(
+        'products/<int:product_id>/reviews/',
         views.ReviewListView.as_view(),
         name='review-list'
     ),
     path(
-        'reviews/create/',
+        'products/<int:product_id>/reviews/create/',
         views.ReviewCreateView.as_view(),
         name='review-create'
     ),
     path(
-        'reviews/delete/<int:pk>/',
+        'products/<int:product_id>/reviews/<int:pk>/',
         views.ReviewDeleteView.as_view(),
         name='review-delete'
     ),

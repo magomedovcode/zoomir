@@ -33,3 +33,4 @@ from .user_content.favorite_product_serializer import (
     FavoriteProductSerializer,
     FavoriteProductCreateSerializer
 )
+from .register.register_serializer import RegisterSerializer

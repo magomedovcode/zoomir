@@ -1,5 +1,6 @@
 from drf_spectacular.utils import extend_schema
 from shop.models import FavoriteProduct
+from shop.pagination import Pagination
 from shop.serializers import FavoriteProductSerializer
 from rest_framework import (
     generics,
@@ -14,6 +15,7 @@ class FavoriteProductListView(generics.ListAPIView):
     """
     serializer_class = FavoriteProductSerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = Pagination
 
     def get_queryset(self):
         if getattr(self, 'swagger_fake_view', False):
