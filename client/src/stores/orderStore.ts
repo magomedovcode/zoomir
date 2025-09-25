@@ -4,12 +4,12 @@ import {
     type CreateOrderBody,
     type Order,
     Status
-} from "../types";
+} from "@/types";
 import {
     createOrders,
     getOrders,
     updateOrderStatus
-} from "../services/orderService.ts";
+} from "@/services/orderService.ts";
 
 export const useOrderStore = defineStore('order', () => {
     const orders = ref<Order[]>([]);

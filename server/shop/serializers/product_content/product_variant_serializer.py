@@ -47,6 +47,18 @@ class VariantInProductSerializer(serializers.ModelSerializer):
         return list(attributes_by_category.values())
 
 
+@extend_schema_serializer(component_name='Variant')
+class VariantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductVariant
+        fields = [
+            "id",
+            "name",
+            "price",
+        ]
+        read_only_fields = fields
+
+
 @extend_schema_serializer(component_name='ProductVariantList')
 class ProductVariantListSerializer(serializers.ModelSerializer):
     product_title = serializers.CharField(source="product.title", read_only=True)

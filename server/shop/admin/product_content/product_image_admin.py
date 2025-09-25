@@ -7,7 +7,7 @@ from shop.models import ProductImage
 class ProductImageAdmin(NestedModelAdmin):
     list_display = ('product_variant', 'image')
     list_filter = ('product_variant', )
-    ordering = ['-id']
+    ordering = ['id']
     autocomplete_fields = ['product_variant']
     list_per_page = 20
 

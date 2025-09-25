@@ -3,12 +3,12 @@ import { ref } from "vue";
 import type {
     CreateReviewBody,
     Review
-} from "../types";
+} from "@/types";
 import {
     createReviews,
     deleteReviews,
     getProductReviews
-} from "../services/reviewService.ts";
+} from "@/services/reviewService.ts";
 
 export const useReviewStore = defineStore('review', () => {
     const reviews = ref<Review[]>([]);

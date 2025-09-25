@@ -38,6 +38,12 @@ export interface AttributesPerCategory {
     attributes: Attribute[];
 }
 
+export interface Variant {
+    id: number;
+    name: string;
+    price: string;
+}
+
 export interface Product {
     id: number;
     title: string;
@@ -45,6 +51,7 @@ export interface Product {
     country: Country;
     product_category: ProductCategory;
     brand: Brand;
+    variants: Variant[];
 }
 
 export interface ProductImage {
@@ -64,7 +71,7 @@ export interface ProductVariant {
     id: number;
     product_title: string;
     price: string;
-    first_image: string | null;
+    first_image: string;
     average_rating: number;
     reviews_count: number;
 }
@@ -168,38 +175,39 @@ export interface OrderResponse {
 }
 
 export enum ProductOrdering {
+    PRICE_DEFAULT = '',
     PRICE_ASC = 'price',
     PRICE_DESC = '-price'
 }
 
 export interface GetProductsParams {
-    brand?: number;
-    country?: number;
+    brand?: number[];
+    country?: number[];
     ordering?: ProductOrdering;
     page?: number;
     page_size?: number;
     price_max?: number;
     price_min?: number;
-    product_category?: number;
+    product_category?: number[];
     search?: string;
 }
 
 export interface CreateReviewBody {
-    productId: number,
-    title: string,
-    rating: number,
-    comment: string,
-    photos: string[]
+    productId: number;
+    title: string;
+    rating: number;
+    comment: string;
+    photos: File[];
+}
+
+export interface OrderProduct  {
+    product_variant: number,
+    quantity: number
 }
 
 export interface CreateOrderBody {
     address: string,
     phone: string,
     delivery_date: string,
-    products: string[]
-}
-
-export interface AddToCartBody {
-    product_variant: number,
-    quantity: number
+    products: OrderProduct[]
 }

@@ -25,5 +25,6 @@ class FavoriteProductListView(generics.ListAPIView):
             user=self.request.user
         ).select_related(
             'product__brand',
-            'product__country'
+            'product__country',
+            'product__product_category'
         )

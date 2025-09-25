@@ -6,7 +6,8 @@ from shop.pagination import Pagination
 from shop.serializers import ProductVariantListSerializer
 from rest_framework import (
     generics,
-    permissions
+    permissions,
+    filters
 )
 from shop.models import (
     UserTag,
@@ -29,21 +30,27 @@ from drf_spectacular.utils import (
     parameters=[
         OpenApiParameter(
             name='brand',
-            description='Фильтр по ID бренда',
+            description='Фильтр по ID брендов (через запятую: ?brand=1,2,3)',
             required=False,
-            type=OpenApiTypes.INT
+            type={'type': 'array', 'items': {'type': 'integer'}},
+            style='form',
+            explode=False,
         ),
         OpenApiParameter(
             name='product_category',
-            description='Фильтр по ID категории товара',
+            description='Фильтр по ID категорий (через запятую: ?product_category=1,2,3)',
             required=False,
-            type=OpenApiTypes.INT
+            type={'type': 'array', 'items': {'type': 'integer'}},
+            style='form',
+            explode=False,
         ),
         OpenApiParameter(
             name='country',
-            description='Фильтр по ID страны',
+            description='Фильтр по ID стран (через запятую: ?country=1,2,3)',
             required=False,
-            type=OpenApiTypes.INT
+            type={'type': 'array', 'items': {'type': 'integer'}},
+            style='form',
+            explode=False,
         ),
         OpenApiParameter(
             name='search',
@@ -62,11 +69,11 @@ from drf_spectacular.utils import (
 class ProductListView(generics.ListAPIView):
     """
     Получение списка всех вариаций продукта с фильтрацией.
-    - Если пользователь новый или неавторизован → обычная выдача
+    - Если пользователь новый или не авторизован → обычная выдача
     - Если у пользователя есть заказы → сначала товары с совпадающими тегами
     """
     serializer_class = ProductVariantListSerializer
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
     filterset_class = ProductVariantFilter
     permission_classes = [permissions.AllowAny]
     pagination_class = Pagination

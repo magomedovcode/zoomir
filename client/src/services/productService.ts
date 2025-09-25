@@ -1,16 +1,20 @@
 import axios from "axios";
 import { API_URL } from "./baseURL.ts";
+import qs from "qs";
 import type {
     GetProductsParams,
     ProductDetail,
     ProductVariantResponse
-} from "../types";
+} from "@/types";
 
 export const getProducts = async (params: GetProductsParams): Promise<ProductVariantResponse> => {
     try {
         const response = await axios.get<ProductVariantResponse>(
             `${API_URL}/shop/products-list/`,
-            { params }
+            {
+                params,
+                paramsSerializer: (p) => qs.stringify(p, { arrayFormat: "comma" }),
+            }
         );
         return response.data;
     } catch (err) {

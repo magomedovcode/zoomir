@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { API_URL } from "./baseURL.ts";
-import type { User } from "../types";
+import type { User } from "@/types";
 
 export const loginUser = async (userData: User) => {
     try {

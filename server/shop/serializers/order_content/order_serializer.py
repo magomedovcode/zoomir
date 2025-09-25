@@ -42,7 +42,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.FLOAT)
     def get_total_price(self, obj):
-        return obj.order.total_price()
+        return obj.total_price()
 
 
 @extend_schema_serializer(component_name='OrderCreate')

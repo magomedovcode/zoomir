@@ -1,4 +1,4 @@
-import type {AddToCartBody, Cart} from "../types";
+import type { OrderProduct, Cart } from "@/types";
 import axios from "axios";
 import { API_URL } from "./baseURL.ts";
 
@@ -18,7 +18,7 @@ export const getCart = async (): Promise<Cart> => {
     }
 };
 
-export const addToCarts = async (body: AddToCartBody): Promise<void> => {
+export const addToCarts = async (body: OrderProduct): Promise<void> => {
     try {
         await axios.post(
             `${API_URL}/shop/cart/add/`,

@@ -9,7 +9,7 @@ class ProductAdmin(NestedModelAdmin):
     list_display = ('title', 'description', 'product_category', 'country', 'brand')
     list_filter = ('product_category', 'country', 'brand')
     search_fields = ('title', 'description')
-    ordering = ['-id']
+    ordering = ['id']
     autocomplete_fields = ['product_category', 'country', 'brand']
     inlines = [ProductVariantInline]
     list_per_page = 20

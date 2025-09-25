@@ -4,7 +4,7 @@ import {
     type CreateOrderBody,
     type OrderResponse,
     Status
-} from "../types";
+} from "@/types";
 
 export const getOrders = async (
     params: {

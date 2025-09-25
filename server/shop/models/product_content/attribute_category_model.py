@@ -16,7 +16,7 @@ class AttributeCategory(models.Model):
         ]
         verbose_name = _('Категория атрибутов')
         verbose_name_plural = _('Категории атрибутов')
-        ordering = ['name']
+        ordering = ['id']
 
     def __str__(self):
         return self.name

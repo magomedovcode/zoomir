@@ -39,7 +39,7 @@ class Attribute(models.Model):
         ]
         verbose_name = _('Атрибут товара')
         verbose_name_plural = _('Атрибуты товара')
-        ordering = ['-id']
+        ordering = ['id']
 
     def __str__(self):
         return f'{self.name}: {self.value}'

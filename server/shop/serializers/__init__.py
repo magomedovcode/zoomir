@@ -8,7 +8,8 @@ from .product_content.product_serializer import (
 )
 from .product_content.product_variant_serializer import (
     VariantInProductSerializer,
-    ProductVariantListSerializer
+    ProductVariantListSerializer,
+    VariantSerializer
 )
 from .product_content.product_image_serializer import ProductImageSerializer
 from shop.serializers.product_content.attribute_category_serializer import AttributesPerCategorySerializer

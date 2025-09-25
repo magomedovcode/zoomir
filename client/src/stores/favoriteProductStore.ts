@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type { FavoriteProduct } from "../types";
+import type { FavoriteProduct } from "@/types";
 import {
     addToFavorites,
     clearFavorites,
     getFavoriteProducts,
     removeFromFavorites
-} from "../services/favoriteProductService.ts";
+} from "@/services/favoriteProductService.ts";
 
 export const useFavoriteProductStore = defineStore('favoriteProduct', () => {
     const favoriteProducts = ref<FavoriteProduct[]>([]);

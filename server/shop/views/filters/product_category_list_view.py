@@ -1,5 +1,6 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
+from shop.filters import ProductCategoryFilter
 from shop.models import ProductCategory
 from shop.serializers import ProductCategorySerializer
 from drf_spectacular.utils import (
@@ -29,7 +30,7 @@ class ProductCategoryListView(generics.ListAPIView):
     """
     serializer_class = ProductCategorySerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['product_chapter', ]
+    filterset_class = ProductCategoryFilter
     permission_classes = [permissions.AllowAny]
     queryset = ProductCategory.objects.select_related(
         'product_chapter'

@@ -4,11 +4,11 @@ import type {
     GetProductsParams,
     ProductDetail,
     ProductVariant
-} from "../types";
+} from "@/types";
 import {
     getProductDetails,
     getProducts
-} from "../services/productService.ts";
+} from "@/services/productService.ts";
 
 export const useProductStore = defineStore('product', () => {
     const products = ref<ProductVariant[]>([]);

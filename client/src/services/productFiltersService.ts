@@ -5,7 +5,7 @@ import type {
     Country,
     ProductCategory,
     ProductChapter
-} from "../types";
+} from "@/types";
 
 export const getBrands = async (): Promise<Brand[]> => {
     try {

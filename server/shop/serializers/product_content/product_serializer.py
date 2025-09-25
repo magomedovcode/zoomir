@@ -1,7 +1,6 @@
 from drf_spectacular.types import OpenApiTypes
 from shop.models import Product
 from rest_framework import serializers
-from shop.serializers.product_content.product_variant_serializer import VariantInProductSerializer
 from shop.serializers.user_content.review_serializer import ReviewSerializer
 from shop.serializers.product_filters.brand_serializer import BrandSerializer
 from shop.serializers.product_filters.country_serializer import CountrySerializer
@@ -9,6 +8,10 @@ from shop.serializers.product_filters.product_category_serializer import Product
 from drf_spectacular.utils import (
     extend_schema_serializer,
     extend_schema_field
+)
+from shop.serializers.product_content.product_variant_serializer import (
+    VariantInProductSerializer,
+    VariantSerializer
 )
 
 
@@ -23,6 +26,10 @@ class ProductSerializer(serializers.ModelSerializer):
     country = CountrySerializer(
         read_only=True
     )
+    variants = VariantSerializer(
+        many=True,
+        read_only=True
+    )
     average_rating = serializers.SerializerMethodField()
 
     class Meta:
@@ -33,7 +40,8 @@ class ProductSerializer(serializers.ModelSerializer):
             'country',
             'product_category',
             'average_rating',
-            'brand'
+            'brand',
+            'variants'
         ]
         read_only_fields = fields
 

@@ -33,7 +33,7 @@ class ProductImage(models.Model):
         ]
         verbose_name = _('Изображение товара')
         verbose_name_plural = _('Изображения товара')
-        ordering = ['-id']
+        ordering = ['id']
 
     def __str__(self):
         return f'Изображение для {self.product_variant.name}'

@@ -1,9 +1,9 @@
 import axios from "axios";
-import { API_URL } from "./baseURL.ts";
+import { API_URL } from "./baseURL";
 import type {
     CreateReviewBody,
     Review
-} from "../types";
+} from "@/types";
 
 export const getProductReviews = async (productId: number): Promise<Review[]> => {
     try {
@@ -23,12 +23,22 @@ export const getProductReviews = async (productId: number): Promise<Review[]> =>
 
 export const createReviews = async (body: CreateReviewBody): Promise<void> => {
     try {
+        const formData = new FormData();
+        formData.append("title", body.title);
+        formData.append("rating", String(body.rating));
+        formData.append("comment", body.comment);
+
+        body.photos.forEach((photo) => {
+            formData.append("images", photo);
+        });
+
         await axios.post(
             `${API_URL}/shop/products/${body.productId}/reviews/create/`,
-            { ...body },
+            formData,
             {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    "Content-Type": "multipart/form-data",
                 },
             }
         );

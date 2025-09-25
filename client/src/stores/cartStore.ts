@@ -1,7 +1,11 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import type {AddToCartBody, Cart} from "../types";
-import {addToCarts, getCart, removeFromCarts} from "../services/cartService.ts";
+import type { OrderProduct, Cart } from "@/types";
+import {
+    addToCarts,
+    getCart,
+    removeFromCarts
+} from "@/services/cartService.ts";
 
 export const useCartStore = defineStore('cart', () => {
     const cart = ref<Cart>();
@@ -22,7 +26,7 @@ export const useCartStore = defineStore('cart', () => {
         }
     }
 
-    const addToCart = async (body: AddToCartBody) => {
+    const addToCart = async (body: OrderProduct) => {
         isLoading.value = true;
         error.value = null;
         try {
