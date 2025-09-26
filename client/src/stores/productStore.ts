@@ -59,6 +59,7 @@ export const useProductStore = defineStore('product', () => {
         pageSize,
         totalCount,
         products,
+        productDetail,
         fetchProducts,
         fetchProductDetails
     };

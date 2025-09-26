@@ -10,6 +10,7 @@ import {
 export const useAuthStore = defineStore('auth', () => {
     const token = ref<string | null>(localStorage.getItem('token'));
     const isAuthenticated = ref<boolean>(!!token.value);
+    const user = ref<any>(null);
     const router = useRouter();
 
     const isLoading = ref<boolean>(false);
@@ -21,6 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
         try {
             const response = await loginUser(userData);
             token.value = response.access;
+            user.value = { username: userData.username };
             isAuthenticated.value = true;
             localStorage.setItem('token', response.access);
             await router.push('/');
@@ -38,6 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
         try {
             const response = await registerUser(userData);
             token.value = response.access;
+            user.value = { username: userData.username }; // Сохраняем информацию о пользователе
             isAuthenticated.value = true;
             localStorage.setItem('token', response.access);
             await router.push('/');
@@ -51,6 +54,7 @@ export const useAuthStore = defineStore('auth', () => {
 
     const logout = async () => {
         token.value = null;
+        user.value = null;
         isAuthenticated.value = false;
         localStorage.removeItem('token');
         isLoading.value = true;
@@ -69,6 +73,7 @@ export const useAuthStore = defineStore('auth', () => {
         isLoading,
         error,
         token,
+        user,
         isAuthenticated,
         login,
         register,

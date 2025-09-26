@@ -22,6 +22,5 @@ class ProductDetailView(generics.RetrieveAPIView):
     ).prefetch_related(
         'product_variants__product_images',
         'product_variants__attributes__attribute_category',
-        'reviews__user',
-        'reviews__review_photos'
+        'reviews__user'
     ).all()

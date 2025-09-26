@@ -23,18 +23,13 @@ export const getProductReviews = async (productId: number): Promise<Review[]> =>
 
 export const createReviews = async (body: CreateReviewBody): Promise<void> => {
     try {
-        const formData = new FormData();
-        formData.append("title", body.title);
-        formData.append("rating", String(body.rating));
-        formData.append("comment", body.comment);
-
-        body.photos.forEach((photo) => {
-            formData.append("images", photo);
-        });
-
         await axios.post(
             `${API_URL}/shop/products/${body.productId}/reviews/create/`,
-            formData,
+            {
+                title: body.title,
+                rating: body.rating,
+                comment: body.comment
+            },
             {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,

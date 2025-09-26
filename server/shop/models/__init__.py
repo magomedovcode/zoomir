@@ -11,7 +11,6 @@ from .product_content.tag_model import Tag
 from .product_content.connected_tag_model import ConnectedTag
 from .product_content.user_tag_model import UserTag
 from .user_content.review_model import Review
-from .user_content.review_photo_model import ReviewPhoto
 from .cart_content.cart_model import Cart
 from .cart_content.product_in_cart_model import ProductInCart
 from .order_content.order_model import Order

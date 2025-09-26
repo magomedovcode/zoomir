@@ -31,7 +31,13 @@ const router = createRouter({
             component: ShopView
         },
         {
-            path: '/details',
+            path: "/shop/:chapterId",
+            name: "ShopChapter",
+            component: ShopView,
+            props: true,
+        },
+        {
+            path: '/details/:id',
             component: ProductDetailsView
         },
         {
@@ -60,7 +66,7 @@ const router = createRouter({
 
 router.beforeEach((to, _, next) => {
     const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    const isAuthenticated = !!localStorage.getItem('access_token');
+    const isAuthenticated = !!localStorage.getItem('token');
 
     if (requiresAuth && !isAuthenticated) {
         next('/login');

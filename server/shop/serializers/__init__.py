@@ -18,7 +18,6 @@ from .user_content.review_serializer import (
     ReviewSerializer,
     ReviewCreateSerializer
 )
-from .user_content.review_photo_serializer import ReviewPhotoSerializer
 from .cart_content.cart_serializer import CartSerializer
 from .cart_content.product_in_cart_serializer import (
     ProductInCartSerializer,

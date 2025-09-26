@@ -69,6 +69,7 @@ export interface VariantInProduct {
 
 export interface ProductVariant {
     id: number;
+    product_id: number;
     product_title: string;
     price: string;
     first_image: string;
@@ -83,11 +84,6 @@ export interface ProductVariantResponse {
     results: ProductVariant[];
 }
 
-export interface ReviewPhoto {
-    id: number;
-    photo: string;
-}
-
 export interface Review {
     id: number;
     user: string;
@@ -95,7 +91,6 @@ export interface Review {
     comment: string;
     rating: number;
     date: string;
-    review_photos: ReviewPhoto[];
 }
 
 export interface ProductDetail {
@@ -197,7 +192,6 @@ export interface CreateReviewBody {
     title: string;
     rating: number;
     comment: string;
-    photos: File[];
 }
 
 export interface OrderProduct  {

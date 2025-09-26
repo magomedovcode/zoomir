@@ -46,7 +46,7 @@ export const addToFavorites = async (productId: number): Promise<void> => {
 export const removeFromFavorites = async (productId: number): Promise<void> => {
     try {
         await axios.delete(
-            `${API_URL}/shop/favorites/remove/${productId}`,
+            `${API_URL}/shop/favorites/remove/${productId}/`,
             {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,

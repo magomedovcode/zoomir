@@ -1,11 +1,9 @@
 from drf_spectacular.utils import extend_schema
-from rest_framework.response import Response
 from shop.models import FavoriteProduct
 from shop.serializers import FavoriteProductSerializer
 from rest_framework import (
     generics,
-    permissions,
-    status
+    permissions
 )
 
 
@@ -19,8 +17,3 @@ class FavoriteProductDeleteView(generics.DestroyAPIView):
 
     def get_queryset(self):
         return FavoriteProduct.objects.filter(user=self.request.user)
-
-    def delete(self, request, *args, **kwargs):
-        instance = self.get_object()
-        instance.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)

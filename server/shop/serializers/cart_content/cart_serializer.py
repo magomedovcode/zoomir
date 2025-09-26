@@ -35,8 +35,8 @@ class CartSerializer(serializers.ModelSerializer):
 
     @extend_schema_field(OpenApiTypes.FLOAT)
     def get_total_items(self, obj):
-        return obj.cart.total_items()
+        return obj.total_items()
 
     @extend_schema_field(OpenApiTypes.INT)
     def get_total_price(self, obj):
-        return obj.cart.total_price()
+        return obj.total_price()

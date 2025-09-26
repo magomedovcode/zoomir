@@ -4,7 +4,6 @@ from shop.models import (
     Attribute,
     ProductImage,
     ProductVariant,
-    ReviewPhoto,
     ProductInOrder,
     ProductInCart
 )
@@ -36,13 +35,6 @@ class ProductVariantInline(NestedTabularInline):
     extra = 1
     fields = ['name', 'price']
     inlines = [AttributeInline, ProductImageInline, ConnectedTagInline]
-
-
-class ReviewPhotoInline(NestedTabularInline):
-    model = ReviewPhoto
-    extra = 1
-    fields = ['review', 'photo']
-    autocomplete_fields = ['review']
 
 
 class ProductInOrderInline(NestedTabularInline):

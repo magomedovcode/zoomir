@@ -65,11 +65,13 @@ class ProductVariantListSerializer(serializers.ModelSerializer):
     first_image = serializers.SerializerMethodField()
     average_rating = serializers.SerializerMethodField()
     reviews_count = serializers.SerializerMethodField()
+    product_id = serializers.IntegerField(source="product.id", read_only=True)
 
     class Meta:
         model = ProductVariant
         fields = [
             "id",
+            "product_id",
             "product_title",
             "price",
             "first_image",

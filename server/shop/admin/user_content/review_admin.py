@@ -1,6 +1,5 @@
 from django.contrib import admin
 from nested_admin.nested import NestedModelAdmin
-from shop.admin.inlines import ReviewPhotoInline
 from shop.models import Review
 
 
@@ -11,7 +10,6 @@ class ReviewAdmin(NestedModelAdmin):
     search_fields = ('title', 'rating', 'comment',)
     ordering = ['-date']
     autocomplete_fields = ['user', 'product']
-    inlines = [ReviewPhotoInline]
     list_per_page = 20
 
     fieldsets = (

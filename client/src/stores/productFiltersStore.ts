@@ -1,17 +1,7 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import {
-    getBrands,
-    getCountries,
-    getProductCategories,
-    getProductChapters
-} from "@/services/productFiltersService.ts";
-import type {
-    Brand,
-    Country,
-    ProductCategory,
-    ProductChapter
-} from "@/types";
+import {defineStore} from "pinia";
+import {ref} from "vue";
+import {getBrands, getCountries, getProductCategories, getProductChapters} from "@/services/productFiltersService.ts";
+import type {Brand, Country, ProductCategory, ProductChapter} from "@/types";
 
 export const useProductFiltersStore = defineStore('productFilters', () => {
     const brands = ref<Brand[]>([]);

@@ -9,7 +9,6 @@ from .product_content.product_image_admin import ProductImageAdmin
 from .product_content.attribute_admin import AttributeAdmin
 from .product_content.tag_admin import TagAdmin
 from .user_content.review_admin import ReviewAdmin
-from .user_content.review_photo_admin import ReviewPhotoAdmin
 from .user_content.favorite_product_admin import FavoriteProductAdmin
 from .order_content.order_admin import OrderAdmin
 from .order_content.product_in_order_admin import ProductInOrderAdmin
