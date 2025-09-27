@@ -10,6 +10,7 @@ import {
     createRouter,
     createWebHistory
 } from 'vue-router';
+import ProductChaptersView from "@/views/ProductChaptersView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -31,8 +32,12 @@ const router = createRouter({
             component: ShopView
         },
         {
+            path: '/chapters',
+            component: ProductChaptersView
+        },
+        {
             path: "/shop/:chapterId",
-            name: "ShopChapter",
+            name: "ShopView",
             component: ShopView,
             props: true,
         },

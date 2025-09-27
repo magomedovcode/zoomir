@@ -4,7 +4,8 @@ import type { OrderProduct, Cart } from "@/types";
 import {
     addToCarts,
     getCart,
-    removeFromCarts
+    removeFromCarts,
+    updateCartItemQuantity
 } from "@/services/cartService.ts";
 
 export const useCartStore = defineStore('cart', () => {
@@ -52,12 +53,29 @@ export const useCartStore = defineStore('cart', () => {
         }
     }
 
+    const updateQuantity = async (productId: number, quantity: number) => {
+        if (quantity < 1) return;
+
+        isLoading.value = true;
+        error.value = null;
+        try {
+            await updateCartItemQuantity(productId, quantity);
+            await fetchCart();
+        } catch (err) {
+            error.value = `Ошибка при обновлении количества товара: ${err}`;
+            console.error(error.value);
+        } finally {
+            isLoading.value = false;
+        }
+    }
+
     return {
         cart,
         isLoading,
         error,
         fetchCart,
         addToCart,
-        removeFromCart
+        removeFromCart,
+        updateQuantity
     }
 });

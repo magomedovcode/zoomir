@@ -12,7 +12,8 @@ from drf_spectacular.utils import (
 class CartSerializer(serializers.ModelSerializer):
     products_in_cart = ProductInCartSerializer(
         many=True,
-        read_only=True
+        read_only=True,
+        source='products_in_carts'
     )
     user = serializers.SlugRelatedField(
         read_only=True,

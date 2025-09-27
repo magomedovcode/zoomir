@@ -23,6 +23,7 @@ from .cart_content.product_in_cart_serializer import (
     ProductInCartSerializer,
     ProductInCartCreateSerializer
 )
+from .cart_content.update_cart_serializer import UpdateCartItemSerializer
 from .order_content.order_serializer import (
     OrderSerializer,
     OrderCreateSerializer,

@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from .views import UpdateCartView
 
 urlpatterns = [
     path(
@@ -44,9 +44,14 @@ urlpatterns = [
         name='add-to-cart'
     ),
     path(
-        'cart/remove/<int:pk>/',
+        'cart/remove/<int:product_variant_id>/',
         views.RemoveFromCartView.as_view(),
         name='remove-from-cart'
+    ),
+    path(
+        'cart/update/<int:product_variant_id>/',
+        UpdateCartView.as_view(),
+        name='update-cart-item'
     ),
     path(
         'orders/create/',
@@ -74,7 +79,7 @@ urlpatterns = [
         name='favorite-add'
     ),
     path(
-        'favorites/remove/<int:pk>/',
+        'favorites/remove/<int:product_id>/',
         views.FavoriteProductDeleteView.as_view(),
         name='favorite-remove'
     ),

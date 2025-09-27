@@ -10,6 +10,7 @@ from .review.review_delete_view import ReviewDeleteView
 from .cart.cart_detail_view import CartDetailView
 from .cart.add_to_cart_view import AddToCartView
 from .cart.remove_from_cart_view import RemoveFromCartView
+from .cart.update_cart_view import UpdateCartView
 from .order.order_list_view import OrderListView
 from .order.order_create_view import OrderCreateView
 from .order.order_status_update_view import OrderStatusUpdateView
