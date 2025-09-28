@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen flex flex-col bg-gray-50">
     <AppHeader />
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <h1 class="text-3xl font-bold mb-8">Корзина</h1>
 
       <div v-if="cartStore.cart?.products_in_cart?.length" class="lg:grid lg:grid-cols-12 lg:gap-x-12">
@@ -24,9 +24,10 @@
                     <h4 class="text-sm font-medium text-gray-700">
                       {{ item.product_variant.product_title }}
                     </h4>
-                    <p class="ml-4 text-sm font-medium text-gray-900">{{ item.product_variant.price }} ₽</p>
+                    <p class="ml-4 text-sm font-medium text-gray-900">{{ Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' }).format(+item.product_variant.price * item.quantity) }}</p>
                   </div>
-                  <p class="mt-1 text-sm text-gray-500">Вариант: {{ item.product_variant.product_title }}</p>
+                  <p class="mt-1 text-sm text-gray-500">Вариант: {{ item.product_variant.name }}</p>
+                  <p class="mt-1 text-sm text-gray-500">Цена за штуку: {{ Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' }).format(+item.product_variant.price) }}</p>
                 </div>
 
                 <div class="mt-4 flex-1 flex items-end justify-between">
@@ -81,7 +82,7 @@
               </div>
               <div class="flex items-center justify-between border-t border-gray-200 pt-4">
                 <dt class="text-base font-medium text-gray-900">Общая стоимость</dt>
-                <dd class="text-base font-medium text-gray-900">{{ cartStore.cart.total_price }} ₽</dd>
+                <dd class="text-base font-medium text-gray-900">{{ Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' }).format(+cartStore.cart.total_price) }}</dd>
               </div>
             </dl>
 
@@ -110,6 +111,8 @@
         </div>
       </div>
     </div>
+
+    <AppFooter />
   </div>
 </template>
 
@@ -119,12 +122,13 @@ import { useRouter } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue'
 import { useCartStore } from '@/stores/cartStore'
 import { MEDIA_URL } from '@/services/baseURL'
+import AppFooter from "@/components/AppFooter.vue";
 
 const router = useRouter()
 const cartStore = useCartStore()
 
 onMounted(async () => {
-  await cartStore.fetchCart()
+  await cartStore.fetchCart();
 })
 
 const updateQuantity = async (productId: number, newQuantity: number) => {

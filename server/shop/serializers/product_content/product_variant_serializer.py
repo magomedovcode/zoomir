@@ -73,6 +73,7 @@ class ProductVariantListSerializer(serializers.ModelSerializer):
             "id",
             "product_id",
             "product_title",
+            "name",
             "price",
             "first_image",
             "average_rating",

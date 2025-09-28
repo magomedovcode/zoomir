@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen flex flex-col bg-gray-50">
     <AppHeader />
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold">Избранное</h1>
         <button
@@ -14,8 +14,8 @@
         </button>
       </div>
 
-      <div v-if="favoritesStore.favoriteProducts.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <ProductCard
+      <div v-if="favoritesStore.favoriteProducts.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <FavoriteCard
             v-for="favorite in favoritesStore.favoriteProducts"
             :key="favorite.id"
             :product="favorite.product"
@@ -35,14 +35,17 @@
         </div>
       </div>
     </div>
+
+    <AppFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import {onMounted} from 'vue'
 import AppHeader from '@/components/AppHeader.vue'
-import ProductCard from '@/components/ProductCard.vue'
 import { useFavoriteProductStore } from '@/stores/favoriteProductStore'
+import AppFooter from "@/components/AppFooter.vue";
+import FavoriteCard from "@/components/FavoriteCard.vue";
 
 const favoritesStore = useFavoriteProductStore()
 

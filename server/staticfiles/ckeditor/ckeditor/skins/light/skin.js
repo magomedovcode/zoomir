@@ -7,7 +7,7 @@
  skin.js
  =========
 
- In this file we interact with the CKEditor JavaScript API to register the skin
+ In this file we interact with the CKEditor JavaScript API to auth the skin
  and enable additional skin related features.
 
  The level of complexity of this file depends on the features available in the

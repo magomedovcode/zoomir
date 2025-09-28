@@ -47,6 +47,11 @@ urlpatterns = [
         views.RegisterView.as_view(),
         name="register"
     ),
+    path(
+        "api/auth/",
+        views.AuthView.as_view(),
+        name="auth"
+    ),
 
     # Schema & Docs
     path(

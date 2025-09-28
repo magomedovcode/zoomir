@@ -1,8 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="flex flex-col min-h-screen bg-gray-50">
     <AppHeader />
 
-    <!-- Hero Section -->
     <section class="bg-indigo-700 text-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div class="text-center">
@@ -18,7 +17,6 @@
       </div>
     </section>
 
-    <!-- Категории -->
     <section class="py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-center mb-12">Категории товаров</h2>
@@ -36,7 +34,6 @@
       </div>
     </section>
 
-    <!-- Популярные товары -->
     <section class="py-16 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl font-bold text-center mb-12">Популярные товары</h2>
@@ -61,6 +58,8 @@
         </div>
       </div>
     </section>
+
+    <AppFooter />
   </div>
 </template>
 
@@ -70,6 +69,7 @@ import AppHeader from '@/components/AppHeader.vue'
 import ProductCard from '@/components/ProductCard.vue'
 import { useProductStore } from '@/stores/productStore'
 import { useProductFiltersStore } from '@/stores/productFiltersStore'
+import AppFooter from "@/components/AppFooter.vue";
 
 const productStore = useProductStore()
 const filtersStore = useProductFiltersStore()

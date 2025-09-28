@@ -17,7 +17,8 @@ from shop.models import (
 class OrderSerializer(serializers.ModelSerializer):
     products_in_order = ProductInOrderSerializer(
         many=True,
-        read_only=True
+        read_only=True,
+        source='products_in_orders'
     )
     user = serializers.SlugRelatedField(
         read_only=True,

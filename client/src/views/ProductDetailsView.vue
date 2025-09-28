@@ -1,13 +1,12 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen flex flex-col bg-gray-50">
     <AppHeader />
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" v-if="productStore.productDetail">
-      <!-- Хлебные крошки -->
+    <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" v-if="productStore.productDetail">
       <nav class="flex mb-8" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-4">
           <li>
-            <router-link to="/" class="text-gray-400 hover:text-gray-500">Главная</router-link>
+            <router-link to="/chapters" class="text-gray-400 hover:text-gray-500">Разделы</router-link>
           </li>
           <li>
             <span class="text-gray-400">/</span>
@@ -27,7 +26,6 @@
       </nav>
 
       <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
-        <!-- Галерея изображений -->
         <div class="flex flex-col-reverse">
           <div class="w-full max-w-2xl mx-auto mt-6 sm:block lg:max-w-none">
             <div class="grid grid-cols-4 gap-2" aria-orientation="horizontal">
@@ -62,7 +60,6 @@
           </div>
         </div>
 
-        <!-- Информация о товаре -->
         <div class="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
           <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">{{ productStore.productDetail.title }}</h1>
 
@@ -78,7 +75,6 @@
             </div>
           </div>
 
-          <!-- Варианты -->
           <div class="mt-6">
             <div class="flex items-center">
               <h3 class="text-sm text-gray-600">Вариант:</h3>
@@ -100,7 +96,6 @@
             </div>
           </div>
 
-          <!-- Атрибуты -->
           <div class="mt-6" v-for="attrCategory in currentVariant.attributes" :key="attrCategory.id">
             <h3 class="text-sm font-medium text-gray-900">{{ attrCategory.name }}</h3>
             <div class="mt-2">
@@ -116,7 +111,6 @@
             </div>
           </div>
 
-          <!-- Бренд и страна -->
           <div class="mt-6">
             <div class="flex items-center space-x-4">
               <span class="text-sm text-gray-600">Бренд: {{ productStore.productDetail.brand.name }}</span>
@@ -124,7 +118,6 @@
             </div>
           </div>
 
-          <!-- Кнопки действий -->
           <div class="mt-10 flex space-x-4">
             <button
                 @click="addToCart"
@@ -151,7 +144,6 @@
         </div>
       </div>
 
-      <!-- Отзывы -->
       <section aria-labelledby="reviews-heading" class="mt-16 sm:mt-24">
         <h2 id="reviews-heading" class="text-lg font-medium text-gray-900">Отзывы</h2>
 
@@ -238,6 +230,8 @@
         </div>
       </div>
     </div>
+
+    <AppFooter />
   </div>
 </template>
 
@@ -252,6 +246,7 @@ import { useFavoriteProductStore } from '@/stores/favoriteProductStore'
 import { useReviewStore } from '@/stores/reviewStore'
 import { MEDIA_URL } from '@/services/baseURL'
 import type { CreateReviewBody } from '@/types'
+import AppFooter from "@/components/AppFooter.vue";
 
 const route = useRoute()
 const productStore = useProductStore()

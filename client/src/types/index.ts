@@ -3,6 +3,10 @@ export interface User {
     password: string;
 }
 
+export interface Username {
+    username: string;
+}
+
 export interface Brand {
     id: number;
     name: string;
@@ -71,6 +75,7 @@ export interface ProductVariant {
     id: number;
     product_id: number;
     product_title: string;
+    name: string;
     price: string;
     first_image: string;
     average_rating: number;

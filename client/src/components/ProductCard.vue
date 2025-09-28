@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow duration-300">
+  <div class="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow duration-300 group">
     <router-link :to="`/details/${product.id}`" class="block">
       <div class="aspect-w-3 aspect-h-4 relative">
         <img
@@ -9,7 +9,7 @@
         >
         <button
             @click.prevent="toggleFavorite"
-            class="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md hover:bg-gray-50"
+            class="border-2 absolute -top-5 left-1/2 transform -translate-x-1/2 p-2 bg-white rounded-full shadow-md hover:bg-gray-50"
         >
           <svg
               class="w-5 h-5"
@@ -28,7 +28,7 @@
       </div>
 
       <div class="p-4">
-        <h3 class="font-medium text-gray-900 mb-2 line-clamp-2">{{ product.product_title }}</h3>
+        <h3 class="font-medium text-gray-900 mb-2 line-clamp-2 group-hover:text-indigo-600 transition-colors">{{ product.product_title }}</h3>
 
         <div class="flex items-center justify-between mb-2">
           <span class="text-lg font-bold text-indigo-600">{{ product.price }} ₽</span>

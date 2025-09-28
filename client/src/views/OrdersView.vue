@@ -1,8 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen flex flex-col bg-gray-50">
     <AppHeader />
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <h1 class="text-3xl font-bold mb-8">Мои заказы</h1>
 
       <div v-if="orderStore.orders.length" class="space-y-6">
@@ -28,11 +28,12 @@
                       class="h-16 w-16 rounded-md object-cover"
                   >
                   <div class="ml-4">
-                    <p class="text-sm font-medium text-gray-900">{{ item.product_variant.product_title }}</p>
+                    <p class="text-sm font-medium text-gray-900">{{ item.product_variant.product_title }}, {{ item.product_variant.name }}</p>
                     <p class="text-sm text-gray-500">Количество: {{ item.quantity }}</p>
+                    <p class="text-sm text-gray-500">Цена за штуку: {{ Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' }).format(+item.price) }}</p>
                   </div>
                 </div>
-                <p class="text-sm font-medium text-gray-900">{{ item.price }} ₽</p>
+                <p class="text-sm font-medium text-gray-900">{{ Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' }).format(+item.price * item.quantity) }}</p>
               </li>
             </ul>
           </div>
@@ -43,7 +44,7 @@
               <p class="text-sm text-gray-600">Телефон: {{ order.phone }}</p>
               <p class="text-sm text-gray-600">Дата доставки: {{ formatDate(order.delivery_date) }}</p>
             </div>
-            <p class="text-lg font-bold">Итого: {{ order.total_price }} ₽</p>
+            <p class="text-lg font-bold">Итого: {{ Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' }).format(order.total_price) }}</p>
           </div>
         </div>
       </div>
@@ -61,6 +62,8 @@
         </div>
       </div>
     </div>
+
+    <AppFooter />
   </div>
 </template>
 
@@ -70,6 +73,7 @@ import AppHeader from '@/components/AppHeader.vue'
 import { useOrderStore } from '@/stores/orderStore'
 import { Status } from '@/types'
 import { MEDIA_URL } from '@/services/baseURL'
+import AppFooter from "@/components/AppFooter.vue";
 
 const orderStore = useOrderStore()
 

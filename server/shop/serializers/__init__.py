@@ -34,4 +34,5 @@ from .user_content.favorite_product_serializer import (
     FavoriteProductSerializer,
     FavoriteProductCreateSerializer
 )
-from .register.register_serializer import RegisterSerializer
+from .auth.register_serializer import RegisterSerializer
+from .auth.auth_serializer import AuthSerializer

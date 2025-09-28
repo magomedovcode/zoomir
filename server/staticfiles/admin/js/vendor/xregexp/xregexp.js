@@ -902,7 +902,7 @@ function prepareOptions(value) {
  * Registers a flag so it doesn't throw an 'unknown flag' error.
  *
  * @private
- * @param {String} flag Single-character flag to register.
+ * @param {String} flag Single-character flag to auth.
  */
 
 

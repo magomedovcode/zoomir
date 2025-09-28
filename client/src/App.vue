@@ -28,6 +28,7 @@ watch(
       if (isAuthenticated) {
         await cartStore.fetchCart();
         await favoritesStore.fetchFavoriteProducts();
+        await authStore.fetchUsername();
       } else {
         cartStore.cart = undefined;
         favoritesStore.favoriteProducts = [];
