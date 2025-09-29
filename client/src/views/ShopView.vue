@@ -1,292 +1,610 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-50">
+  <div class="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-indigo-50/30">
     <AppHeader />
 
     <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="flex flex-col lg:flex-row gap-4 items-start mb-6">
-        <div class="lg:flex-1">
-          <input
-              v-model="searchQuery"
-              type="text"
-              placeholder="Поиск товаров..."
-              class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      <!-- Заголовок страницы -->
+      <div class="text-center mb-12">
+        <div class="flex justify-center items-center mb-4">
+          <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+          </div>
+        </div>
+        <h1 class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent mb-4">
+          Магазин товаров
+        </h1>
+        <p class="text-gray-600 max-w-2xl mx-auto text-lg">Найдите всё необходимое для вашего питомца</p>
+      </div>
+
+      <!-- Мобильные фильтры -->
+      <div class="lg:hidden mb-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-semibold text-gray-800">Фильтры</h2>
+          <button
+              @click="showMobileFilters = !showMobileFilters"
+              class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-300 rounded-xl hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-300 shadow-sm"
           >
+            <span class="font-medium text-gray-700">Фильтры</span>
+            <ChevronUpDownIcon class="h-5 w-5 text-gray-500" aria-hidden="true" />
+          </button>
         </div>
 
-        <div class="relative">
-          <Listbox v-model="selectedBrands" multiple>
-            <div class="relative">
-              <ListboxButton class="w-full lg:w-48 px-3 py-2 border rounded-lg bg-white text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 flex justify-between items-center">
-                <span class="block truncate">
-                  {{ getBrandsLabel }}
-                </span>
-                <span class="pointer-events-none flex items-center">
-                  <ChevronUpDownIcon class="h-4 w-4 text-gray-400" aria-hidden="true" />
-                </span>
-              </ListboxButton>
-
-              <transition
-                  leave-active-class="transition duration-100 ease-in"
-                  leave-from-class="opacity-100"
-                  leave-to-class="opacity-0"
-              >
-                <ListboxOptions class="absolute top-full left-0 right-0 mt-1 max-h-60 overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-20">
-                  <ListboxOption
-                      v-slot="{ active, selected }"
-                      v-for="brand in filtersStore.brands"
-                      :key="brand.id"
-                      :value="brand.id"
-                      as="template"
-                  >
-                    <li
-                        :class="[
-                          active ? 'bg-indigo-100 text-indigo-900' : 'text-gray-900',
-                          'relative cursor-default select-none py-2 pl-3 pr-9',
-                        ]"
-                    >
-                      <div class="flex items-center">
-                        <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
-                             :class="{
-                               'bg-indigo-500 border-indigo-500': selected,
-                               'bg-white': !selected
-                             }">
-                          <svg v-if="selected" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                          </svg>
-                        </div>
-                        <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
-                          {{ brand.name }}
-                        </span>
-                      </div>
-                    </li>
-                  </ListboxOption>
-                </ListboxOptions>
-              </transition>
+        <!-- Поиск на мобильных -->
+        <div class="mb-4">
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
             </div>
-          </Listbox>
-        </div>
-
-        <div class="relative">
-          <Listbox v-model="selectedCountries" multiple>
-            <div class="relative">
-              <ListboxButton class="w-full lg:w-48 px-3 py-2 border rounded-lg bg-white text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 flex justify-between items-center">
-                <span class="block truncate">
-                  {{ getCountriesLabel }}
-                </span>
-                <span class="pointer-events-none flex items-center">
-                  <ChevronUpDownIcon class="h-4 w-4 text-gray-400" aria-hidden="true" />
-                </span>
-              </ListboxButton>
-
-              <transition
-                  leave-active-class="transition duration-100 ease-in"
-                  leave-from-class="opacity-100"
-                  leave-to-class="opacity-0"
-              >
-                <ListboxOptions class="absolute top-full left-0 right-0 mt-1 max-h-60 overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-20">
-                  <ListboxOption
-                      v-slot="{ active, selected }"
-                      v-for="country in filtersStore.countries"
-                      :key="country.id"
-                      :value="country.id"
-                      as="template"
-                  >
-                    <li
-                        :class="[
-                          active ? 'bg-indigo-100 text-indigo-900' : 'text-gray-900',
-                          'relative cursor-default select-none py-2 pl-3 pr-9',
-                        ]"
-                    >
-                      <div class="flex items-center">
-                        <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
-                             :class="{
-                               'bg-indigo-500 border-indigo-500': selected,
-                               'bg-white': !selected
-                             }">
-                          <svg v-if="selected" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                          </svg>
-                        </div>
-                        <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
-                          {{ country.name }}
-                        </span>
-                      </div>
-                    </li>
-                  </ListboxOption>
-                </ListboxOptions>
-              </transition>
-            </div>
-          </Listbox>
-        </div>
-
-        <div class="relative">
-          <Listbox v-model="selectedCategories" multiple>
-            <div class="relative">
-              <ListboxButton class="w-full lg:w-48 px-3 py-2 border rounded-lg bg-white text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 flex justify-between items-center">
-                <span class="block truncate">
-                  {{ getCategoriesLabel }}
-                </span>
-                <span class="pointer-events-none flex items-center">
-                  <ChevronUpDownIcon class="h-4 w-4 text-gray-400" aria-hidden="true" />
-                </span>
-              </ListboxButton>
-
-              <transition
-                  leave-active-class="transition duration-100 ease-in"
-                  leave-from-class="opacity-100"
-                  leave-to-class="opacity-0"
-              >
-                <ListboxOptions class="absolute top-full left-0 right-0 mt-1 max-h-60 overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-20">
-                  <ListboxOption
-                      v-slot="{ active, selected }"
-                      v-for="category in filtersStore.productCategories"
-                      :key="category.id"
-                      :value="category.id"
-                      as="template"
-                  >
-                    <li
-                        :class="[
-                          active ? 'bg-indigo-100 text-indigo-900' : 'text-gray-900',
-                          'relative cursor-default select-none py-2 pl-3 pr-9',
-                        ]"
-                    >
-                      <div class="flex items-center">
-                        <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
-                             :class="{
-                               'bg-indigo-500 border-indigo-500': selected,
-                               'bg-white': !selected
-                             }">
-                          <svg v-if="selected" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-                          </svg>
-                        </div>
-                        <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
-                          {{ category.name }}
-                        </span>
-                      </div>
-                    </li>
-                  </ListboxOption>
-                </ListboxOptions>
-              </transition>
-            </div>
-          </Listbox>
-        </div>
-
-        <div class="relative">
-          <Popover v-slot="{ open }">
-            <PopoverButton class="w-full lg:w-48 px-3 py-2 border rounded-lg bg-white text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 flex justify-between items-center">
-              <span class="block truncate">
-                {{ getPriceLabel }}
-              </span>
-              <span class="pointer-events-none flex items-center">
-                <ChevronUpDownIcon class="h-4 w-4 text-gray-400" aria-hidden="true" />
-              </span>
-            </PopoverButton>
-
-            <transition
-                enter-active-class="transition duration-200 ease-out"
-                enter-from-class="translate-y-1 opacity-0"
-                enter-to-class="translate-y-0 opacity-100"
-                leave-active-class="transition duration-150 ease-in"
-                leave-from-class="translate-y-0 opacity-100"
-                leave-to-class="translate-y-1 opacity-0"
+            <input
+                v-model="searchQuery"
+                type="text"
+                placeholder="Поиск товаров..."
+                class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base transition-all duration-200"
             >
-              <PopoverPanel class="absolute top-full left-0 right-0 mt-1 bg-white border rounded-lg shadow-lg z-10 p-4">
-                <div class="space-y-3">
-                  <h4 class="font-medium text-sm text-gray-900">Диапазон цен</h4>
-                  <div class="flex space-x-2">
-                    <div class="flex-1">
-                      <label class="block text-xs text-gray-500 mb-1">От</label>
-                      <input
-                          v-model.number="priceMin"
-                          type="number"
-                          placeholder="0"
-                          class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                      >
-                    </div>
-                    <div class="flex-1">
-                      <label class="block text-xs text-gray-500 mb-1">До</label>
-                      <input
-                          v-model.number="priceMax"
-                          type="number"
-                          placeholder="99999"
-                          class="w-full px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                      >
-                    </div>
-                  </div>
-                  <div class="flex justify-between items-center text-sm text-gray-600">
-                    <span v-if="priceMin || priceMax">
-                      {{ priceMin || 0 }} - {{ priceMax || '∞' }} ₽
-                    </span>
-                    <span v-else>Любая цена</span>
-                    <button
-                        v-if="priceMin || priceMax"
-                        @click="clearPriceFilter"
-                        class="text-indigo-600 hover:text-indigo-800 text-xs"
-                    >
-                      Сбросить
-                    </button>
-                  </div>
-                </div>
-              </PopoverPanel>
-            </transition>
-          </Popover>
+          </div>
         </div>
 
-        <div class="relative">
-          <Listbox v-model="ordering">
-            <div class="relative">
-              <ListboxButton class="w-full lg:w-48 px-3 py-2 border rounded-lg bg-white text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 flex justify-between items-center">
-                <span class="block truncate">{{ getOrderingLabel(ordering) }}</span>
-                <span class="pointer-events-none flex items-center">
-                  <ChevronUpDownIcon class="h-4 w-4 text-gray-400" aria-hidden="true" />
-                </span>
-              </ListboxButton>
-
-              <transition
-                  leave-active-class="transition duration-100 ease-in"
-                  leave-from-class="opacity-100"
-                  leave-to-class="opacity-0"
-              >
-                <ListboxOptions class="absolute top-full left-0 right-0 mt-1 max-h-60 overflow-auto rounded-lg bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-20">
-                  <ListboxOption
-                      v-slot="{ active, selected }"
-                      v-for="option in sortOptions"
-                      :key="option.value"
-                      :value="option.value"
-                      as="template"
-                  >
-                    <li
-                        :class="[
-                          active ? 'bg-indigo-100 text-indigo-900' : 'text-gray-900',
-                          'relative cursor-default select-none py-2 pl-3 pr-9',
-                        ]"
-                    >
-                      <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
-                        {{ option.label }}
-                      </span>
-                      <span
-                          v-if="selected"
-                          class="absolute inset-y-0 right-0 flex items-center pr-3 text-indigo-600"
+        <!-- Аккордеон фильтров -->
+        <transition
+            enter-active-class="transition-all duration-300 ease-out"
+            enter-from-class="opacity-0 max-h-0"
+            enter-to-class="opacity-100 max-h-[800px]"
+            leave-active-class="transition-all duration-300 ease-in"
+            leave-from-class="opacity-100 max-h-[800px]"
+            leave-to-class="opacity-0 max-h-0"
+        >
+          <div v-show="showMobileFilters" class="overflow-hidden">
+            <div class="space-y-3">
+              <!-- Бренды -->
+              <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+                <Disclosure v-slot="{ open }">
+                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
+                    <span class="font-medium text-gray-800">{{ getBrandsLabel }}</span>
+                    <ChevronUpDownIcon
+                        :class="open ? 'rotate-180 transform' : ''"
+                        class="h-5 w-5 text-gray-500 transition-transform duration-200"
+                    />
+                  </DisclosureButton>
+                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-gray-100">
+                    <div class="space-y-3 max-h-60 overflow-y-auto">
+                      <div
+                          v-for="brand in filtersStore.brands"
+                          :key="brand.id"
+                          class="flex items-center group cursor-pointer"
                       >
-                        <CheckIcon class="h-4 w-4" aria-hidden="true" />
-                      </span>
-                    </li>
-                  </ListboxOption>
-                </ListboxOptions>
-              </transition>
+                        <div class="relative flex items-center">
+                          <input
+                              :id="`mobile-brand-${brand.id}`"
+                              v-model="selectedBrands"
+                              :value="brand.id"
+                              type="checkbox"
+                              class="sr-only"
+                          >
+                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-indigo-400"
+                               :class="{
+                                 'bg-indigo-500 border-indigo-500': selectedBrands.includes(brand.id),
+                                 'bg-white': !selectedBrands.includes(brand.id)
+                               }">
+                            <svg v-if="selectedBrands.includes(brand.id)" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                        </div>
+                        <label
+                            :for="`mobile-brand-${brand.id}`"
+                            class="text-gray-700 cursor-pointer group-hover:text-indigo-600 transition-colors duration-200"
+                        >
+                          {{ brand.name }}
+                        </label>
+                      </div>
+                    </div>
+                  </DisclosurePanel>
+                </Disclosure>
+              </div>
+
+              <!-- Страны -->
+              <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+                <Disclosure v-slot="{ open }">
+                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
+                    <span class="font-medium text-gray-800">{{ getCountriesLabel }}</span>
+                    <ChevronUpDownIcon
+                        :class="open ? 'rotate-180 transform' : ''"
+                        class="h-5 w-5 text-gray-500 transition-transform duration-200"
+                    />
+                  </DisclosureButton>
+                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-gray-100">
+                    <div class="space-y-3 max-h-60 overflow-y-auto">
+                      <div
+                          v-for="country in filtersStore.countries"
+                          :key="country.id"
+                          class="flex items-center group cursor-pointer"
+                      >
+                        <div class="relative flex items-center">
+                          <input
+                              :id="`mobile-country-${country.id}`"
+                              v-model="selectedCountries"
+                              :value="country.id"
+                              type="checkbox"
+                              class="sr-only"
+                          >
+                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-indigo-400"
+                               :class="{
+                                 'bg-indigo-500 border-indigo-500': selectedCountries.includes(country.id),
+                                 'bg-white': !selectedCountries.includes(country.id)
+                               }">
+                            <svg v-if="selectedCountries.includes(country.id)" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                        </div>
+                        <label
+                            :for="`mobile-country-${country.id}`"
+                            class="text-gray-700 cursor-pointer group-hover:text-indigo-600 transition-colors duration-200"
+                        >
+                          {{ country.name }}
+                        </label>
+                      </div>
+                    </div>
+                  </DisclosurePanel>
+                </Disclosure>
+              </div>
+
+              <!-- Категории -->
+              <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+                <Disclosure v-slot="{ open }">
+                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
+                    <span class="font-medium text-gray-800">{{ getCategoriesLabel }}</span>
+                    <ChevronUpDownIcon
+                        :class="open ? 'rotate-180 transform' : ''"
+                        class="h-5 w-5 text-gray-500 transition-transform duration-200"
+                    />
+                  </DisclosureButton>
+                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-gray-100">
+                    <div class="space-y-3 max-h-60 overflow-y-auto">
+                      <div
+                          v-for="category in filtersStore.productCategories"
+                          :key="category.id"
+                          class="flex items-center group cursor-pointer"
+                      >
+                        <div class="relative flex items-center">
+                          <input
+                              :id="`mobile-category-${category.id}`"
+                              v-model="selectedCategories"
+                              :value="category.id"
+                              type="checkbox"
+                              class="sr-only"
+                          >
+                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-indigo-400"
+                               :class="{
+                                 'bg-indigo-500 border-indigo-500': selectedCategories.includes(category.id),
+                                 'bg-white': !selectedCategories.includes(category.id)
+                               }">
+                            <svg v-if="selectedCategories.includes(category.id)" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                        </div>
+                        <label
+                            :for="`mobile-category-${category.id}`"
+                            class="text-gray-700 cursor-pointer group-hover:text-indigo-600 transition-colors duration-200"
+                        >
+                          {{ category.name }}
+                        </label>
+                      </div>
+                    </div>
+                  </DisclosurePanel>
+                </Disclosure>
+              </div>
+
+              <!-- Цена -->
+              <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+                <Disclosure v-slot="{ open }">
+                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
+                    <span class="font-medium text-gray-800">{{ getPriceLabel }}</span>
+                    <ChevronUpDownIcon
+                        :class="open ? 'rotate-180 transform' : ''"
+                        class="h-5 w-5 text-gray-500 transition-transform duration-200"
+                    />
+                  </DisclosureButton>
+                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-gray-100">
+                    <div class="space-y-4">
+                      <div class="flex space-x-3">
+                        <div class="flex-1">
+                          <label class="block text-sm font-medium text-gray-700 mb-2">От</label>
+                          <input
+                              v-model.number="priceMin"
+                              type="number"
+                              placeholder="0"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                          >
+                        </div>
+                        <div class="flex-1">
+                          <label class="block text-sm font-medium text-gray-700 mb-2">До</label>
+                          <input
+                              v-model.number="priceMax"
+                              type="number"
+                              placeholder="99999"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                          >
+                        </div>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600 font-medium">
+                          {{ priceMin || 0 }} - {{ priceMax || '∞' }} ₽
+                        </span>
+                        <button
+                            v-if="priceMin || priceMax"
+                            @click="clearPriceFilter"
+                            class="text-indigo-600 hover:text-indigo-800 text-sm font-medium transition-colors duration-200"
+                        >
+                          Сбросить
+                        </button>
+                      </div>
+                    </div>
+                  </DisclosurePanel>
+                </Disclosure>
+              </div>
+
+              <!-- Сортировка -->
+              <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+                <Disclosure v-slot="{ open }">
+                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
+                    <span class="font-medium text-gray-800">{{ getOrderingLabel(ordering) }}</span>
+                    <ChevronUpDownIcon
+                        :class="open ? 'rotate-180 transform' : ''"
+                        class="h-5 w-5 text-gray-500 transition-transform duration-200"
+                    />
+                  </DisclosureButton>
+                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-gray-100">
+                    <div class="space-y-3">
+                      <div
+                          v-for="option in sortOptions"
+                          :key="option.value"
+                          class="flex items-center group cursor-pointer"
+                      >
+                        <input
+                            :id="`mobile-sort-${option.value}`"
+                            v-model="ordering"
+                            :value="option.value"
+                            type="radio"
+                            class="sr-only"
+                        >
+                        <div class="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-indigo-400"
+                             :class="{
+                               'border-indigo-500': ordering === option.value
+                             }">
+                          <div v-if="ordering === option.value" class="w-2.5 h-2.5 bg-indigo-500 rounded-full"></div>
+                        </div>
+                        <label
+                            :for="`mobile-sort-${option.value}`"
+                            class="text-gray-700 cursor-pointer group-hover:text-indigo-600 transition-colors duration-200"
+                            :class="{ 'font-semibold text-indigo-600': ordering === option.value }"
+                        >
+                          {{ option.label }}
+                        </label>
+                      </div>
+                    </div>
+                  </DisclosurePanel>
+                </Disclosure>
+              </div>
             </div>
-          </Listbox>
+          </div>
+        </transition>
+      </div>
+
+      <!-- Десктопные фильтры -->
+      <div class="hidden lg:block mb-8">
+        <!-- Поиск -->
+        <div class="mb-6 flex justify-center">
+          <div class="relative w-2/3">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <input
+                v-model="searchQuery"
+                type="text"
+                placeholder="Поиск товаров..."
+                class="w-full pl-12 pr-4 py-4 bg-white border border-gray-300 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base transition-all duration-200 hover:shadow-xl"
+            >
+          </div>
+        </div>
+
+        <!-- Панель фильтров -->
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+              </svg>
+            </div>
+            <h3 class="text-lg font-semibold text-gray-800">Фильтры товаров</h3>
+          </div>
+
+          <div class="grid grid-cols-5 gap-4">
+            <!-- Бренды -->
+            <div class="relative">
+              <Listbox v-model="selectedBrands" multiple>
+                <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
+                  <span class="block truncate font-medium text-gray-700">
+                    {{ getBrandsLabel }}
+                  </span>
+                  <ChevronUpDownIcon class="h-5 w-5 text-gray-400 transition-transform duration-200" aria-hidden="true" />
+                </ListboxButton>
+
+                <transition
+                    leave-active-class="transition duration-100 ease-in"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
+                >
+                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-gray-200">
+                    <ListboxOption
+                        v-slot="{ active, selected }"
+                        v-for="brand in filtersStore.brands"
+                        :key="brand.id"
+                        :value="brand.id"
+                        as="template"
+                    >
+                      <li
+                          :class="[
+                          active ? 'bg-indigo-50 text-indigo-900' : 'text-gray-900',
+                          'relative cursor-pointer select-none py-3 pl-3 pr-9 transition-colors duration-200',
+                        ]"
+                      >
+                        <div class="flex items-center">
+                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
+                               :class="{
+                                 'bg-indigo-500 border-indigo-500': selected,
+                                 'bg-white': !selected
+                               }">
+                            <svg v-if="selected" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                          <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
+                            {{ brand.name }}
+                          </span>
+                        </div>
+                      </li>
+                    </ListboxOption>
+                  </ListboxOptions>
+                </transition>
+              </Listbox>
+            </div>
+
+            <!-- Страны -->
+            <div class="relative">
+              <Listbox v-model="selectedCountries" multiple>
+                <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
+                  <span class="block truncate font-medium text-gray-700">
+                    {{ getCountriesLabel }}
+                  </span>
+                  <ChevronUpDownIcon class="h-5 w-5 text-gray-400 transition-transform duration-200" aria-hidden="true" />
+                </ListboxButton>
+
+                <transition
+                    leave-active-class="transition duration-100 ease-in"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
+                >
+                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-gray-200">
+                    <ListboxOption
+                        v-slot="{ active, selected }"
+                        v-for="country in filtersStore.countries"
+                        :key="country.id"
+                        :value="country.id"
+                        as="template"
+                    >
+                      <li
+                          :class="[
+                          active ? 'bg-indigo-50 text-indigo-900' : 'text-gray-900',
+                          'relative cursor-pointer select-none py-3 pl-3 pr-9 transition-colors duration-200',
+                        ]"
+                      >
+                        <div class="flex items-center">
+                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
+                               :class="{
+                                 'bg-indigo-500 border-indigo-500': selected,
+                                 'bg-white': !selected
+                               }">
+                            <svg v-if="selected" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                          <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
+                            {{ country.name }}
+                          </span>
+                        </div>
+                      </li>
+                    </ListboxOption>
+                  </ListboxOptions>
+                </transition>
+              </Listbox>
+            </div>
+
+            <!-- Категории -->
+            <div class="relative">
+              <Listbox v-model="selectedCategories" multiple>
+                <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
+                  <span class="block truncate font-medium text-gray-700">
+                    {{ getCategoriesLabel }}
+                  </span>
+                  <ChevronUpDownIcon class="h-5 w-5 text-gray-400 transition-transform duration-200" aria-hidden="true" />
+                </ListboxButton>
+
+                <transition
+                    leave-active-class="transition duration-100 ease-in"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
+                >
+                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-gray-200">
+                    <ListboxOption
+                        v-slot="{ active, selected }"
+                        v-for="category in filtersStore.productCategories"
+                        :key="category.id"
+                        :value="category.id"
+                        as="template"
+                    >
+                      <li
+                          :class="[
+                          active ? 'bg-indigo-50 text-indigo-900' : 'text-gray-900',
+                          'relative cursor-pointer select-none py-3 pl-3 pr-9 transition-colors duration-200',
+                        ]"
+                      >
+                        <div class="flex items-center">
+                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
+                               :class="{
+                                 'bg-indigo-500 border-indigo-500': selected,
+                                 'bg-white': !selected
+                               }">
+                            <svg v-if="selected" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                          <span :class="[selected ? 'font-semibold' : 'font-normal', 'block truncate']">
+                            {{ category.name }}
+                          </span>
+                        </div>
+                      </li>
+                    </ListboxOption>
+                  </ListboxOptions>
+                </transition>
+              </Listbox>
+            </div>
+
+            <!-- Цена -->
+            <div class="relative">
+              <Popover v-slot="{ open }">
+                <PopoverButton
+                    class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm"
+                    :class="{ 'ring-2 ring-indigo-500 border-indigo-500': open }"
+                >
+                  <span class="block truncate font-medium text-gray-700">
+                    {{ getPriceLabel }}
+                  </span>
+                  <ChevronUpDownIcon
+                      class="h-5 w-5 text-gray-400 transition-transform duration-200"
+                      :class="{ 'rotate-180': open }"
+                      aria-hidden="true"
+                  />
+                </PopoverButton>
+
+                <transition
+                    enter-active-class="transition duration-200 ease-out"
+                    enter-from-class="opacity-0 scale-95"
+                    enter-to-class="opacity-100 scale-100"
+                    leave-active-class="transition duration-150 ease-in"
+                    leave-from-class="opacity-100 scale-100"
+                    leave-to-class="opacity-0 scale-95"
+                >
+                  <PopoverPanel
+                      class="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-50 p-4 transform"
+                  >
+                    <div class="space-y-4">
+                      <h4 class="font-semibold text-gray-800">Диапазон цен</h4>
+                      <div class="flex space-x-3">
+                        <div class="flex-1">
+                          <label class="block text-sm font-medium text-gray-700 mb-2">От</label>
+                          <input
+                              v-model.number="priceMin"
+                              type="number"
+                              placeholder="0"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                          >
+                        </div>
+                        <div class="flex-1">
+                          <label class="block text-sm font-medium text-gray-700 mb-2">До</label>
+                          <input
+                              v-model.number="priceMax"
+                              type="number"
+                              placeholder="99999"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                          >
+                        </div>
+                      </div>
+                      <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-600 font-medium">
+                          {{ priceMin || 0 }} - {{ priceMax || '∞' }} ₽
+                        </span>
+                        <button
+                            v-if="priceMin || priceMax"
+                            @click="clearPriceFilter"
+                            class="text-indigo-600 hover:text-indigo-800 text-sm font-medium transition-colors duration-200"
+                        >
+                          Сбросить
+                        </button>
+                      </div>
+                    </div>
+                  </PopoverPanel>
+                </transition>
+              </Popover>
+            </div>
+
+            <!-- Сортировка -->
+            <div class="relative">
+              <Listbox v-model="ordering">
+                <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
+                  <span class="block truncate font-medium text-gray-700">{{ getOrderingLabel(ordering) }}</span>
+                  <ChevronUpDownIcon class="h-5 w-5 text-gray-400 transition-transform duration-200" aria-hidden="true" />
+                </ListboxButton>
+
+                <transition
+                    leave-active-class="transition duration-100 ease-in"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
+                >
+                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-gray-200">
+                    <ListboxOption
+                        v-slot="{ active, selected }"
+                        v-for="option in sortOptions"
+                        :key="option.value"
+                        :value="option.value"
+                        as="template"
+                    >
+                      <li
+                          :class="[
+                          active ? 'bg-indigo-50 text-indigo-900' : 'text-gray-900',
+                          'relative cursor-pointer select-none py-3 pl-3 pr-9 transition-colors duration-200',
+                        ]"
+                      >
+                        <span :class="[selected ? 'font-semibold text-indigo-600' : 'font-normal', 'block truncate']">
+                          {{ option.label }}
+                        </span>
+                        <span
+                            v-if="selected"
+                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-indigo-600"
+                        >
+                          <CheckIcon class="h-5 w-5" aria-hidden="true" />
+                        </span>
+                      </li>
+                    </ListboxOption>
+                  </ListboxOptions>
+                </transition>
+              </Listbox>
+            </div>
+          </div>
         </div>
       </div>
 
+      <!-- Сетка товаров -->
       <div>
-        <div class="flex justify-between items-center mb-6">
-          <h1 class="text-2xl font-bold">Все товары</h1>
-          <span class="text-gray-600">{{ productStore.totalCount }} товаров</span>
+        <!-- Заголовок и счетчик -->
+        <div class="flex justify-between items-center mb-8">
+          <div class="flex items-center space-x-3">
+            <h2 class="text-2xl font-bold text-gray-800">Все товары</h2>
+            <div class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium">
+              {{ productStore.totalCount }} товаров
+            </div>
+          </div>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6" v-if="!productStore.isLoading">
+        <!-- Карточки товаров -->
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6" v-if="!productStore.isLoading">
           <ProductCard
               v-for="product in productStore.products"
               :key="product.id"
@@ -294,26 +612,44 @@
           />
         </div>
 
-        <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div v-for="i in 12" :key="i" class="bg-gray-200 rounded-lg h-80 animate-pulse"></div>
+        <div v-else class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+          <div v-for="i in 10" :key="i" class="bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl aspect-[3/4] animate-pulse shadow-sm"></div>
         </div>
 
         <div class="flex justify-center mt-12" v-if="productStore.totalCount > productStore.pageSize">
-          <button
-              @click="loadPage(productStore.currentPage - 1)"
-              :disabled="productStore.currentPage === 1"
-              class="px-4 py-2 border rounded-l-lg hover:bg-gray-50 disabled:opacity-50"
-          >
-            Назад
-          </button>
-          <span class="px-4 py-2 border-t border-b">{{ productStore.currentPage }}</span>
-          <button
-              @click="loadPage(productStore.currentPage + 1)"
-              :disabled="productStore.currentPage * productStore.pageSize >= productStore.totalCount"
-              class="px-4 py-2 border rounded-r-lg hover:bg-gray-50 disabled:opacity-50"
-          >
-            Вперед
-          </button>
+          <div class="flex items-center space-x-2 bg-white rounded-2xl shadow-lg border border-gray-100 p-2">
+            <button
+                @click="loadPage(productStore.currentPage - 1)"
+                :disabled="productStore.currentPage === 1"
+                class="flex items-center space-x-2 px-4 py-3 rounded-xl text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+              <span class="font-medium">Назад</span>
+            </button>
+
+            <div class="flex items-center space-x-1 mx-4">
+              <span class="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-lg">
+                {{ productStore.currentPage }}
+              </span>
+              <span class="text-gray-500 mx-2">из</span>
+              <span class="text-gray-700 font-medium">
+                {{ Math.ceil(productStore.totalCount / productStore.pageSize) }}
+              </span>
+            </div>
+
+            <button
+                @click="loadPage(productStore.currentPage + 1)"
+                :disabled="productStore.currentPage * productStore.pageSize >= productStore.totalCount"
+                class="flex items-center space-x-2 px-4 py-3 rounded-xl text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+            >
+              <span class="font-medium">Вперед</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -333,6 +669,9 @@ import {
   Popover,
   PopoverButton,
   PopoverPanel,
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
 } from '@headlessui/vue'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/vue/20/solid'
 import AppHeader from '@/components/AppHeader.vue'
@@ -353,6 +692,7 @@ const selectedCategories = ref<number[]>([])
 const priceMin = ref<number>()
 const priceMax = ref<number>()
 const ordering = ref<ProductOrdering>(ProductOrdering.PRICE_DEFAULT)
+const showMobileFilters = ref(false)
 
 const sortOptions = [
   { value: ProductOrdering.PRICE_DEFAULT, label: 'По умолчанию' },
@@ -407,8 +747,8 @@ const filters = computed(() => ({
   product_category: selectedCategories.value.length > 0
       ? selectedCategories.value
       : route.params.chapterId
-      ? [Number(route.params.chapterId)]
-      : []
+          ? [Number(route.params.chapterId)]
+          : []
 }))
 
 const clearPriceFilter = () => {
@@ -426,8 +766,6 @@ const loadPage = (page: number) => {
 }
 
 onMounted(async () => {
-  await filtersStore.fetchBrands()
-  await filtersStore.fetchCountries()
   await productStore.fetchProducts(filters.value)
   await filtersStore.fetchProductCategories(Number(route.params.chapterId))
 })

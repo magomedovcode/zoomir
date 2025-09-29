@@ -38,7 +38,7 @@
               >
                 <img
                     v-if="variant.product_images.length > 0"
-                    :src="MEDIA_URL + variant.product_images[0].image"
+                    :src=" variant.product_images[0].image"
                     :alt="variant.name"
                     class="h-full w-full object-cover object-center rounded-md"
                 >
@@ -50,7 +50,7 @@
           <div class="w-full aspect-w-1 aspect-h-1">
             <img
                 v-if="currentVariant.product_images.length > 0"
-                :src="MEDIA_URL + currentVariant.product_images[0].image"
+                :src="currentVariant.product_images[0].image"
                 :alt="currentVariant.name"
                 class="w-full h-96 object-cover object-center rounded-lg"
             >
@@ -244,7 +244,6 @@ import { useCartStore } from '@/stores/cartStore'
 import { useAuthStore } from '@/stores/authStore'
 import { useFavoriteProductStore } from '@/stores/favoriteProductStore'
 import { useReviewStore } from '@/stores/reviewStore'
-import { MEDIA_URL } from '@/services/baseURL'
 import type { CreateReviewBody } from '@/types'
 import AppFooter from "@/components/AppFooter.vue";
 
