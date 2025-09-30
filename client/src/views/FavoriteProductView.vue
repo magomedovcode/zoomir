@@ -49,7 +49,6 @@
             v-for="favorite in favoritesStore.favoriteProducts"
             :key="favorite.id"
             :product="favorite.product"
-            class="transform transition-all duration-300 hover:scale-105"
         />
       </div>
 

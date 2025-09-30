@@ -11,6 +11,7 @@ import {
     createWebHistory
 } from 'vue-router';
 import ProductChaptersView from "@/views/ProductChaptersView.vue";
+import CheckoutView from "@/views/CheckoutView.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -26,10 +27,6 @@ const router = createRouter({
         {
             path: '/register',
             component: RegisterView
-        },
-        {
-            path: '/shop',
-            component: ShopView
         },
         {
             path: '/chapters',
@@ -48,6 +45,13 @@ const router = createRouter({
         {
             path: '/favorites',
             component: FavoriteProductView,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/checkout',
+            component: CheckoutView,
             meta: {
                 requiresAuth: true
             }

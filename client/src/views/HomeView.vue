@@ -32,12 +32,6 @@
                 </svg>
                 В магазин
               </span>
-
-              <div class="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-              <div class="absolute inset-0 overflow-hidden">
-                <div class="absolute -inset-y-full -left-20 group-hover:left-full w-20 bg-white/30 skew-x-12 transition-all duration-1000 group-hover:duration-500"></div>
-              </div>
             </router-link>
           </div>
         </div>
@@ -95,9 +89,9 @@
           </p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12" v-if="!productStore.isLoading">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 mb-12" v-if="!productStore.isLoading">
           <ProductCard
-              v-for="(product, index) in productStore.products.slice(0, 8)"
+              v-for="(product, index) in productStore.products.slice(0, 10)"
               :key="product.id"
               :product="product"
               class="transform transition-all duration-500 hover:scale-105 animate-fade-in-up"

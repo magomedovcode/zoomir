@@ -6,20 +6,18 @@
         :to="`/details/${product.product_id}`"
         class="block relative z-10"
     >
-      <!-- Картинка -->
       <div
           class="relative overflow-hidden rounded-t-lg sm:rounded-t-2xl aspect-[4/5] sm:aspect-[4/4]"
       >
         <img
             :src="MEDIA_URL + product.first_image"
             :alt="product.product_title"
-            class="w-full h-56 object-contain transform group-hover:scale-105 sm:group-hover:scale-110 transition-transform duration-700"
+            class="w-full h-full object-contain transform group-hover:scale-105 sm:group-hover:scale-110 transition-transform duration-700"
         />
         <div
             class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         ></div>
 
-        <!-- Кнопка избранного -->
         <button
             @click.prevent="toggleFavorite"
             class="absolute top-2 right-2 sm:top-3 sm:right-3 w-7 h-7 sm:w-10 sm:h-10 bg-white/90 backdrop-blur-sm rounded-full shadow flex items-center justify-center transform transition-all duration-300 hover:scale-110 hover:bg-white"
@@ -45,18 +43,14 @@
         </button>
       </div>
 
-      <!-- Контент -->
       <div class="p-3 sm:p-4 md:p-5 relative z-10">
-        <!-- Заголовок -->
         <h3
             class="font-medium sm:font-semibold text-gray-800 mb-2 line-clamp-2 group-hover:text-indigo-700 transition-colors duration-300 leading-snug text-sm sm:text-base"
         >
           {{ product.product_title }}
         </h3>
 
-        <!-- Цена и рейтинг -->
         <div class="mb-3 sm:mb-4">
-          <!-- Цена -->
           <span
               class="block text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent mb-1 sm:mb-2"
           >
@@ -68,7 +62,6 @@
             }}
           </span>
 
-          <!-- Рейтинг и отзывы -->
           <div class="flex items-center space-x-1">
             <svg
                 class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-current"
@@ -87,7 +80,6 @@
           </div>
         </div>
 
-        <!-- Кнопка корзины -->
         <button
             @click.prevent="addToCart"
             :disabled="cartStore.isLoading"

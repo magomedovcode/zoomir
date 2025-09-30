@@ -584,7 +584,7 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6" v-if="!productStore.isLoading">
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6" v-if="!productStore.isLoading">
           <ProductCard
               v-for="product in productStore.products"
               :key="product.id"

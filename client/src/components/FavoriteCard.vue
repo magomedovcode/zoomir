@@ -77,27 +77,10 @@
 
 <script setup lang="ts">
 import type { Product } from "@/types";
-import {useFavoriteProductStore} from "@/stores/favoriteProductStore.ts";
-import {computed} from "vue";
 
 interface Props {
   product: Product
 }
 
-const props = defineProps<Props>()
-const favoritesStore = useFavoriteProductStore()
-
-const isFavorite = computed(() => {
-  return favoritesStore.favoriteProducts.some(fp => fp.product.id === props.product.id)
-})
-
-const toggleFavorite = async () => {
-  if (isFavorite.value) {
-    await favoritesStore.removeFromFavorite(props.product.id);
-    await favoritesStore.fetchFavoriteProducts();
-  } else {
-    await favoritesStore.addToFavorite(props.product.id);
-    await favoritesStore.fetchFavoriteProducts();
-  }
-}
+defineProps<Props>()
 </script>
