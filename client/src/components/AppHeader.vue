@@ -2,7 +2,6 @@
   <header class="bg-white shadow-lg border-b border-gray-100 sticky top-0 z-50 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-16 md:h-20">
-        <!-- Логотип -->
         <router-link
             to="/"
             class="flex items-center space-x-2 group transition-all duration-300 hover:scale-105"
@@ -17,7 +16,6 @@
           </span>
         </router-link>
 
-        <!-- Навигация -->
         <nav class="hidden md:flex space-x-8">
           <router-link
               to="/"
@@ -66,9 +64,7 @@
           </router-link>
         </nav>
 
-        <!-- Действия пользователя -->
         <div class="flex items-center space-x-3 md:space-x-4">
-          <!-- Избранное -->
           <router-link
               to="/favorites"
               class="relative p-2.5 rounded-xl text-gray-600 hover:text-indigo-600 transition-all duration-300 hover:bg-indigo-50 group"
@@ -84,7 +80,6 @@
             </span>
           </router-link>
 
-          <!-- Корзина -->
           <router-link
               to="/cart"
               class="relative p-2.5 rounded-xl text-gray-600 hover:text-indigo-600 transition-all duration-300 hover:bg-indigo-50 group"
@@ -100,7 +95,6 @@
             </span>
           </router-link>
 
-          <!-- Профиль пользователя -->
           <div class="relative" v-if="authStore.isAuthenticated">
             <div class="flex items-center space-x-3">
               <div class="flex items-center space-x-2">
@@ -118,7 +112,6 @@
             </div>
           </div>
 
-          <!-- Кнопки входа/регистрации -->
           <div v-else class="flex items-center space-x-3">
             <router-link
                 to="/login"

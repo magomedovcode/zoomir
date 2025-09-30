@@ -3,7 +3,6 @@
     <AppHeader />
 
     <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Заголовок страницы -->
       <div class="text-center mb-12">
         <div class="flex justify-center items-center mb-4">
           <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center shadow-lg">
@@ -18,7 +17,6 @@
         <p class="text-gray-600 max-w-2xl mx-auto">Товары, которые вам особенно понравились</p>
       </div>
 
-      <!-- Заголовок и управление -->
       <div class="flex flex-col sm:flex-row justify-between items-center mb-8 p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
         <div class="flex items-center space-x-3 mb-4 sm:mb-0">
           <div class="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center">
@@ -46,7 +44,6 @@
         </button>
       </div>
 
-      <!-- Сетка избранных товаров -->
       <div v-if="favoritesStore.favoriteProducts.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
         <FavoriteCard
             v-for="favorite in favoritesStore.favoriteProducts"
@@ -56,7 +53,6 @@
         />
       </div>
 
-      <!-- Состояние пустого избранного -->
       <div v-else class="text-center py-16 max-w-2xl mx-auto">
         <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-12">
           <div class="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-pink-100 to-rose-100 rounded-full flex items-center justify-center">
@@ -86,7 +82,6 @@
         </div>
       </div>
 
-      <!-- Пагинация -->
       <div class="flex justify-center mt-8 sm:mt-12" v-if="favoritesStore.totalCount > favoritesStore.pageSize">
         <div class="flex items-center space-x-2 bg-white rounded-2xl shadow-lg border border-gray-100 p-2">
           <button

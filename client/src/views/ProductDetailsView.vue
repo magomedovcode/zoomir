@@ -1,237 +1,570 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-50">
+  <div class="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-indigo-50/30">
     <AppHeader />
 
-    <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" v-if="productStore.productDetail">
-      <nav class="flex mb-8" aria-label="Breadcrumb">
-        <ol class="flex items-center space-x-4">
+    <main class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <nav class="flex mb-8 animate-fade-in-up">
+        <ol class="flex items-center space-x-2 text-sm">
           <li>
-            <router-link to="/chapters" class="text-gray-400 hover:text-gray-500">Разделы</router-link>
-          </li>
-          <li>
-            <span class="text-gray-400">/</span>
-          </li>
-          <li>
-            <router-link :to="`/shop/${productStore.productDetail.product_category.product_chapter.id}`" class="text-gray-400 hover:text-gray-500">
-              {{ productStore.productDetail.product_category.product_chapter.name }}
+            <router-link to="/" class="text-indigo-600 hover:text-indigo-700 font-medium transition-colors duration-300">
+              Главная
             </router-link>
           </li>
-          <li>
-            <span class="text-gray-400">/</span>
+          <li class="flex items-center">
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
           </li>
           <li>
-            <span class="text-gray-600">{{ productStore.productDetail.title }}</span>
+            <router-link
+                :to="`/shop/${productDetail?.product_category?.product_chapter?.id}`"
+                class="text-indigo-600 hover:text-indigo-700 font-medium transition-colors duration-300"
+            >
+              {{ productDetail?.product_category?.product_chapter?.name }}
+            </router-link>
           </li>
+          <li class="flex items-center">
+            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </li>
+          <li class="text-gray-600">{{ productDetail?.title }}</li>
         </ol>
       </nav>
 
-      <div class="lg:grid lg:grid-cols-2 lg:gap-x-8">
-        <div class="flex flex-col-reverse">
-          <div class="w-full max-w-2xl mx-auto mt-6 sm:block lg:max-w-none">
-            <div class="grid grid-cols-4 gap-2" aria-orientation="horizontal">
+      <div v-if="productDetail" class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-8">
+        <div class="animate-fade-in-up">
+          <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+            <div class="relative mb-4 rounded-xl overflow-hidden bg-gray-100 cursor-zoom-in">
+              <img
+                  :src="currentImage"
+                  :alt="productDetail.title"
+                  class="w-full h-full object-cover rounded-xl transform transition-transform duration-700"
+                  :class="{'scale-105': isZoomed}"
+                  @click="openFullscreen"
+              />
+
               <button
-                  v-for="(variant, variantIndex) in productStore.productDetail.product_variants"
-                  :key="variant.id"
-                  class="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
-                  :class="{ 'ring-2 ring-indigo-500': selectedVariantIndex === variantIndex }"
-                  @click="selectedVariantIndex = variantIndex"
+                  v-if="currentVariantImages.length > 1"
+                  @click="previousImage"
+                  class="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white hover:shadow-xl transition-all duration-300 group/nav"
+                  :disabled="currentImageIndex === 0"
               >
-                <img
-                    v-if="variant.product_images.length > 0"
-                    :src=" variant.product_images[0].image"
-                    :alt="variant.name"
-                    class="h-full w-full object-cover object-center rounded-md"
+                <svg class="w-5 h-5 text-gray-700 group-hover/nav:text-indigo-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+              </button>
+
+              <button
+                  v-if="currentVariantImages.length > 1"
+                  @click="nextImage"
+                  class="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white hover:shadow-xl transition-all duration-300 group/nav"
+                  :disabled="currentImageIndex === currentVariantImages.length - 1"
+              >
+                <svg class="w-5 h-5 text-gray-700 group-hover/nav:text-indigo-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </button>
+
+              <div v-if="currentVariantImages.length > 1" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                <div
+                    v-for="(_, index) in currentVariantImages"
+                    :key="index"
+                    class="w-2 h-2 rounded-full transition-all duration-300"
+                    :class="index === currentImageIndex ? 'bg-white scale-125' : 'bg-white/50'"
+                ></div>
+              </div>
+
+              <button
+                  @click="toggleFavorite"
+                  class="absolute top-4 right-4 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transform transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-xl group/fav"
+              >
+                <svg
+                    class="w-6 h-6 transform transition-all duration-300 group-hover/fav:scale-110"
+                    :class="isFavorite ?
+                    'text-red-500 fill-current drop-shadow-sm' :
+                    'text-gray-400 hover:text-red-400'"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                 >
-                <span v-else class="text-gray-400">Нет изображения</span>
+                  <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  />
+                </svg>
+              </button>
+
+              <button
+                  @click="openFullscreen"
+                  class="absolute top-4 left-4 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transform transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-xl group/fullscreen"
+              >
+                <svg class="w-6 h-6 text-gray-700 group-hover/fullscreen:text-indigo-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3-3H7"/>
+                </svg>
               </button>
             </div>
-          </div>
 
-          <div class="w-full aspect-w-1 aspect-h-1">
-            <img
-                v-if="currentVariant.product_images.length > 0"
-                :src="currentVariant.product_images[0].image"
-                :alt="currentVariant.name"
-                class="w-full h-96 object-cover object-center rounded-lg"
-            >
-            <div v-else class="w-full h-96 bg-gray-200 rounded-lg flex items-center justify-center">
-              <span class="text-gray-400">Нет изображения</span>
+            <div class="grid grid-cols-5 gap-3" v-if="currentVariantImages.length > 1">
+              <button
+                  v-for="(image, index) in currentVariantImages"
+                  :key="image.id"
+                  @click="setCurrentImage(index)"
+                  class="relative rounded-lg border-2 transition-all duration-300 overflow-hidden group/thumb"
+                  :class="currentImageIndex === index ?
+                  'border-indigo-500 shadow-md' :
+                  'border-gray-200 hover:border-indigo-300'"
+              >
+                <img
+                    :src="image.image"
+                    :alt="`${productDetail.title} - изображение ${index + 1}`"
+                    class="w-full h-20 object-cover transform group-hover/thumb:scale-110 transition-transform duration-500"
+                />
+              </button>
             </div>
           </div>
         </div>
 
-        <div class="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
-          <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">{{ productStore.productDetail.title }}</h1>
-
-          <div class="mt-3">
-            <h2 class="sr-only">Информация о товаре</h2>
-            <p class="text-3xl text-gray-900">{{ currentVariant.price }} ₽</p>
-          </div>
-
-          <div class="mt-6">
-            <h3 class="sr-only">Описание</h3>
-            <div class="text-base text-gray-700 space-y-6">
-              <p>{{ productStore.productDetail.description }}</p>
+        <div class="animate-fade-in-up animation-delay-300">
+          <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+            <div class="mb-4">
+              <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ productDetail.title }}</h1>
+              <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-2">
+                  <div class="flex">
+                    <svg
+                        v-for="star in 5"
+                        :key="star"
+                        class="w-5 h-5"
+                        :class="star <= Math.round(productDetail.average_rating || 0) ?
+                        'text-yellow-400 fill-current' :
+                        'text-gray-300 fill-current'"
+                        viewBox="0 0 20 20"
+                    >
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                  </div>
+                  <span class="text-lg font-semibold text-gray-700">{{ productDetail.average_rating || 0 }}</span>
+                  <span class="text-gray-500">({{ productDetail.reviews_count }} отзывов)</span>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div class="mt-6">
-            <div class="flex items-center">
-              <h3 class="text-sm text-gray-600">Вариант:</h3>
-              <span class="ml-2 text-sm font-medium text-gray-900">{{ currentVariant.name }}</span>
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <p class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent">
+                  {{ Intl.NumberFormat('ru-RU').format(+(currentVariant?.price || productDetail.product_variants[0]?.price)) }} ₽
+                </p>
+              </div>
             </div>
 
-            <div class="mt-2">
-              <div class="flex items-center space-x-2">
+            <div class="mt-4 mb-8">
+              <h3 class="text-sm font-medium text-gray-700 mb-3">Варианты товара:</h3>
+              <div class="flex flex-wrap gap-2">
                 <button
-                    v-for="(variant, index) in productStore.productDetail.product_variants"
+                    v-for="variant in productDetail.product_variants"
                     :key="variant.id"
-                    @click="selectedVariantIndex = index"
-                    class="relative flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-3 text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    :class="{ 'ring-2 ring-indigo-500': selectedVariantIndex === index }"
+                    @click="selectVariant(variant)"
+                    class="px-3 py-2 rounded-lg border-2 transition-all duration-300 text-sm font-medium"
+                    :class="currentVariant?.id === variant.id ?
+                    'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-sm' :
+                    'border-gray-200 text-gray-700 hover:border-indigo-300 hover:bg-indigo-50/50'"
                 >
                   {{ variant.name }}
                 </button>
               </div>
             </div>
-          </div>
 
-          <div class="mt-6" v-for="attrCategory in currentVariant.attributes" :key="attrCategory.id">
-            <h3 class="text-sm font-medium text-gray-900">{{ attrCategory.name }}</h3>
-            <div class="mt-2">
-              <div class="flex flex-wrap gap-2">
-                <span
-                    v-for="attr in attrCategory.attributes"
-                    :key="attr.id"
-                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800"
-                >
-                  {{ attr.name }}: {{ attr.value }}
-                </span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+              <div class="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl">
+                <div class="w-12 h-12 bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center p-2">
+                  <img
+                      v-if="productDetail.brand.logo"
+                      :src="productDetail.brand.logo"
+                      :alt="productDetail.brand.name"
+                      class="w-full h-full object-contain"
+                  >
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Бренд</p>
+                  <p class="font-semibold text-gray-800">{{ productDetail.brand.name }}</p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl">
+                <div class="w-12 h-12 bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center p-1">
+                  <img
+                      v-if="productDetail.country.flag"
+                      :src="productDetail.country.flag"
+                      :alt="productDetail.country.name"
+                      class="w-full h-full object-contain rounded"
+                  >
+                </div>
+                <div>
+                  <p class="text-sm text-gray-500">Страна</p>
+                  <p class="font-semibold text-gray-800">{{ productDetail.country.name }}</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="mt-6">
-            <div class="flex items-center space-x-4">
-              <span class="text-sm text-gray-600">Бренд: {{ productStore.productDetail.brand.name }}</span>
-              <span class="text-sm text-gray-600">Страна: {{ productStore.productDetail.country.name }}</span>
+            <div class="mb-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">Характеристики</h3>
+              <div class="space-y-3">
+                <div
+                    v-for="(attribute, index) in displayedAttributes"
+                    :key="attribute.id"
+                    class="flex justify-between py-2 border-b border-gray-100 last:border-b-0"
+                    :class="{'animate-fade-in': index < 3}"
+                >
+                  <span class="text-sm text-gray-600">{{ attribute.name }}:</span>
+                  <span class="text-sm font-medium text-gray-800 text-right">{{ attribute.value }}</span>
+                </div>
+
+                <!-- Кнопка показать все/скрыть -->
+                <button
+                    v-if="allAttributes.length > 3"
+                    @click="showAllAttributes = !showAllAttributes"
+                    class="w-full mt-3 px-4 py-2 text-indigo-600 hover:text-indigo-700 font-medium text-sm transition-all duration-300 rounded-lg hover:bg-indigo-50 flex items-center justify-center space-x-2"
+                >
+                  <span>{{ showAllAttributes ? 'Скрыть' : 'Показать все' }}</span>
+                  <svg
+                      class="w-4 h-4 transform transition-transform duration-300"
+                      :class="{'rotate-180': showAllAttributes}"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-6">
+
+
+              <button
+                  @click="addToCart"
+                  :disabled="cartStore.isLoading"
+                  class="group/btn relative w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-500 transform overflow-hidden"
+                  :class="isInCart ?
+                  'bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white shadow-lg hover:shadow-xl' :
+                  'bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 text-white shadow-lg hover:shadow-xl'"
+              >
+                <span class="relative z-10 flex items-center justify-center">
+                  <svg
+                      v-if="cartStore.isLoading"
+                      class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                  >
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+
+                  <svg
+                      v-else-if="isInCart"
+                      class="w-6 h-6 mr-3 transform group-hover/btn:scale-110 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+
+                  <svg
+                      v-else
+                      class="w-6 h-6 mr-3 transform group-hover/btn:scale-110 transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                  </svg>
+
+                  {{ isInCart ? 'Товар в корзине' : 'Добавить в корзину' }}
+                </span>
+              </button>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="mt-10 flex space-x-4">
-            <button
-                @click="addToCart"
-                class="flex-1 bg-indigo-600 border border-transparent rounded-md py-3 px-8 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                :disabled="cartStore.isLoading"
+      <div v-if="productDetail" class="mb-16 animate-fade-in-up animation-delay-500">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+          <h2 class="text-2xl font-bold text-gray-800 mb-6">Описание товара</h2>
+          <div class="prose prose-lg max-w-none">
+            <div
+                class="text-gray-600 leading-relaxed transition-all duration-500"
+                :class="showFullDescription ? 'max-h-none' : 'max-h-32 overflow-hidden'"
             >
-              {{ cartStore.isLoading ? 'Добавление...' : 'В корзину' }}
-            </button>
+              <p>{{ productDetail.description }}</p>
+            </div>
+
             <button
-                @click="toggleFavorite"
-                class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                v-if="productDetail.description.length > 200"
+                @click="showFullDescription = !showFullDescription"
+                class="mt-4 px-6 py-2 text-indigo-600 hover:text-indigo-700 font-medium text-sm transition-all duration-300 rounded-lg hover:bg-indigo-50 flex items-center space-x-2"
             >
+              <span>{{ showFullDescription ? 'Скрыть' : 'Показать всё' }}</span>
               <svg
-                  class="w-6 h-6"
-                  :class="isFavorite ? 'text-red-500 fill-current' : 'text-gray-400'"
+                  class="w-4 h-4 transform transition-transform duration-300"
+                  :class="{'rotate-180': showFullDescription}"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
               >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
               </svg>
             </button>
           </div>
         </div>
       </div>
 
-      <section aria-labelledby="reviews-heading" class="mt-16 sm:mt-24">
-        <h2 id="reviews-heading" class="text-lg font-medium text-gray-900">Отзывы</h2>
-
-        <div class="mt-4">
-          <div class="flex items-center mb-4">
-            <div class="flex items-center">
-              <svg v-for="rating in [0,1,2,3,4]" :key="rating" class="w-5 h-5" :class="rating < productStore.productDetail.average_rating ? 'text-yellow-400' : 'text-gray-300'" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-              </svg>
-            </div>
-            <p class="ml-3 text-sm text-gray-700">{{ productStore.productDetail.average_rating }} из 5</p>
-            <p class="ml-3 text-sm text-gray-500">на основе {{ productStore.productDetail.reviews_count }} отзывов</p>
-          </div>
-
-          <button
-              v-if="authStore.isAuthenticated"
-              @click="showReviewForm = true"
-              class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700"
-          >
-            Написать отзыв
-          </button>
-
-          <div v-if="showReviewForm" class="mt-4 bg-white p-4 rounded-lg shadow-sm border">
-            <h3 class="text-lg font-medium mb-4">Добавить отзыв</h3>
-            <form @submit.prevent="submitReview">
-              <div class="mb-4">
-                <label for="title" class="block text-sm font-medium text-gray-700">Заголовок</label>
-                <input type="text" id="title" v-model="reviewForm.title" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-              </div>
-              <div class="mb-4">
-                <label for="rating" class="block text-sm font-medium text-gray-700">Оценка</label>
-                <select id="rating" v-model.number="reviewForm.rating" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">
-                  <option value="5">5 - Отлично</option>
-                  <option value="4">4 - Хорошо</option>
-                  <option value="3">3 - Удовлетворительно</option>
-                  <option value="2">2 - Плохо</option>
-                  <option value="1">1 - Ужасно</option>
-                </select>
-              </div>
-              <div class="mb-4">
-                <label for="comment" class="block text-sm font-medium text-gray-700">Комментарий</label>
-                <textarea id="comment" v-model="reviewForm.comment" required rows="4" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"></textarea>
-              </div>
-              <div class="flex space-x-2">
-                <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Отправить</button>
-                <button type="button" @click="showReviewForm = false" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Отмена</button>
-              </div>
-            </form>
-          </div>
-
-          <div class="mt-4 space-y-4">
-            <div v-for="review in productStore.productDetail.reviews" :key="review.id" class="bg-white p-4 rounded-lg shadow-sm border">
-              <div class="flex items-center">
-                <div class="flex items-center">
-                  <svg v-for="rating in [0,1,2,3,4]" :key="rating" class="w-5 h-5" :class="rating < review.rating ? 'text-yellow-400' : 'text-gray-300'" fill="currentColor" viewBox="0 0 20 20">
+      <section class="mb-16 animate-fade-in-up animation-delay-500">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+          <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl font-bold text-gray-800">Отзывы покупателей</h2>
+            <div class="flex items-center space-x-4">
+              <div class="text-center">
+                <p class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent">
+                  {{ productDetail?.average_rating || 0 }}
+                </p>
+                <div class="flex justify-center">
+                  <svg
+                      v-for="star in 5"
+                      :key="star"
+                      class="w-4 h-4"
+                      :class="star <= Math.round(productDetail?.average_rating || 0) ?
+                      'text-yellow-400 fill-current' :
+                      'text-gray-300 fill-current'"
+                      viewBox="0 0 20 20"
+                  >
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                   </svg>
                 </div>
-                <p class="ml-3 text-sm font-medium text-gray-900">{{ review.title }}</p>
+                <p class="text-sm text-gray-500 mt-1">{{ productDetail?.reviews_count }} отзывов</p>
               </div>
-              <p class="mt-1 text-sm text-gray-700">{{ review.comment }}</p>
-              <p class="mt-1 text-sm text-gray-500">От {{ review.user }} · {{ formatDate(review.date) }}</p>
+            </div>
+          </div>
+
+          <div v-if="authStore.isAuthenticated && !userHasReviewed" class="mb-8">
+            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 border border-indigo-100">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">Оставить отзыв</h3>
+              <form @submit.prevent="submitReview" class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Оценка</label>
+                  <div class="flex space-x-1">
+                    <button
+                        v-for="star in 5"
+                        :key="star"
+                        type="button"
+                        @click="newReview.rating = star"
+                        class="transform transition-all duration-300 hover:scale-110"
+                    >
+                      <svg
+                          class="w-8 h-8"
+                          :class="star <= newReview.rating ?
+                          'text-yellow-400 fill-current' :
+                          'text-gray-300 fill-current hover:text-yellow-300'"
+                          viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <label for="reviewTitle" class="block text-sm font-medium text-gray-700 mb-2">Заголовок</label>
+                  <input
+                      id="reviewTitle"
+                      v-model="newReview.title"
+                      type="text"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
+                      placeholder="Краткое описание отзыва"
+                  >
+                </div>
+
+                <div>
+                  <label for="reviewComment" class="block text-sm font-medium text-gray-700 mb-2">Комментарий</label>
+                  <textarea
+                      id="reviewComment"
+                      v-model="newReview.comment"
+                      required
+                      rows="4"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
+                      placeholder="Подробно опишите ваш опыт использования товара"
+                  ></textarea>
+                </div>
+
+                <button
+                    type="submit"
+                    :disabled="reviewStore.isLoading"
+                    class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-700 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50"
+                >
+                  {{ reviewStore.isLoading ? 'Отправка...' : 'Опубликовать отзыв' }}
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <div
+                v-for="review in productDetail?.reviews"
+                :key="review.id"
+                class="border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-all duration-300"
+            >
+              <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                  <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                    {{ review.user.charAt(0).toUpperCase() }}
+                  </div>
+                  <div>
+                    <p class="font-semibold text-gray-800">{{ review.user }}</p>
+                    <p class="text-sm text-gray-500">{{ formatDate(review.date) }}</p>
+                  </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                  <div class="flex items-center space-x-1">
+                    <div class="flex">
+                      <svg
+                          v-for="star in 5"
+                          :key="star"
+                          class="w-4 h-4"
+                          :class="star <= review.rating ?
+                          'text-yellow-400 fill-current' :
+                          'text-gray-300 fill-current'"
+                          viewBox="0 0 20 20"
+                      >
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                      </svg>
+                    </div>
+                    <span class="text-sm font-medium text-gray-700">{{ review.rating }}</span>
+                  </div>
+
+                  <button
+                      v-if="authStore.isAuthenticated && review.user === authStore.user?.username"
+                      @click="deleteReview(review.id)"
+                      class="text-red-500 hover:text-red-700 transition-colors duration-300 p-2 rounded-lg hover:bg-red-50"
+                      title="Удалить отзыв"
+                  >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <h4 class="font-semibold text-gray-800 mb-2">{{ review.title }}</h4>
+              <p class="text-gray-600 leading-relaxed">{{ review.comment }}</p>
+            </div>
+
+            <div v-if="productDetail?.reviews.length === 0" class="text-center py-12">
+              <div class="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+              </div>
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">Отзывов пока нет</h3>
+              <p class="text-gray-600">Будьте первым, кто оставит отзыв об этом товаре!</p>
             </div>
           </div>
         </div>
       </section>
-    </div>
 
-    <div v-else-if="productStore.isLoading" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="animate-pulse">
-        <div class="h-6 bg-gray-200 rounded w-1/4 mb-8"></div>
-        <div class="grid lg:grid-cols-2 lg:gap-x-8">
-          <div class="space-y-4">
-            <div class="h-96 bg-gray-200 rounded"></div>
-            <div class="grid grid-cols-4 gap-2">
-              <div class="h-24 bg-gray-200 rounded" v-for="i in 4" :key="i"></div>
-            </div>
-          </div>
-          <div class="space-y-4 mt-10 lg:mt-0">
-            <div class="h-8 bg-gray-200 rounded w-3/4"></div>
-            <div class="h-6 bg-gray-200 rounded w-1/4"></div>
-            <div class="h-4 bg-gray-200 rounded w-full" v-for="i in 6" :key="i"></div>
-          </div>
+      <section class="animate-fade-in-up animation-delay-700">
+        <h2 class="text-2xl font-bold text-gray-800 mb-8">Похожие товары</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <ProductCard
+              v-for="similarProduct in similarProducts"
+              :key="similarProduct.id"
+              :product="similarProduct"
+              class="transform transition-all duration-500 hover:scale-105"
+          />
+        </div>
+      </section>
+    </main>
+
+    <AppFooter />
+
+    <div v-if="isFullscreen" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+      <div class="relative w-full h-full flex items-center justify-center">
+        <button
+            @click="closeFullscreen"
+            class="absolute top-4 right-4 z-10 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 group/close"
+        >
+          <svg class="w-6 h-6 text-white group-hover/close:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+
+        <button
+            v-if="currentVariantImages.length > 1"
+            @click="previousImage"
+            class="absolute left-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 group/nav"
+            :disabled="currentImageIndex === 0"
+        >
+          <svg class="w-6 h-6 text-white group-hover/nav:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+
+        <button
+            v-if="currentVariantImages.length > 1"
+            @click="nextImage"
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 z-10 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 group/nav"
+            :disabled="currentImageIndex === currentVariantImages.length - 1"
+        >
+          <svg class="w-6 h-6 text-white group-hover/nav:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <img
+            :src="currentImage"
+            :alt="productDetail?.title"
+            class="max-w-full max-h-full object-contain rounded-lg transform transition-transform duration-500"
+            :style="{ transform: `scale(${fullscreenZoom})` }"
+        />
+
+        <div v-if="currentVariantImages.length > 1" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
+          <div
+              v-for="(_, index) in currentVariantImages"
+              :key="index"
+              class="w-3 h-3 rounded-full transition-all duration-300 cursor-pointer"
+              :class="index === currentImageIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/70'"
+              @click="setCurrentImage(index)"
+          ></div>
+        </div>
+
+        <div class="absolute bottom-4 right-4 z-10 text-white/80 text-sm">
+          {{ currentImageIndex + 1 }} / {{ currentVariantImages.length }}
+        </div>
+
+        <div class="absolute bottom-4 left-4 z-10 flex space-x-2">
+          <button
+              @click="zoomOut"
+              class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 group/zoom"
+              :disabled="fullscreenZoom <= 1"
+          >
+            <svg class="w-5 h-5 text-white group-hover/zoom:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
+            </svg>
+          </button>
+          <button
+              @click="zoomIn"
+              class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 group/zoom"
+              :disabled="fullscreenZoom >= 3"
+          >
+            <svg class="w-5 h-5 text-white group-hover/zoom:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
-
-    <AppFooter />
   </div>
 </template>
 
@@ -239,79 +572,248 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue'
+import AppFooter from '@/components/AppFooter.vue'
+import ProductCard from '@/components/ProductCard.vue'
 import { useProductStore } from '@/stores/productStore'
-import { useCartStore } from '@/stores/cartStore'
 import { useAuthStore } from '@/stores/authStore'
+import { useCartStore } from '@/stores/cartStore'
 import { useFavoriteProductStore } from '@/stores/favoriteProductStore'
 import { useReviewStore } from '@/stores/reviewStore'
-import type { CreateReviewBody } from '@/types'
-import AppFooter from "@/components/AppFooter.vue";
+import type { VariantInProduct, CreateReviewBody, ProductVariant, ProductImage, Attribute } from '@/types'
 
 const route = useRoute()
 const productStore = useProductStore()
-const cartStore = useCartStore()
 const authStore = useAuthStore()
+const cartStore = useCartStore()
 const favoritesStore = useFavoriteProductStore()
 const reviewStore = useReviewStore()
 
-const selectedVariantIndex = ref(0)
-const showReviewForm = ref(false)
-
-const reviewForm = ref({
-  title: '',
-  rating: 5,
-  comment: ''
-})
+const showAllAttributes = ref(false)
+const showFullDescription = ref(false)
 
 const productId = computed(() => Number(route.params.id))
+const productDetail = computed(() => productStore.productDetail)
+const currentVariant = ref<VariantInProduct>()
+const currentImageIndex = ref(0)
+const isZoomed = ref(false)
+const isFullscreen = ref(false)
+const fullscreenZoom = ref(1)
 
-const currentVariant = computed(() => {
-  if (!productStore.productDetail) {
-    return {} as any
+const allAttributes = computed<Attribute[]>(() => {
+  if (!currentVariant.value?.attributes && !productDetail.value?.product_variants[0]?.attributes) {
+    return []
   }
-  return productStore.productDetail.product_variants[selectedVariantIndex.value]
+
+  const attributes = currentVariant.value?.attributes || productDetail.value?.product_variants[0]?.attributes || []
+  return attributes.flatMap(category =>
+      category.attributes.map(attr => ({
+        ...attr,
+        categoryName: category.name
+      }))
+  )
+})
+
+const displayedAttributes = computed(() => {
+  return showAllAttributes.value ? allAttributes.value : allAttributes.value.slice(0, 3)
+})
+
+const currentVariantImages = computed<ProductImage[]>(() => {
+  return currentVariant.value?.product_images || productDetail.value?.product_variants[0]?.product_images || []
+})
+
+const currentImage = computed(() => {
+  return currentVariantImages.value[currentImageIndex.value]?.image || ''
+})
+
+const userHasReviewed = computed(() => {
+  if (!authStore.isAuthenticated || !authStore.user) return false
+  return productDetail.value?.reviews?.some(review => review.user === authStore.user?.username) || false
+})
+
+const isInCart = computed(() => {
+  if (!cartStore.cart || !currentVariant.value) return false
+  return cartStore.cart.products_in_cart.some(item =>
+      item.product_variant.id === currentVariant.value?.id
+  )
 })
 
 const isFavorite = computed(() => {
-  if (!productStore.productDetail) return false
-  return favoritesStore.favoriteProducts.some(fp => fp.product.id === productStore.productDetail!.id)
+  return favoritesStore.favoriteProducts.some(fp => fp.product.id === productDetail.value?.id)
+})
+
+const similarProducts = computed<ProductVariant[]>(() => {
+  return productStore.products
+      .filter(product => product.product_id !== productDetail.value?.id)
+      .slice(0, 4)
+      .map(product => ({
+        ...product,
+        average_rating: product.average_rating || 0,
+        reviews_count: product.reviews_count || 0
+      }))
 })
 
 onMounted(async () => {
-  await productStore.fetchProductDetails(productId.value)
+  await loadProductData()
 })
 
-watch(() => route.params.id, async (newId) => {
-  await productStore.fetchProductDetails(Number(newId))
+watch(() => route.params.id, async () => {
+  await loadProductData()
 })
+
+const loadProductData = async () => {
+  await productStore.fetchProductDetails(productId.value)
+
+  if (productDetail.value?.product_variants?.length) {
+    currentVariant.value = productDetail.value.product_variants[0]
+    currentImageIndex.value = 0
+  }
+
+  if (authStore.isAuthenticated) {
+    await cartStore.fetchCart()
+    await favoritesStore.fetchFavoriteProducts()
+  }
+}
+
+const nextImage = () => {
+  if (currentImageIndex.value < currentVariantImages.value.length - 1) {
+    currentImageIndex.value++
+    fullscreenZoom.value = 1
+  }
+}
+
+const previousImage = () => {
+  if (currentImageIndex.value > 0) {
+    currentImageIndex.value--
+    fullscreenZoom.value = 1
+  }
+}
+
+const setCurrentImage = (index: number) => {
+  currentImageIndex.value = index
+  isZoomed.value = false
+  fullscreenZoom.value = 1
+}
+
+const zoomIn = () => {
+  if (fullscreenZoom.value < 3) {
+    fullscreenZoom.value += 0.25
+  }
+}
+
+const zoomOut = () => {
+  if (fullscreenZoom.value > 1) {
+    fullscreenZoom.value -= 0.25
+  }
+}
+
+const openFullscreen = () => {
+  isFullscreen.value = true
+  fullscreenZoom.value = 1
+  document.body.style.overflow = 'hidden'
+}
+
+const closeFullscreen = () => {
+  isFullscreen.value = false
+  fullscreenZoom.value = 1
+  document.body.style.overflow = 'auto'
+}
+
+const handleKeydown = (e: KeyboardEvent) => {
+  if (!isFullscreen.value) return
+
+  switch (e.key) {
+    case 'Escape':
+      closeFullscreen()
+      break
+    case 'ArrowLeft':
+      previousImage()
+      break
+    case 'ArrowRight':
+      nextImage()
+      break
+    case '+':
+    case '=':
+      zoomIn()
+      break
+    case '-':
+      zoomOut()
+      break
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('keydown', handleKeydown)
+})
+
+const selectVariant = (variant: VariantInProduct) => {
+  currentVariant.value = variant
+  currentImageIndex.value = 0
+  isZoomed.value = false
+  fullscreenZoom.value = 1
+}
 
 const addToCart = async () => {
-  await cartStore.addToCart({
-    product_variant: currentVariant.value.id,
-    quantity: 1
-  })
+  if (!currentVariant.value) return
+
+  if (isInCart.value) {
+    await cartStore.removeFromCart(currentVariant.value.id)
+  } else {
+    await cartStore.addToCart({
+      product_variant: currentVariant.value.id,
+      quantity: 1
+    })
+  }
+  await cartStore.fetchCart()
 }
 
 const toggleFavorite = async () => {
+  if (!productDetail.value) return
+
   if (isFavorite.value) {
-    await favoritesStore.removeFromFavorite(productStore.productDetail!.id)
+    await favoritesStore.removeFromFavorite(productDetail.value.id)
   } else {
-    await favoritesStore.addToFavorite(productStore.productDetail!.id)
+    await favoritesStore.addToFavorite(productDetail.value.id)
+  }
+  await favoritesStore.fetchFavoriteProducts()
+}
+
+const submitReview = async () => {
+  if (!newReview.value.title || !newReview.value.comment) return
+
+  await reviewStore.createReview({
+    ...newReview.value,
+    productId: productId.value
+  })
+
+  newReview.value = {
+    productId: productId.value,
+    title: '',
+    rating: 5,
+    comment: ''
+  }
+
+  await productStore.fetchProductDetails(productId.value)
+}
+
+const deleteReview = async (reviewId: number) => {
+  if (confirm('Вы уверены, что хотите удалить этот отзыв?')) {
+    await reviewStore.deleteReview(reviewId, productId.value)
+    await productStore.fetchProductDetails(productId.value)
   }
 }
 
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('ru-RU')
+  return new Date(dateString).toLocaleDateString('ru-RU', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
 }
 
-const submitReview = async () => {
-  const reviewData: CreateReviewBody = {
-    productId: productId.value,
-    ...reviewForm.value
-  }
-  await reviewStore.createReview(reviewData)
-  showReviewForm.value = false
-  // Перезагружаем отзывы
-  await productStore.fetchProductDetails(productId.value)
-}
+const newReview = ref<CreateReviewBody>({
+  productId: productId.value,
+  title: '',
+  rating: 5,
+  comment: ''
+})
 </script>

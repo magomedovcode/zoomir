@@ -3,7 +3,6 @@
     <AppHeader />
 
     <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Заголовок с градиентом -->
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent mb-4">
           Корзина покупок
@@ -11,9 +10,7 @@
         <p class="text-gray-600 max-w-2xl mx-auto">Проверьте выбранные товары перед оформлением заказа</p>
       </div>
 
-      <!-- Содержимое корзины -->
       <div v-if="cartStore.cart?.products_in_cart?.length" class="lg:grid lg:grid-cols-12 lg:gap-8">
-        <!-- Список товаров -->
         <div class="lg:col-span-8">
           <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
             <div class="p-6 border-b border-gray-100">
@@ -28,8 +25,10 @@
             <ul class="divide-y divide-gray-100">
               <li v-for="item in cartStore.cart.products_in_cart" :key="item.id" class="p-6 hover:bg-gray-50/50 transition-all duration-300">
                 <div class="flex space-x-6">
-                  <!-- Изображение товара -->
-                  <div class="flex-shrink-0 relative">
+                  <router-link
+                      :to="`/details/${item.product_variant.product_id}`"
+                      class="flex-shrink-0 relative"
+                  >
                     <img
                         :src="MEDIA_URL + item.product_variant.first_image"
                         :alt="item.product_variant.product_title"
@@ -38,15 +37,17 @@
                     <div class="absolute -top-2 -right-2 bg-indigo-500 text-white text-xs font-medium px-2 py-1 rounded-full shadow-sm">
                       {{ item.quantity }} шт
                     </div>
-                  </div>
+                  </router-link>
 
-                  <!-- Информация о товаре -->
                   <div class="flex-1 min-w-0">
                     <div class="flex items-start justify-between">
                       <div class="flex-1">
-                        <h3 class="text-lg font-semibold text-gray-800 hover:text-indigo-600 transition-colors duration-300">
+                        <router-link
+                            :to="`/details/${item.product_variant.product_id}`"
+                            class="text-lg font-semibold text-gray-800 hover:text-indigo-600 transition-colors duration-300"
+                        >
                           {{ item.product_variant.product_title }}
-                        </h3>
+                        </router-link>
                         <p class="mt-1 text-gray-600">Вариант: {{ item.product_variant.name }}</p>
                         <p class="mt-2 text-sm text-gray-500">
                           Цена за штуку:
@@ -56,7 +57,6 @@
                         </p>
                       </div>
 
-                      <!-- Цена за позицию -->
                       <div class="text-right ml-4">
                         <p class="text-xl font-bold text-gray-900">
                           {{ Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' }).format(+item.product_variant.price * item.quantity) }}
@@ -64,7 +64,6 @@
                       </div>
                     </div>
 
-                    <!-- Управление количеством -->
                     <div class="mt-6 flex items-center justify-between">
                       <div class="flex items-center space-x-4">
                         <span class="text-sm font-medium text-gray-700">Количество:</span>
@@ -93,7 +92,6 @@
                         </div>
                       </div>
 
-                      <!-- Кнопка удаления -->
                       <button
                           @click="removeFromCart(item.product_variant.id)"
                           type="button"
@@ -112,7 +110,6 @@
           </div>
         </div>
 
-        <!-- Блок итого -->
         <div class="mt-8 lg:mt-0 lg:col-span-4">
           <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-lg border border-gray-100 p-6 sticky top-8">
             <div class="flex items-center space-x-2 mb-6">
@@ -170,7 +167,6 @@
               </router-link>
             </div>
 
-            <!-- Дополнительная информация -->
             <div class="mt-6 pt-6 border-t border-gray-200">
               <div class="flex items-center space-x-2 text-sm text-gray-500">
                 <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -189,7 +185,6 @@
         </div>
       </div>
 
-      <!-- Пустая корзина -->
       <div v-else class="text-center py-16 max-w-2xl mx-auto">
         <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-12">
           <div class="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center">

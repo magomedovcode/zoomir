@@ -3,7 +3,6 @@
     <AppHeader />
 
     <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Заголовок страницы -->
       <div class="text-center mb-12">
         <div class="flex justify-center items-center mb-4">
           <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
@@ -18,14 +17,12 @@
         <p class="text-gray-600 max-w-2xl mx-auto text-lg">История ваших покупок и текущие заказы</p>
       </div>
 
-      <!-- Список заказов -->
       <div v-if="orderStore.orders.length" class="space-y-6">
         <div
             v-for="order in orderStore.orders"
             :key="order.id"
             class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-500"
         >
-          <!-- Шапка заказа -->
           <div class="bg-gradient-to-r from-gray-50 to-indigo-50/50 p-6 border-b border-gray-100">
             <div class="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-4">
               <div class="flex items-center space-x-4">
@@ -59,7 +56,6 @@
             </div>
           </div>
 
-          <!-- Товары в заказе -->
           <div class="p-6">
             <h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
               <svg class="w-5 h-5 text-indigo-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -104,7 +100,6 @@
             </div>
           </div>
 
-          <!-- Информация о доставке -->
           <div class="border-t border-gray-100 p-6 bg-gray-50/50">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
@@ -144,7 +139,6 @@
         </div>
       </div>
 
-      <!-- Состояние пустого заказа -->
       <div v-else class="text-center py-16 max-w-2xl mx-auto">
         <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-12">
           <div class="w-32 h-32 mx-auto mb-8 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center">
@@ -174,7 +168,6 @@
         </div>
       </div>
 
-      <!-- Пагинация -->
       <div class="flex justify-center mt-12" v-if="orderStore.totalCount > orderStore.pageSize">
         <div class="flex items-center space-x-2 bg-white rounded-2xl shadow-lg border border-gray-100 p-2">
           <button

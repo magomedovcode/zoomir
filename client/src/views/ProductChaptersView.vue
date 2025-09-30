@@ -3,7 +3,6 @@
     <AppHeader />
 
     <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Заголовок страницы -->
       <div class="text-center mb-16">
         <div class="flex justify-center items-center mb-4">
           <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
@@ -18,7 +17,6 @@
         <p class="text-gray-600 max-w-2xl mx-auto text-lg">Всё необходимое для ваших питомцев в одном месте</p>
       </div>
 
-      <!-- Сетка категорий -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
         <div
             v-for="(chapter, index) in filtersStore.productChapters"
@@ -26,19 +24,15 @@
             class="group relative bg-white rounded-2xl shadow-lg border border-gray-100 p-8 hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden"
             @click="$router.push(`/shop/${chapter.id}`)"
         >
-          <!-- Градиентный фон при наведении -->
           <div class="absolute inset-0 bg-gradient-to-br from-indigo-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-          <!-- Декоративный элемент -->
           <div class="absolute top-0 right-0 w-24 h-24 -mr-6 -mt-6 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 opacity-10 group-hover:opacity-20 transition-opacity duration-500"></div>
 
-          <!-- Название категории -->
           <div class="relative z-10 text-center">
             <h3 class="text-xl font-bold text-gray-800 group-hover:text-indigo-700 transition-colors duration-300 mb-3">
               {{ chapter.name }}
             </h3>
 
-            <!-- Кнопка перехода -->
             <div class="flex items-center justify-center space-x-2 text-indigo-600 group-hover:text-indigo-700 font-medium transition-colors duration-300">
               <span>Смотреть товары</span>
               <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,7 +43,6 @@
         </div>
       </div>
 
-      <!-- Дополнительная информация -->
       <div class="mt-16 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-8 border border-indigo-100">
         <div class="flex flex-col md:flex-row items-center justify-between">
           <div class="flex items-center space-x-4 mb-6 md:mb-0">

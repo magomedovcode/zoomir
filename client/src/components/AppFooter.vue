@@ -1,9 +1,7 @@
 <template>
   <footer class="bg-gradient-to-b from-gray-50 to-white shadow-lg border-t border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <!-- Основное содержимое футера -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-        <!-- О компании -->
         <div class="lg:col-span-1">
           <div class="flex items-center space-x-2 mb-4">
             <div class="w-10 h-10 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-md">
@@ -18,7 +16,6 @@
           </p>
         </div>
 
-        <!-- Контакты -->
         <div>
           <h3 class="text-lg font-bold mb-6 bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent">
             Контакты
@@ -52,7 +49,6 @@
           </ul>
         </div>
 
-        <!-- Быстрые ссылки -->
         <div>
           <h3 class="text-lg font-bold mb-6 bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent">
             Навигация
@@ -72,7 +68,6 @@
         </div>
       </div>
 
-      <!-- Нижняя часть футера -->
       <div class="border-t border-gray-200 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
         <p class="text-gray-500 text-sm text-center md:text-left">
           &copy; {{ new Date().getFullYear() }} Zoomir. Все права защищены.

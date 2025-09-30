@@ -3,7 +3,6 @@
     <AppHeader />
 
     <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Заголовок страницы -->
       <div class="text-center mb-12">
         <div class="flex justify-center items-center mb-4">
           <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
@@ -18,7 +17,6 @@
         <p class="text-gray-600 max-w-2xl mx-auto text-lg">Найдите всё необходимое для вашего питомца</p>
       </div>
 
-      <!-- Мобильные фильтры -->
       <div class="lg:hidden mb-6">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-lg font-semibold text-gray-800">Фильтры</h2>
@@ -31,7 +29,6 @@
           </button>
         </div>
 
-        <!-- Поиск на мобильных -->
         <div class="mb-4">
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -48,7 +45,6 @@
           </div>
         </div>
 
-        <!-- Аккордеон фильтров -->
         <transition
             enter-active-class="transition-all duration-300 ease-out"
             enter-from-class="opacity-0 max-h-0"
@@ -59,7 +55,6 @@
         >
           <div v-show="showMobileFilters" class="overflow-hidden">
             <div class="space-y-3">
-              <!-- Бренды -->
               <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
                 <Disclosure v-slot="{ open }">
                   <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
@@ -106,7 +101,6 @@
                 </Disclosure>
               </div>
 
-              <!-- Страны -->
               <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
                 <Disclosure v-slot="{ open }">
                   <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
@@ -153,7 +147,6 @@
                 </Disclosure>
               </div>
 
-              <!-- Категории -->
               <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
                 <Disclosure v-slot="{ open }">
                   <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
@@ -200,7 +193,6 @@
                 </Disclosure>
               </div>
 
-              <!-- Цена -->
               <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
                 <Disclosure v-slot="{ open }">
                   <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
@@ -249,7 +241,6 @@
                 </Disclosure>
               </div>
 
-              <!-- Сортировка -->
               <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
                 <Disclosure v-slot="{ open }">
                   <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
@@ -296,9 +287,7 @@
         </transition>
       </div>
 
-      <!-- Десктопные фильтры -->
       <div class="hidden lg:block mb-8">
-        <!-- Поиск -->
         <div class="mb-6 flex justify-center">
           <div class="relative w-2/3">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -315,7 +304,6 @@
           </div>
         </div>
 
-        <!-- Панель фильтров -->
         <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
           <div class="flex items-center space-x-2 mb-4">
             <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
@@ -327,7 +315,6 @@
           </div>
 
           <div class="grid grid-cols-5 gap-4">
-            <!-- Бренды -->
             <div class="relative">
               <Listbox v-model="selectedBrands" multiple>
                 <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
@@ -377,7 +364,6 @@
               </Listbox>
             </div>
 
-            <!-- Страны -->
             <div class="relative">
               <Listbox v-model="selectedCountries" multiple>
                 <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
@@ -427,7 +413,6 @@
               </Listbox>
             </div>
 
-            <!-- Категории -->
             <div class="relative">
               <Listbox v-model="selectedCategories" multiple>
                 <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
@@ -477,7 +462,6 @@
               </Listbox>
             </div>
 
-            <!-- Цена -->
             <div class="relative">
               <Popover v-slot="{ open }">
                 <PopoverButton
@@ -545,7 +529,6 @@
               </Popover>
             </div>
 
-            <!-- Сортировка -->
             <div class="relative">
               <Listbox v-model="ordering">
                 <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
@@ -591,9 +574,7 @@
         </div>
       </div>
 
-      <!-- Сетка товаров -->
       <div>
-        <!-- Заголовок и счетчик -->
         <div class="flex justify-between items-center mb-8">
           <div class="flex items-center space-x-3">
             <h2 class="text-2xl font-bold text-gray-800">Все товары</h2>
@@ -603,8 +584,7 @@
           </div>
         </div>
 
-        <!-- Карточки товаров -->
-        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6" v-if="!productStore.isLoading">
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6" v-if="!productStore.isLoading">
           <ProductCard
               v-for="product in productStore.products"
               :key="product.id"
