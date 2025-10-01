@@ -37,3 +37,10 @@ watch(
     { immediate: true }
 );
 </script>
+
+<style>
+*::selection {
+  background: #fcc800;
+  color: #1c1917;
+}
+</style>

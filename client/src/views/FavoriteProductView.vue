@@ -1,47 +1,22 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-purple-50/30">
+  <div class="min-h-screen flex flex-col bg-white">
     <AppHeader />
 
     <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="text-center mb-12">
-        <div class="flex justify-center items-center mb-4">
-          <div class="w-16 h-16 bg-gradient-to-r from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center shadow-lg">
-            <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
+        <div class="flex flex-row justify-center items-center gap-3">
+          <div class="flex justify-center items-center mb-4">
+            <div class="w-10 h-10 bg-gradient-to-r from-pink-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
+              <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </div>
           </div>
+          <h1 class="text-4xl font-bold bg-gradient-to-r from-pink-600 to-rose-700 bg-clip-text text-transparent mb-4">
+            Избранное
+          </h1>
         </div>
-        <h1 class="text-4xl font-bold bg-gradient-to-r from-pink-600 to-rose-700 bg-clip-text text-transparent mb-4">
-          Избранное
-        </h1>
         <p class="text-gray-600 max-w-2xl mx-auto">Товары, которые вам особенно понравились</p>
-      </div>
-
-      <div class="flex flex-col sm:flex-row justify-between items-center mb-8 p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
-        <div class="flex items-center space-x-3 mb-4 sm:mb-0">
-          <div class="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center">
-            <svg class="w-6 h-6 text-pink-600" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-          </div>
-          <div>
-            <h2 class="text-xl font-semibold text-gray-800">
-              {{ favoritesStore.totalCount }} товаров в избранном
-            </h2>
-            <p class="text-sm text-gray-500">Сохраняйте понравившиеся товары для быстрого доступа</p>
-          </div>
-        </div>
-
-        <button
-            v-if="favoritesStore.favoriteProducts.length"
-            @click="clearFavorites"
-            class="flex items-center space-x-2 px-4 py-3 bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
-        >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-          </svg>
-          <span>Очистить избранное</span>
-        </button>
       </div>
 
       <div v-if="favoritesStore.favoriteProducts.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
@@ -81,40 +56,31 @@
         </div>
       </div>
 
-      <div class="flex justify-center mt-8 sm:mt-12" v-if="favoritesStore.totalCount > favoritesStore.pageSize">
-        <div class="flex items-center space-x-2 bg-white rounded-2xl shadow-lg border border-gray-100 p-2">
-          <button
-              @click="loadPage(favoritesStore.currentPage - 1)"
-              :disabled="favoritesStore.currentPage === 1"
-              class="flex items-center space-x-2 px-4 py-3 rounded-xl text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
-          >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      <div class="flex flex-col sm:flex-row justify-between items-center p-8 bg-gradient-to-r from-stone-800 to-stone-700 rounded-2xl shadow-sm">
+        <div class="flex items-center space-x-3 mb-4 sm:mb-0">
+          <div class="w-12 h-12 bg-pink-600 rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-stone-800" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
-            <span class="font-medium">Назад</span>
-          </button>
-
-          <div class="flex items-center space-x-1 mx-4">
-            <span class="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-lg">
-              {{ favoritesStore.currentPage }}
-            </span>
-            <span class="text-gray-500 mx-2">из</span>
-            <span class="text-gray-700 font-medium">
-              {{ Math.ceil(favoritesStore.totalCount / favoritesStore.pageSize) }}
-            </span>
           </div>
-
-          <button
-              @click="loadPage(favoritesStore.currentPage + 1)"
-              :disabled="favoritesStore.currentPage * favoritesStore.pageSize >= favoritesStore.totalCount"
-              class="flex items-center space-x-2 px-4 py-3 rounded-xl text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
-          >
-            <span class="font-medium">Вперед</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </button>
+          <div>
+            <h2 class="text-lg font-semibold text-white">
+              {{ favoritesStore.favoriteProducts.length }} товаров в избранном
+            </h2>
+            <p class="text-white">Сохраняйте понравившиеся товары для быстрого доступа</p>
+          </div>
         </div>
+
+        <button
+            v-if="favoritesStore.favoriteProducts.length"
+            @click="clearFavorites"
+            class="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-stone-800 font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+          <span>Очистить избранное</span>
+        </button>
       </div>
     </div>
 
@@ -134,11 +100,6 @@ const favoritesStore = useFavoriteProductStore();
 onMounted(async () => {
   await favoritesStore.fetchFavoriteProducts();
 })
-
-const loadPage = (page: number) => {
-  favoritesStore.currentPage = page;
-  favoritesStore.fetchFavoriteProducts();
-}
 
 const clearFavorites = async () => {
   await favoritesStore.clearFavorite();

@@ -47,11 +47,6 @@
                   <span class="w-2 h-2 rounded-full mr-2" :class="statusDotClasses[order.status]"></span>
                   {{ statusLabels[order.status] }}
                 </span>
-                <div class="text-right">
-                  <p class="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent">
-                    {{ Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' }).format(order.total_price) }}
-                  </p>
-                </div>
               </div>
             </div>
           </div>
@@ -224,7 +219,7 @@ const statusLabels = {
   [Status.CONFIRMED]: 'Подтвержден',
   [Status.SHIPPED]: 'Отправлен',
   [Status.DELIVERED]: 'Доставлен',
-  [Status.CANCELED]: 'Отменен'
+  [Status.CANCELLED]: 'Отменен'
 }
 
 const statusClasses = {
@@ -232,7 +227,7 @@ const statusClasses = {
   [Status.CONFIRMED]: 'bg-blue-50 text-blue-800 border border-blue-200',
   [Status.SHIPPED]: 'bg-indigo-50 text-indigo-800 border border-indigo-200',
   [Status.DELIVERED]: 'bg-green-50 text-green-800 border border-green-200',
-  [Status.CANCELED]: 'bg-red-50 text-red-800 border border-red-200'
+  [Status.CANCELLED]: 'bg-red-50 text-red-800 border border-red-200'
 }
 
 const statusDotClasses = {
@@ -240,7 +235,7 @@ const statusDotClasses = {
   [Status.CONFIRMED]: 'bg-blue-500',
   [Status.SHIPPED]: 'bg-indigo-500',
   [Status.DELIVERED]: 'bg-green-500',
-  [Status.CANCELED]: 'bg-red-500'
+  [Status.CANCELLED]: 'bg-red-500'
 }
 
 onMounted(async () => {

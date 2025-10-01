@@ -118,13 +118,6 @@ export interface FavoriteProduct {
     product: Product;
 }
 
-export interface FavoriteProductResponse {
-    count: number;
-    next: string | null;
-    previous: string | null;
-    results: FavoriteProduct[];
-}
-
 export interface ProductInCart {
     id: number;
     product_variant: ProductVariant;
@@ -152,7 +145,7 @@ export enum Status {
     CONFIRMED = 'confirmed',
     SHIPPED = 'shipped',
     DELIVERED = 'delivered',
-    CANCELED = 'cancelled'
+    CANCELLED = 'cancelled'
 }
 
 export interface Order {

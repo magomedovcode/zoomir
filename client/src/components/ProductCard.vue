@@ -1,6 +1,6 @@
 <template>
   <div
-      class="bg-white rounded-lg sm:rounded-2xl shadow-md sm:shadow-lg border border-gray-100 hover:shadow-xl sm:hover:shadow-2xl transition-all duration-500 group relative overflow-hidden"
+      class="bg-white rounded-lg sm:rounded-2xl shadow-md sm:shadow-lg border border-stone-300 hover:shadow-xl sm:hover:shadow-2xl transition-all duration-500 group relative overflow-hidden"
   >
     <router-link
         :to="`/details/${product.product_id}`"
@@ -27,7 +27,7 @@
               :class="
               isFavorite
                 ? 'text-red-500 fill-current drop-shadow-sm'
-                : 'text-gray-400 hover:text-red-400'
+                : 'text-stone-400 hover:text-red-400'
             "
               fill="none"
               stroke="currentColor"
@@ -45,14 +45,14 @@
 
       <div class="p-3 sm:p-4 md:p-5 relative z-10">
         <h3
-            class="font-medium sm:font-semibold text-gray-800 mb-2 line-clamp-2 group-hover:text-indigo-700 transition-colors duration-300 leading-snug text-sm sm:text-base"
+            class="font-medium sm:font-semibold text-stone-800 mb-2 line-clamp-2 group-hover:text-yellow-500 transition-colors duration-300 leading-snug text-sm sm:text-base"
         >
           {{ product.product_title }}
         </h3>
 
         <div class="mb-3 sm:mb-4">
           <span
-              class="block text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent mb-1 sm:mb-2"
+              class="block text-base sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-yellow-500 to-amber-500 bg-clip-text text-transparent mb-1 sm:mb-2"
           >
             {{
               Intl.NumberFormat("ru-RU", {
@@ -71,7 +71,7 @@
                   d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
               />
             </svg>
-            <span class="text-xs sm:text-sm font-medium text-gray-700">
+            <span class="text-xs sm:text-sm font-medium text-stone-700">
               {{ product.average_rating || 0 }}
             </span>
             <span class="text-xs sm:text-sm text-gray-500 whitespace-nowrap">
@@ -87,7 +87,7 @@
             :class="
             isInCart
               ? 'bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white shadow'
-              : 'bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 text-white shadow'
+              : 'bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 text-white shadow'
           "
         >
           <span

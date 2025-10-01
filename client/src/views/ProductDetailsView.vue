@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-indigo-50/30">
+  <div class="min-h-screen flex flex-col bg-white">
     <AppHeader />
 
     <main class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

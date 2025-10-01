@@ -2,13 +2,7 @@
   <div class="flex flex-col min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/20">
     <AppHeader />
 
-    <section class="relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-white">
-      <div class="absolute inset-0 opacity-20">
-        <div class="absolute top-10 left-10 w-72 h-72 bg-white rounded-full mix-blend-soft-light filter blur-3xl animate-pulse"></div>
-        <div class="absolute top-40 right-20 w-96 h-96 bg-indigo-300 rounded-full mix-blend-soft-light filter blur-3xl animate-pulse animation-delay-2000"></div>
-        <div class="absolute bottom-20 left-1/3 w-80 h-80 bg-purple-300 rounded-full mix-blend-soft-light filter blur-3xl animate-pulse animation-delay-4000"></div>
-      </div>
-
+    <section class="relative overflow-hidden bg-gradient-to-br from-yellow-500 via-amber-500 to-yellow-700 text-white">
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 lg:py-40">
         <div class="text-center">
           <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 tracking-tight">

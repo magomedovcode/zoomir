@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import type { FavoriteProduct } from "@/types";
+import {defineStore} from "pinia";
+import {ref} from "vue";
+import type {FavoriteProduct} from "@/types";
 import {
     addToFavorites,
     clearFavorites,
@@ -14,17 +14,11 @@ export const useFavoriteProductStore = defineStore('favoriteProduct', () => {
     const isLoading = ref<boolean>(false);
     const error = ref<string | null>(null);
 
-    const currentPage = ref(1);
-    const pageSize = ref(40);
-    const totalCount = ref(0);
-
     const fetchFavoriteProducts = async () => {
         isLoading.value = true;
         error.value = null;
         try {
-            const response = await getFavoriteProducts({ page: currentPage.value });
-            favoriteProducts.value = response.results;
-            totalCount.value = response.count;
+            favoriteProducts.value = await getFavoriteProducts();
         } catch (err) {
             error.value = `Ошибка при загрузке избранных товаров: ${err}`;
             console.error(error.value);
@@ -76,9 +70,6 @@ export const useFavoriteProductStore = defineStore('favoriteProduct', () => {
         favoriteProducts,
         isLoading,
         error,
-        currentPage,
-        pageSize,
-        totalCount,
         fetchFavoriteProducts,
         addToFavorite,
         removeFromFavorite,

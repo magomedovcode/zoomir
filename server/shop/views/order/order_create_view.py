@@ -21,7 +21,8 @@ class OrderCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         order = serializer.save(user=self.request.user)
         self._update_user_tag_preferences(order)
-        order.user.cart.products_in_carts.all().delete()
+        if hasattr(order.user, 'carts') and order.user.carts.exists():
+            order.user.carts.first().products_in_carts.all().delete()
 
     @staticmethod
     def _update_user_tag_preferences(order: Order):

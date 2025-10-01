@@ -1,38 +1,40 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gradient-to-br from-gray-50 to-indigo-50/30">
+  <div class="min-h-screen flex flex-col bg-white">
     <AppHeader />
 
     <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="text-center mb-12">
-        <div class="flex justify-center items-center mb-4">
-          <div class="w-16 h-16 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
+        <div class="flex flex-row justify-center items-center gap-3">
+          <div class="flex justify-center items-center mb-4">
+            <div class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-amber-400 rounded-xl flex items-center justify-center shadow-lg">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </div>
           </div>
+          <h1 class="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-amber-400 bg-clip-text text-transparent mb-4">
+            Товары из категории
+          </h1>
         </div>
-        <h1 class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent mb-4">
-          Магазин товаров
-        </h1>
-        <p class="text-gray-600 max-w-2xl mx-auto text-lg">Найдите всё необходимое для вашего питомца</p>
+        <p class="text-stone-600 max-w-2xl mx-auto text-lg">Найдите всё необходимое для вашего питомца</p>
       </div>
 
       <div class="lg:hidden mb-6">
         <div class="flex items-center justify-between mb-4">
-          <h2 class="text-lg font-semibold text-gray-800">Фильтры</h2>
+          <h2 class="text-lg font-semibold text-stone-800">Фильтры</h2>
           <button
               @click="showMobileFilters = !showMobileFilters"
-              class="flex items-center gap-2 px-4 py-3 bg-white border border-gray-300 rounded-xl hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-300 shadow-sm"
+              class="flex items-center gap-2 px-4 py-3 bg-white border border-stone-300 rounded-xl hover:border-yellow-400 hover:bg-yellow-50 transition-all duration-300 shadow-sm"
           >
-            <span class="font-medium text-gray-700">Фильтры</span>
-            <ChevronUpDownIcon class="h-5 w-5 text-gray-500" aria-hidden="true" />
+            <span class="font-medium text-stone-700">Фильтры</span>
+            <ChevronUpDownIcon class="h-5 w-5 text-stone-500" aria-hidden="true" />
           </button>
         </div>
 
         <div class="mb-4">
           <div class="relative">
             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="h-5 w-5 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
@@ -40,7 +42,7 @@
                 v-model="searchQuery"
                 type="text"
                 placeholder="Поиск товаров..."
-                class="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base transition-all duration-200"
+                class="w-full pl-10 pr-4 py-3 bg-white border border-stone-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-base transition-all duration-200"
             >
           </div>
         </div>
@@ -55,16 +57,16 @@
         >
           <div v-show="showMobileFilters" class="overflow-hidden">
             <div class="space-y-3">
-              <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+              <div class="bg-white rounded-xl border border-stone-200 shadow-sm">
                 <Disclosure v-slot="{ open }">
-                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
-                    <span class="font-medium text-gray-800">{{ getBrandsLabel }}</span>
+                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-stone-50 rounded-xl transition-colors duration-200">
+                    <span class="font-medium text-stone-800">{{ getBrandsLabel }}</span>
                     <ChevronUpDownIcon
                         :class="open ? 'rotate-180 transform' : ''"
-                        class="h-5 w-5 text-gray-500 transition-transform duration-200"
+                        class="h-5 w-5 text-stone-500 transition-transform duration-200"
                     />
                   </DisclosureButton>
-                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-gray-100">
+                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-stone-100">
                     <div class="space-y-3 max-h-60 overflow-y-auto">
                       <div
                           v-for="brand in filtersStore.brands"
@@ -79,9 +81,9 @@
                               type="checkbox"
                               class="sr-only"
                           >
-                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-indigo-400"
+                          <div class="w-5 h-5 border-2 border-stone-300 rounded flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-yellow-400"
                                :class="{
-                                 'bg-indigo-500 border-indigo-500': selectedBrands.includes(brand.id),
+                                 'bg-yellow-400 border-yellow-400': selectedBrands.includes(brand.id),
                                  'bg-white': !selectedBrands.includes(brand.id)
                                }">
                             <svg v-if="selectedBrands.includes(brand.id)" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,7 +93,7 @@
                         </div>
                         <label
                             :for="`mobile-brand-${brand.id}`"
-                            class="text-gray-700 cursor-pointer group-hover:text-indigo-600 transition-colors duration-200"
+                            class="text-stone-700 cursor-pointer group-hover:text-yellow-500 transition-colors duration-200"
                         >
                           {{ brand.name }}
                         </label>
@@ -101,16 +103,16 @@
                 </Disclosure>
               </div>
 
-              <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+              <div class="bg-white rounded-xl border border-stone-200 shadow-sm">
                 <Disclosure v-slot="{ open }">
-                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
-                    <span class="font-medium text-gray-800">{{ getCountriesLabel }}</span>
+                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-stone-50 rounded-xl transition-colors duration-200">
+                    <span class="font-medium text-stone-800">{{ getCountriesLabel }}</span>
                     <ChevronUpDownIcon
                         :class="open ? 'rotate-180 transform' : ''"
-                        class="h-5 w-5 text-gray-500 transition-transform duration-200"
+                        class="h-5 w-5 text-stone-500 transition-transform duration-200"
                     />
                   </DisclosureButton>
-                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-gray-100">
+                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-stone-100">
                     <div class="space-y-3 max-h-60 overflow-y-auto">
                       <div
                           v-for="country in filtersStore.countries"
@@ -125,9 +127,9 @@
                               type="checkbox"
                               class="sr-only"
                           >
-                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-indigo-400"
+                          <div class="w-5 h-5 border-2 border-stone-300 rounded flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-yellow-400"
                                :class="{
-                                 'bg-indigo-500 border-indigo-500': selectedCountries.includes(country.id),
+                                 'bg-yellow-400 border-yellow-400': selectedCountries.includes(country.id),
                                  'bg-white': !selectedCountries.includes(country.id)
                                }">
                             <svg v-if="selectedCountries.includes(country.id)" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -137,7 +139,7 @@
                         </div>
                         <label
                             :for="`mobile-country-${country.id}`"
-                            class="text-gray-700 cursor-pointer group-hover:text-indigo-600 transition-colors duration-200"
+                            class="text-stone-700 cursor-pointer group-hover:text-yellow-500 transition-colors duration-200"
                         >
                           {{ country.name }}
                         </label>
@@ -147,16 +149,16 @@
                 </Disclosure>
               </div>
 
-              <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+              <div class="bg-white rounded-xl border border-stone-200 shadow-sm">
                 <Disclosure v-slot="{ open }">
-                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
-                    <span class="font-medium text-gray-800">{{ getCategoriesLabel }}</span>
+                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-stone-50 rounded-xl transition-colors duration-200">
+                    <span class="font-medium text-stone-800">{{ getCategoriesLabel }}</span>
                     <ChevronUpDownIcon
                         :class="open ? 'rotate-180 transform' : ''"
-                        class="h-5 w-5 text-gray-500 transition-transform duration-200"
+                        class="h-5 w-5 text-stone-500 transition-transform duration-200"
                     />
                   </DisclosureButton>
-                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-gray-100">
+                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-stone-100">
                     <div class="space-y-3 max-h-60 overflow-y-auto">
                       <div
                           v-for="category in filtersStore.productCategories"
@@ -171,9 +173,9 @@
                               type="checkbox"
                               class="sr-only"
                           >
-                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-indigo-400"
+                          <div class="w-5 h-5 border-2 border-stone-300 rounded flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-yellow-400"
                                :class="{
-                                 'bg-indigo-500 border-indigo-500': selectedCategories.includes(category.id),
+                                 'bg-yellow-400 border-yellow-400': selectedCategories.includes(category.id),
                                  'bg-white': !selectedCategories.includes(category.id)
                                }">
                             <svg v-if="selectedCategories.includes(category.id)" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -183,7 +185,7 @@
                         </div>
                         <label
                             :for="`mobile-category-${category.id}`"
-                            class="text-gray-700 cursor-pointer group-hover:text-indigo-600 transition-colors duration-200"
+                            class="text-stone-700 cursor-pointer group-hover:text-yellow-500 transition-colors duration-200"
                         >
                           {{ category.name }}
                         </label>
@@ -193,45 +195,45 @@
                 </Disclosure>
               </div>
 
-              <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+              <div class="bg-white rounded-xl border border-stone-200 shadow-sm">
                 <Disclosure v-slot="{ open }">
-                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
-                    <span class="font-medium text-gray-800">{{ getPriceLabel }}</span>
+                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-stone-50 rounded-xl transition-colors duration-200">
+                    <span class="font-medium text-stone-800">{{ getPriceLabel }}</span>
                     <ChevronUpDownIcon
                         :class="open ? 'rotate-180 transform' : ''"
-                        class="h-5 w-5 text-gray-500 transition-transform duration-200"
+                        class="h-5 w-5 text-stone-500 transition-transform duration-200"
                     />
                   </DisclosureButton>
-                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-gray-100">
+                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-stone-100">
                     <div class="space-y-4">
                       <div class="flex space-x-3">
                         <div class="flex-1">
-                          <label class="block text-sm font-medium text-gray-700 mb-2">От</label>
+                          <label class="block text-sm font-medium text-stone-700 mb-2">От</label>
                           <input
                               v-model.number="priceMin"
                               type="number"
                               placeholder="0"
-                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                              class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all duration-200"
                           >
                         </div>
                         <div class="flex-1">
-                          <label class="block text-sm font-medium text-gray-700 mb-2">До</label>
+                          <label class="block text-sm font-medium text-stone-700 mb-2">До</label>
                           <input
                               v-model.number="priceMax"
                               type="number"
                               placeholder="99999"
-                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                              class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all duration-200"
                           >
                         </div>
                       </div>
                       <div class="flex justify-between items-center">
-                        <span class="text-sm text-gray-600 font-medium">
+                        <span class="text-sm text-stone-600 font-medium">
                           {{ priceMin || 0 }} - {{ priceMax || '∞' }} ₽
                         </span>
                         <button
                             v-if="priceMin || priceMax"
                             @click="clearPriceFilter"
-                            class="text-indigo-600 hover:text-indigo-800 text-sm font-medium transition-colors duration-200"
+                            class="text-yellow-500 hover:text-yellow-500 text-sm font-medium transition-colors duration-200"
                         >
                           Сбросить
                         </button>
@@ -241,16 +243,16 @@
                 </Disclosure>
               </div>
 
-              <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+              <div class="bg-white rounded-xl border border-stone-200 shadow-sm">
                 <Disclosure v-slot="{ open }">
-                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-gray-50 rounded-xl transition-colors duration-200">
-                    <span class="font-medium text-gray-800">{{ getOrderingLabel(ordering) }}</span>
+                  <DisclosureButton class="flex justify-between w-full px-4 py-4 text-left hover:bg-stone-50 rounded-xl transition-colors duration-200">
+                    <span class="font-medium text-stone-800">{{ getOrderingLabel(ordering) }}</span>
                     <ChevronUpDownIcon
                         :class="open ? 'rotate-180 transform' : ''"
-                        class="h-5 w-5 text-gray-500 transition-transform duration-200"
+                        class="h-5 w-5 text-stone-500 transition-transform duration-200"
                     />
                   </DisclosureButton>
-                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-gray-100">
+                  <DisclosurePanel class="px-4 pb-4 pt-2 border-t border-stone-100">
                     <div class="space-y-3">
                       <div
                           v-for="option in sortOptions"
@@ -264,16 +266,16 @@
                             type="radio"
                             class="sr-only"
                         >
-                        <div class="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-indigo-400"
+                        <div class="w-5 h-5 border-2 border-stone-300 rounded-full flex items-center justify-center transition-all duration-200 mr-3 group-hover:border-yellow-400"
                              :class="{
-                               'border-indigo-500': ordering === option.value
+                               'border-yellow-400': ordering === option.value
                              }">
-                          <div v-if="ordering === option.value" class="w-2.5 h-2.5 bg-indigo-500 rounded-full"></div>
+                          <div v-if="ordering === option.value" class="w-2.5 h-2.5 bg-yellow-400 rounded-full"></div>
                         </div>
                         <label
                             :for="`mobile-sort-${option.value}`"
-                            class="text-gray-700 cursor-pointer group-hover:text-indigo-600 transition-colors duration-200"
-                            :class="{ 'font-semibold text-indigo-600': ordering === option.value }"
+                            class="text-stone-700 cursor-pointer group-hover:text-yellow-500 transition-colors duration-200"
+                            :class="{ 'font-semibold text-yellow-500': ordering === option.value }"
                         >
                           {{ option.label }}
                         </label>
@@ -291,7 +293,7 @@
         <div class="mb-6 flex justify-center">
           <div class="relative w-2/3">
             <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="h-5 w-5 text-stone-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
@@ -299,29 +301,29 @@
                 v-model="searchQuery"
                 type="text"
                 placeholder="Поиск товаров..."
-                class="w-full pl-12 pr-4 py-4 bg-white border border-gray-300 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-base transition-all duration-200 hover:shadow-xl"
+                class="w-full pl-12 pr-4 py-4 bg-white border border-stone-300 rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 text-base transition-all duration-200 hover:shadow-xl"
             >
           </div>
         </div>
 
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+        <div class="bg-white rounded-2xl shadow-lg border border-stone-300 p-6">
           <div class="flex items-center space-x-2 mb-4">
-            <div class="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
-              <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
               </svg>
             </div>
-            <h3 class="text-lg font-semibold text-gray-800">Фильтры товаров</h3>
+            <h3 class="text-lg font-semibold text-stone-800">Фильтры товаров</h3>
           </div>
 
           <div class="grid grid-cols-5 gap-4">
             <div class="relative">
               <Listbox v-model="selectedBrands" multiple>
-                <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
-                  <span class="block truncate font-medium text-gray-700">
+                <ListboxButton class="w-full px-4 py-3 bg-white border border-stone-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all duration-200 hover:border-yellow-400 flex justify-between items-center shadow-sm">
+                  <span class="block truncate font-medium text-stone-700">
                     {{ getBrandsLabel }}
                   </span>
-                  <ChevronUpDownIcon class="h-5 w-5 text-gray-400 transition-transform duration-200" aria-hidden="true" />
+                  <ChevronUpDownIcon class="h-5 w-5 text-stone-400 transition-transform duration-200" aria-hidden="true" />
                 </ListboxButton>
 
                 <transition
@@ -329,7 +331,7 @@
                     leave-from-class="opacity-100"
                     leave-to-class="opacity-0"
                 >
-                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-gray-200">
+                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-stone-200">
                     <ListboxOption
                         v-slot="{ active, selected }"
                         v-for="brand in filtersStore.brands"
@@ -339,14 +341,14 @@
                     >
                       <li
                           :class="[
-                          active ? 'bg-indigo-50 text-indigo-900' : 'text-gray-900',
+                          active ? 'bg-yellow-100 text-yellow-900' : 'text-stone-900',
                           'relative cursor-pointer select-none py-3 pl-3 pr-9 transition-colors duration-200',
                         ]"
                       >
                         <div class="flex items-center">
-                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
+                          <div class="w-5 h-5 border-2 border-stone-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
                                :class="{
-                                 'bg-indigo-500 border-indigo-500': selected,
+                                 'bg-yellow-500 border-yellow-500': selected,
                                  'bg-white': !selected
                                }">
                             <svg v-if="selected" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -366,11 +368,11 @@
 
             <div class="relative">
               <Listbox v-model="selectedCountries" multiple>
-                <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
-                  <span class="block truncate font-medium text-gray-700">
+                <ListboxButton class="w-full px-4 py-3 bg-white border border-stone-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all duration-200 hover:border-yellow-400 flex justify-between items-center shadow-sm">
+                  <span class="block truncate font-medium text-stone-700">
                     {{ getCountriesLabel }}
                   </span>
-                  <ChevronUpDownIcon class="h-5 w-5 text-gray-400 transition-transform duration-200" aria-hidden="true" />
+                  <ChevronUpDownIcon class="h-5 w-5 text-stone-400 transition-transform duration-200" aria-hidden="true" />
                 </ListboxButton>
 
                 <transition
@@ -378,7 +380,7 @@
                     leave-from-class="opacity-100"
                     leave-to-class="opacity-0"
                 >
-                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-gray-200">
+                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-stone-200">
                     <ListboxOption
                         v-slot="{ active, selected }"
                         v-for="country in filtersStore.countries"
@@ -388,14 +390,14 @@
                     >
                       <li
                           :class="[
-                          active ? 'bg-indigo-50 text-indigo-900' : 'text-gray-900',
+                          active ? 'bg-yellow-100 text-yellow-900' : 'text-stone-900',
                           'relative cursor-pointer select-none py-3 pl-3 pr-9 transition-colors duration-200',
                         ]"
                       >
                         <div class="flex items-center">
-                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
+                          <div class="w-5 h-5 border-2 border-stone-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
                                :class="{
-                                 'bg-indigo-500 border-indigo-500': selected,
+                                 'bg-yellow-500 border-yellow-500': selected,
                                  'bg-white': !selected
                                }">
                             <svg v-if="selected" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -415,11 +417,11 @@
 
             <div class="relative">
               <Listbox v-model="selectedCategories" multiple>
-                <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
-                  <span class="block truncate font-medium text-gray-700">
+                <ListboxButton class="w-full px-4 py-3 bg-white border border-stone-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all duration-200 hover:border-yellow-400 flex justify-between items-center shadow-sm">
+                  <span class="block truncate font-medium text-stone-700">
                     {{ getCategoriesLabel }}
                   </span>
-                  <ChevronUpDownIcon class="h-5 w-5 text-gray-400 transition-transform duration-200" aria-hidden="true" />
+                  <ChevronUpDownIcon class="h-5 w-5 text-stone-400 transition-transform duration-200" aria-hidden="true" />
                 </ListboxButton>
 
                 <transition
@@ -427,7 +429,7 @@
                     leave-from-class="opacity-100"
                     leave-to-class="opacity-0"
                 >
-                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-gray-200">
+                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-stone-200">
                     <ListboxOption
                         v-slot="{ active, selected }"
                         v-for="category in filtersStore.productCategories"
@@ -437,14 +439,14 @@
                     >
                       <li
                           :class="[
-                          active ? 'bg-indigo-50 text-indigo-900' : 'text-gray-900',
+                          active ? 'bg-yellow-100 text-yellow-900' : 'text-stone-900',
                           'relative cursor-pointer select-none py-3 pl-3 pr-9 transition-colors duration-200',
                         ]"
                       >
                         <div class="flex items-center">
-                          <div class="w-5 h-5 border-2 border-gray-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
+                          <div class="w-5 h-5 border-2 border-stone-300 rounded flex items-center justify-center transition-all duration-200 mr-3"
                                :class="{
-                                 'bg-indigo-500 border-indigo-500': selected,
+                                 'bg-yellow-500 border-yellow-500': selected,
                                  'bg-white': !selected
                                }">
                             <svg v-if="selected" class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -465,14 +467,14 @@
             <div class="relative">
               <Popover v-slot="{ open }">
                 <PopoverButton
-                    class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm"
-                    :class="{ 'ring-2 ring-indigo-500 border-indigo-500': open }"
+                    class="w-full px-4 py-3 bg-white border border-stone-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all duration-200 hover:border-yellow-400 flex justify-between items-center shadow-sm"
+                    :class="{ 'ring-2 ring-yellow-400 border-yellow-400': open }"
                 >
-                  <span class="block truncate font-medium text-gray-700">
+                  <span class="block truncate font-medium text-stone-700">
                     {{ getPriceLabel }}
                   </span>
                   <ChevronUpDownIcon
-                      class="h-5 w-5 text-gray-400 transition-transform duration-200"
+                      class="h-5 w-5 text-stone-400 transition-transform duration-200"
                       :class="{ 'rotate-180': open }"
                       aria-hidden="true"
                   />
@@ -487,38 +489,38 @@
                     leave-to-class="opacity-0 scale-95"
                 >
                   <PopoverPanel
-                      class="absolute left-0 right-0 mt-2 bg-white border border-gray-200 rounded-xl shadow-xl z-50 p-4 transform"
+                      class="absolute left-0 right-0 mt-2 bg-white border border-stone-200 rounded-xl shadow-xl z-50 p-4 transform"
                   >
                     <div class="space-y-4">
-                      <h4 class="font-semibold text-gray-800">Диапазон цен</h4>
+                      <h4 class="font-semibold text-stone-800">Диапазон цен</h4>
                       <div class="flex space-x-3">
                         <div class="flex-1">
-                          <label class="block text-sm font-medium text-gray-700 mb-2">От</label>
+                          <label class="block text-sm font-medium text-stone-700 mb-2">От</label>
                           <input
                               v-model.number="priceMin"
                               type="number"
                               placeholder="0"
-                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                              class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all duration-200"
                           >
                         </div>
                         <div class="flex-1">
-                          <label class="block text-sm font-medium text-gray-700 mb-2">До</label>
+                          <label class="block text-sm font-medium text-stone-700 mb-2">До</label>
                           <input
                               v-model.number="priceMax"
                               type="number"
                               placeholder="99999"
-                              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200"
+                              class="w-full px-3 py-2 border border-stone-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all duration-200"
                           >
                         </div>
                       </div>
                       <div class="flex justify-between items-center">
-                        <span class="text-sm text-gray-600 font-medium">
+                        <span class="text-sm text-stone-600 font-medium">
                           {{ priceMin || 0 }} - {{ priceMax || '∞' }} ₽
                         </span>
                         <button
                             v-if="priceMin || priceMax"
                             @click="clearPriceFilter"
-                            class="text-indigo-600 hover:text-indigo-800 text-sm font-medium transition-colors duration-200"
+                            class="text-yellow-500 hover:text-yellow-600 text-sm font-medium transition-colors duration-200"
                         >
                           Сбросить
                         </button>
@@ -531,9 +533,9 @@
 
             <div class="relative">
               <Listbox v-model="ordering">
-                <ListboxButton class="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 hover:border-indigo-400 flex justify-between items-center shadow-sm">
-                  <span class="block truncate font-medium text-gray-700">{{ getOrderingLabel(ordering) }}</span>
-                  <ChevronUpDownIcon class="h-5 w-5 text-gray-400 transition-transform duration-200" aria-hidden="true" />
+                <ListboxButton class="w-full px-4 py-3 bg-white border border-stone-300 rounded-xl text-left focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 transition-all duration-200 hover:border-yellow-400 flex justify-between items-center shadow-sm">
+                  <span class="block truncate font-medium text-stone-700">{{ getOrderingLabel(ordering) }}</span>
+                  <ChevronUpDownIcon class="h-5 w-5 text-stone-400 transition-transform duration-200" aria-hidden="true" />
                 </ListboxButton>
 
                 <transition
@@ -541,7 +543,7 @@
                     leave-from-class="opacity-100"
                     leave-to-class="opacity-0"
                 >
-                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-gray-200">
+                  <ListboxOptions class="absolute top-full left-0 right-0 mt-2 max-h-60 overflow-auto rounded-xl bg-white py-2 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 border border-stone-200">
                     <ListboxOption
                         v-slot="{ active, selected }"
                         v-for="option in sortOptions"
@@ -551,16 +553,16 @@
                     >
                       <li
                           :class="[
-                          active ? 'bg-indigo-50 text-indigo-900' : 'text-gray-900',
+                          active ? 'bg-yellow-100 text-yellow-900' : 'text-stone-900',
                           'relative cursor-pointer select-none py-3 pl-3 pr-9 transition-colors duration-200',
                         ]"
                       >
-                        <span :class="[selected ? 'font-semibold text-indigo-600' : 'font-normal', 'block truncate']">
+                        <span :class="[selected ? 'font-semibold text-yellow-500' : 'font-normal', 'block truncate']">
                           {{ option.label }}
                         </span>
                         <span
                             v-if="selected"
-                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-indigo-600"
+                            class="absolute inset-y-0 right-0 flex items-center pr-3 text-yellow-500"
                         >
                           <CheckIcon class="h-5 w-5" aria-hidden="true" />
                         </span>
@@ -577,8 +579,8 @@
       <div>
         <div class="flex justify-between items-center mb-8">
           <div class="flex items-center space-x-3">
-            <h2 class="text-2xl font-bold text-gray-800">Все товары</h2>
-            <div class="px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-sm font-medium">
+            <h2 class="text-2xl font-bold text-stone-800">Все товары</h2>
+            <div class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
               {{ productStore.totalCount }} товаров
             </div>
           </div>
@@ -593,15 +595,15 @@
         </div>
 
         <div v-else class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
-          <div v-for="i in 10" :key="i" class="bg-gradient-to-br from-gray-200 to-gray-300 rounded-2xl aspect-[3/4] animate-pulse shadow-sm"></div>
+          <div v-for="i in 10" :key="i" class="bg-gradient-to-br from-stone-200 to-stone-300 rounded-2xl aspect-[3/4] animate-pulse shadow-sm"></div>
         </div>
 
         <div class="flex justify-center mt-12" v-if="productStore.totalCount > productStore.pageSize">
-          <div class="flex items-center space-x-2 bg-white rounded-2xl shadow-lg border border-gray-100 p-2">
+          <div class="flex items-center space-x-2 bg-white rounded-2xl shadow-lg border border-stone-100 p-2">
             <button
                 @click="loadPage(productStore.currentPage - 1)"
                 :disabled="productStore.currentPage === 1"
-                class="flex items-center space-x-2 px-4 py-3 rounded-xl text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                class="flex items-center space-x-2 px-4 py-3 rounded-xl text-stone-600 hover:text-yellow-500 hover:bg-indigo-50 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
@@ -610,11 +612,11 @@
             </button>
 
             <div class="flex items-center space-x-1 mx-4">
-              <span class="px-4 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold rounded-lg">
+              <span class="px-4 py-2 bg-gradient-to-r from-yellow-400 to-amber-500 text-white font-semibold rounded-lg">
                 {{ productStore.currentPage }}
               </span>
-              <span class="text-gray-500 mx-2">из</span>
-              <span class="text-gray-700 font-medium">
+              <span class="text-stone-500 mx-2">из</span>
+              <span class="text-stone-700 font-medium">
                 {{ Math.ceil(productStore.totalCount / productStore.pageSize) }}
               </span>
             </div>
@@ -622,7 +624,7 @@
             <button
                 @click="loadPage(productStore.currentPage + 1)"
                 :disabled="productStore.currentPage * productStore.pageSize >= productStore.totalCount"
-                class="flex items-center space-x-2 px-4 py-3 rounded-xl text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+                class="flex items-center space-x-2 px-4 py-3 rounded-xl text-stone-600 hover:text-yellow-500 hover:bg-indigo-50 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
             >
               <span class="font-medium">Вперед</span>
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

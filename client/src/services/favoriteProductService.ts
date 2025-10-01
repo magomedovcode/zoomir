@@ -1,19 +1,12 @@
-import type { FavoriteProductResponse } from "@/types";
+import type { FavoriteProduct } from "@/types";
 import axios from "axios";
 import { API_URL } from "./baseURL.ts";
 
-export const getFavoriteProducts = async (
-    params: {
-        page?: number
-    }
-): Promise<FavoriteProductResponse> => {
+export const getFavoriteProducts = async (): Promise<FavoriteProduct[]> => {
     try {
-        const response = await axios.get<FavoriteProductResponse>(
+        const response = await axios.get<FavoriteProduct[]>(
             `${API_URL}/shop/favorites/`,
             {
-                params: {
-                    page: params.page
-                },
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`,
                 },
