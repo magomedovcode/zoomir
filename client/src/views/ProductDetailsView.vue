@@ -6,7 +6,7 @@
       <nav class="flex mb-8 animate-fade-in-up">
         <ol class="flex items-center space-x-2 text-sm">
           <li>
-            <router-link to="/" class="text-indigo-600 hover:text-indigo-700 font-medium transition-colors duration-300">
+            <router-link to="/" class="text-yellow-500 hover:text-yellow-600 font-medium transition-colors duration-300">
               Главная
             </router-link>
           </li>
@@ -18,24 +18,24 @@
           <li>
             <router-link
                 :to="`/shop/${productDetail?.product_category?.product_chapter?.id}`"
-                class="text-indigo-600 hover:text-indigo-700 font-medium transition-colors duration-300"
+                class="text-yellow-500 hover:text-yellow-600 font-medium transition-colors duration-300"
             >
               {{ productDetail?.product_category?.product_chapter?.name }}
             </router-link>
           </li>
           <li class="flex items-center">
-            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
           </li>
-          <li class="text-gray-600">{{ productDetail?.title }}</li>
+          <li class="text-stone-600">{{ productDetail?.title }}</li>
         </ol>
       </nav>
 
       <div v-if="productDetail" class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-8">
         <div class="animate-fade-in-up">
-          <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
-            <div class="relative mb-4 rounded-xl overflow-hidden bg-gray-100 cursor-zoom-in">
+          <div class="bg-white rounded-2xl shadow-lg border border-stone-300 p-6 lg:sticky top-20">
+            <div class="relative mb-4 rounded-xl overflow-hidden bg-stone-100 cursor-zoom-in">
               <img
                   :src="currentImage"
                   :alt="productDetail.title"
@@ -47,10 +47,10 @@
               <button
                   v-if="currentVariantImages.length > 1"
                   @click="previousImage"
-                  class="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white hover:shadow-xl transition-all duration-300 group/nav"
+                  class="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center border hover:bg-white hover:shadow-xl transition-all duration-300 group/nav"
                   :disabled="currentImageIndex === 0"
               >
-                <svg class="w-5 h-5 text-gray-700 group-hover/nav:text-indigo-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-stone-700 group-hover/nav:text-yellow-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                 </svg>
               </button>
@@ -58,10 +58,10 @@
               <button
                   v-if="currentVariantImages.length > 1"
                   @click="nextImage"
-                  class="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center hover:bg-white hover:shadow-xl transition-all duration-300 group/nav"
+                  class="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center border hover:bg-white hover:shadow-xl transition-all duration-300 group/nav"
                   :disabled="currentImageIndex === currentVariantImages.length - 1"
               >
-                <svg class="w-5 h-5 text-gray-700 group-hover/nav:text-indigo-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-5 h-5 text-stone-700 group-hover/nav:text-yellow-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
               </button>
@@ -83,7 +83,7 @@
                     class="w-6 h-6 transform transition-all duration-300 group-hover/fav:scale-110"
                     :class="isFavorite ?
                     'text-red-500 fill-current drop-shadow-sm' :
-                    'text-gray-400 hover:text-red-400'"
+                    'text-stone-400 hover:text-red-400'"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -100,7 +100,7 @@
                   @click="openFullscreen"
                   class="absolute top-4 left-4 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transform transition-all duration-300 hover:scale-110 hover:bg-white hover:shadow-xl group/fullscreen"
               >
-                <svg class="w-6 h-6 text-gray-700 group-hover/fullscreen:text-indigo-600 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-6 h-6 text-stone-700 group-hover/fullscreen:text-yellow-500 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3-3H7"/>
                 </svg>
               </button>
@@ -113,8 +113,8 @@
                   @click="setCurrentImage(index)"
                   class="relative rounded-lg border-2 transition-all duration-300 overflow-hidden group/thumb"
                   :class="currentImageIndex === index ?
-                  'border-indigo-500 shadow-md' :
-                  'border-gray-200 hover:border-indigo-300'"
+                  'border-yellow-500 shadow-md' :
+                  'border-stone-200 hover:border-yellow-400'"
               >
                 <img
                     :src="image.image"
@@ -127,9 +127,9 @@
         </div>
 
         <div class="animate-fade-in-up animation-delay-300">
-          <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+          <div class="bg-white rounded-2xl shadow-lg border border-stone-300 p-8">
             <div class="mb-4">
-              <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ productDetail.title }}</h1>
+              <h1 class="text-3xl font-bold text-stone-800 mb-4">{{ productDetail.title }}</h1>
               <div class="flex items-center space-x-4">
                 <div class="flex items-center space-x-2">
                   <div class="flex">
@@ -139,28 +139,28 @@
                         class="w-5 h-5"
                         :class="star <= Math.round(productDetail.average_rating || 0) ?
                         'text-yellow-400 fill-current' :
-                        'text-gray-300 fill-current'"
+                        'text-stone-300 fill-current'"
                         viewBox="0 0 20 20"
                     >
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                     </svg>
                   </div>
-                  <span class="text-lg font-semibold text-gray-700">{{ productDetail.average_rating || 0 }}</span>
-                  <span class="text-gray-500">({{ productDetail.reviews_count }} отзывов)</span>
+                  <span class="text-lg font-semibold text-stone-700">{{ productDetail.average_rating || 0 }}</span>
+                  <span class="text-stone-500">({{ productDetail.reviews_count }} отзывов)</span>
                 </div>
               </div>
             </div>
 
             <div class="flex items-center justify-between mb-4">
               <div>
-                <p class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent">
+                <p class="text-4xl font-bold bg-gradient-to-r from-yellow-500 to-amber-600 bg-clip-text text-transparent">
                   {{ Intl.NumberFormat('ru-RU').format(+(currentVariant?.price || productDetail.product_variants[0]?.price)) }} ₽
                 </p>
               </div>
             </div>
 
             <div class="mt-4 mb-8">
-              <h3 class="text-sm font-medium text-gray-700 mb-3">Варианты товара:</h3>
+              <h3 class="text-sm font-medium text-stone-700 mb-3">Варианты товара:</h3>
               <div class="flex flex-wrap gap-2">
                 <button
                     v-for="variant in productDetail.product_variants"
@@ -168,8 +168,8 @@
                     @click="selectVariant(variant)"
                     class="px-3 py-2 rounded-lg border-2 transition-all duration-300 text-sm font-medium"
                     :class="currentVariant?.id === variant.id ?
-                    'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-sm' :
-                    'border-gray-200 text-gray-700 hover:border-indigo-300 hover:bg-indigo-50/50'"
+                    'border-yellow-500 bg-yellow-50 text-yellow-600 shadow-sm' :
+                    'border-stone-300 text-stone-700 hover:border-yellow-300 hover:bg-yellow-50/50'"
                 >
                   {{ variant.name }}
                 </button>
@@ -177,8 +177,8 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-              <div class="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl">
-                <div class="w-12 h-12 bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center p-2">
+              <div class="flex items-center space-x-3 p-4 rounded-xl">
+                <div class="w-12 h-12 bg-white rounded-lg shadow-sm border border-stone-300 flex items-center justify-center p-2">
                   <img
                       v-if="productDetail.brand.logo"
                       :src="productDetail.brand.logo"
@@ -187,12 +187,12 @@
                   >
                 </div>
                 <div>
-                  <p class="text-sm text-gray-500">Бренд</p>
-                  <p class="font-semibold text-gray-800">{{ productDetail.brand.name }}</p>
+                  <p class="text-sm text-stone-500">Бренд</p>
+                  <p class="font-semibold text-stone-800">{{ productDetail.brand.name }}</p>
                 </div>
               </div>
-              <div class="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl">
-                <div class="w-12 h-12 bg-white rounded-lg shadow-sm border border-gray-200 flex items-center justify-center p-1">
+              <div class="flex items-center space-x-3 p-4  rounded-xl">
+                <div class="w-12 h-12 bg-white rounded-lg shadow-sm border border-stone-300 flex items-center justify-center p-1">
                   <img
                       v-if="productDetail.country.flag"
                       :src="productDetail.country.flag"
@@ -201,29 +201,29 @@
                   >
                 </div>
                 <div>
-                  <p class="text-sm text-gray-500">Страна</p>
-                  <p class="font-semibold text-gray-800">{{ productDetail.country.name }}</p>
+                  <p class="text-sm text-stone-500">Страна произоводства</p>
+                  <p class="font-semibold text-stone-800">{{ productDetail.country.name }}</p>
                 </div>
               </div>
             </div>
 
             <div class="mb-6">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">Характеристики</h3>
+              <h3 class="text-lg font-semibold text-stone-800 mb-4">Характеристики</h3>
               <div class="space-y-3">
                 <div
                     v-for="(attribute, index) in displayedAttributes"
                     :key="attribute.id"
-                    class="flex justify-between py-2 border-b border-gray-100 last:border-b-0"
+                    class="flex justify-between py-2 border-b border-stone-200 last:border-b-0"
                     :class="{'animate-fade-in': index < 3}"
                 >
-                  <span class="text-sm text-gray-600 w-1/2">{{ attribute.name }}:</span>
-                  <span class="text-sm font-medium text-gray-800 text-right w-1/2">{{ attribute.value }}</span>
+                  <span class="text-sm text-stone-600 w-1/2">{{ attribute.name }}:</span>
+                  <span class="text-sm font-medium text-stone-800 text-right w-1/2">{{ attribute.value }}</span>
                 </div>
 
                 <button
                     v-if="allAttributes.length > 3"
                     @click="showAllAttributes = !showAllAttributes"
-                    class="w-full mt-3 px-4 py-2 text-indigo-600 hover:text-indigo-700 font-medium text-sm transition-all duration-300 rounded-lg hover:bg-indigo-50 flex items-center justify-center space-x-2"
+                    class="w-full mt-3 px-4 py-2 text-yellow-500 hover:text-yellow-600 font-medium text-sm transition-all duration-300 rounded-lg hover:bg-yellow-100 flex items-center justify-center space-x-2"
                 >
                   <span>{{ showAllAttributes ? 'Скрыть' : 'Показать все' }}</span>
                   <svg
@@ -239,16 +239,14 @@
               </div>
             </div>
 
-            <div class="border-t border-gray-200 pt-6">
-
-
+            <div class="border-t border-stone-300 pt-6">
               <button
                   @click="addToCart"
                   :disabled="cartStore.isLoading"
                   class="group/btn relative w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-500 transform overflow-hidden"
                   :class="isInCart ?
                   'bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white shadow-lg hover:shadow-xl' :
-                  'bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 text-white shadow-lg hover:shadow-xl'"
+                  'bg-gradient-to-r from-yellow-500 to-amber-600 hover:from-yellow-600 hover:to-amber-700 text-white shadow-lg hover:shadow-xl'"
               >
                 <span class="relative z-10 flex items-center justify-center">
                   <svg
@@ -289,12 +287,12 @@
         </div>
       </div>
 
-      <div v-if="productDetail" class="mb-16 animate-fade-in-up animation-delay-500">
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-          <h2 class="text-2xl font-bold text-gray-800 mb-6">Описание товара</h2>
+      <div v-if="productDetail" class="mb-8 animate-fade-in-up animation-delay-500">
+        <div class="bg-white rounded-2xl shadow-lg border border-stone-300 p-8">
+          <h2 class="text-2xl font-bold text-stone-800 mb-6">Описание товара</h2>
           <div class="prose prose-lg max-w-none">
             <div
-                class="text-gray-600 leading-relaxed transition-all duration-500"
+                class="text-stone-600 leading-relaxed transition-all duration-500"
                 :class="showFullDescription ? 'max-h-none' : 'max-h-32 overflow-hidden'"
             >
               <p>{{ productDetail.description }}</p>
@@ -303,7 +301,7 @@
             <button
                 v-if="productDetail.description.length > 200"
                 @click="showFullDescription = !showFullDescription"
-                class="mt-4 px-6 py-2 text-indigo-600 hover:text-indigo-700 font-medium text-sm transition-all duration-300 rounded-lg hover:bg-indigo-50 flex items-center space-x-2"
+                class="mt-4 px-6 py-2 text-yellow-500 hover:text-yellow-600 font-medium text-sm transition-all duration-300 rounded-lg hover:bg-yellow-100 flex items-center space-x-2"
             >
               <span>{{ showFullDescription ? 'Скрыть' : 'Показать всё' }}</span>
               <svg
@@ -320,13 +318,75 @@
         </div>
       </div>
 
+      <div v-if="authStore.isAuthenticated && !userHasReviewed" class="mb-8">
+        <div class="bg-gradient-to-r from-stone-800 to-stone-700 rounded-2xl p-6">
+          <h3 class="text-lg font-semibold text-white mb-4">Оставить отзыв</h3>
+          <form @submit.prevent="submitReview" class="space-y-4">
+            <div>
+              <label class="block text-base font-medium text-white mb-2">Оценка</label>
+              <div class="flex space-x-1">
+                <button
+                    v-for="star in 5"
+                    :key="star"
+                    type="button"
+                    @click="newReview.rating = star"
+                    class="transform transition-all duration-300 hover:scale-110"
+                >
+                  <svg
+                      class="w-8 h-8"
+                      :class="star <= newReview.rating ?
+                          'text-yellow-400 fill-current' :
+                          'text-stone-500 fill-current hover:text-yellow-300'"
+                      viewBox="0 0 20 20"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label for="reviewTitle" class="block text-base font-medium text-white mb-2">Заголовок</label>
+              <input
+                  id="reviewTitle"
+                  v-model="newReview.title"
+                  type="text"
+                  required
+                  class="w-full px-4 py-3 bg-stone-700 placeholder:text-stone-400 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all duration-300"
+                  placeholder="Краткое описание отзыва"
+              >
+            </div>
+
+            <div>
+              <label for="reviewComment" class="block text-base font-medium text-white mb-2">Комментарий</label>
+              <textarea
+                  id="reviewComment"
+                  v-model="newReview.comment"
+                  required
+                  rows="4"
+                  class="w-full px-4 py-3 bg-stone-700 placeholder:text-stone-400 text-white rounded-xl focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 resize-none transition-all duration-300"
+                  placeholder="Подробно опишите ваш опыт использования товара"
+              ></textarea>
+            </div>
+
+            <button
+                type="submit"
+                :disabled="reviewStore.isLoading"
+                class="px-6 py-3 bg-gradient-to-r from-yellow-500 to-amber-600 text-stone-800 font-semibold rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50"
+            >
+              {{ reviewStore.isLoading ? 'Отправка...' : 'Опубликовать отзыв' }}
+            </button>
+          </form>
+        </div>
+      </div>
+
       <section class="mb-16 animate-fade-in-up animation-delay-500">
-        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+        <div class="bg-white rounded-2xl shadow-lg border border-stone-300 p-8">
           <div class="flex items-center justify-between mb-8">
-            <h2 class="text-2xl font-bold text-gray-800">Отзывы покупателей</h2>
+            <h2 class="text-2xl font-bold text-stone-800">Отзывы покупателей</h2>
             <div class="flex items-center space-x-4">
               <div class="text-center">
-                <p class="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent">
+                <p class="text-3xl font-bold bg-gradient-to-r from-yellow-500 to-amber-600 bg-clip-text text-transparent">
                   {{ productDetail?.average_rating || 0 }}
                 </p>
                 <div class="flex justify-center">
@@ -336,76 +396,14 @@
                       class="w-4 h-4"
                       :class="star <= Math.round(productDetail?.average_rating || 0) ?
                       'text-yellow-400 fill-current' :
-                      'text-gray-300 fill-current'"
+                      'text-stone-300 fill-current'"
                       viewBox="0 0 20 20"
                   >
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                   </svg>
                 </div>
-                <p class="text-sm text-gray-500 mt-1">{{ productDetail?.reviews_count }} отзывов</p>
+                <p class="text-sm text-stone-500 mt-1">{{ productDetail?.reviews_count }} отзывов</p>
               </div>
-            </div>
-          </div>
-
-          <div v-if="authStore.isAuthenticated && !userHasReviewed" class="mb-8">
-            <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6 border border-indigo-100">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">Оставить отзыв</h3>
-              <form @submit.prevent="submitReview" class="space-y-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Оценка</label>
-                  <div class="flex space-x-1">
-                    <button
-                        v-for="star in 5"
-                        :key="star"
-                        type="button"
-                        @click="newReview.rating = star"
-                        class="transform transition-all duration-300 hover:scale-110"
-                    >
-                      <svg
-                          class="w-8 h-8"
-                          :class="star <= newReview.rating ?
-                          'text-yellow-400 fill-current' :
-                          'text-gray-300 fill-current hover:text-yellow-300'"
-                          viewBox="0 0 20 20"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <label for="reviewTitle" class="block text-sm font-medium text-gray-700 mb-2">Заголовок</label>
-                  <input
-                      id="reviewTitle"
-                      v-model="newReview.title"
-                      type="text"
-                      required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
-                      placeholder="Краткое описание отзыва"
-                  >
-                </div>
-
-                <div>
-                  <label for="reviewComment" class="block text-sm font-medium text-gray-700 mb-2">Комментарий</label>
-                  <textarea
-                      id="reviewComment"
-                      v-model="newReview.comment"
-                      required
-                      rows="4"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300"
-                      placeholder="Подробно опишите ваш опыт использования товара"
-                  ></textarea>
-                </div>
-
-                <button
-                    type="submit"
-                    :disabled="reviewStore.isLoading"
-                    class="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-700 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 disabled:opacity-50"
-                >
-                  {{ reviewStore.isLoading ? 'Отправка...' : 'Опубликовать отзыв' }}
-                </button>
-              </form>
             </div>
           </div>
 
@@ -413,16 +411,16 @@
             <div
                 v-for="review in productDetail?.reviews"
                 :key="review.id"
-                class="border border-gray-200 rounded-2xl p-6 hover:shadow-md transition-all duration-300"
+                class="border border-stone-300 rounded-2xl p-6 hover:shadow-md transition-all duration-300"
             >
               <div class="flex items-start justify-between mb-4">
                 <div class="flex items-center space-x-3">
-                  <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                  <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-amber-600 rounded-full flex items-center justify-center text-white font-bold text-lg">
                     {{ review.user.charAt(0).toUpperCase() }}
                   </div>
                   <div>
-                    <p class="font-semibold text-gray-800">{{ review.user }}</p>
-                    <p class="text-sm text-gray-500">{{ formatDate(review.date) }}</p>
+                    <p class="font-semibold text-stone-800">{{ review.user }}</p>
+                    <p class="text-sm text-stone-500">{{ formatDate(review.date) }}</p>
                   </div>
                 </div>
                 <div class="flex items-center space-x-4">
@@ -437,7 +435,7 @@
                         />
                       </svg>
                     </div>
-                    <span class="text-sm font-medium text-gray-700">{{ review.rating }}</span>
+                    <span class="text-sm font-medium text-stone-700">{{ review.rating }}</span>
                   </div>
 
                   <button
@@ -453,25 +451,25 @@
                 </div>
               </div>
 
-              <h4 class="font-semibold text-gray-800 mb-2">{{ review.title }}</h4>
-              <p class="text-gray-600 leading-relaxed">{{ review.comment }}</p>
+              <h4 class="font-semibold text-stone-800 mb-2">{{ review.title }}</h4>
+              <p class="text-stone-600 leading-relaxed">{{ review.comment }}</p>
             </div>
 
             <div v-if="productDetail?.reviews.length === 0" class="text-center py-12">
-              <div class="w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div class="w-24 h-24 mx-auto mb-4 bg-stone-100 rounded-full flex items-center justify-center">
+                <svg class="w-12 h-12 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                 </svg>
               </div>
-              <h3 class="text-lg font-semibold text-gray-800 mb-2">Отзывов пока нет</h3>
-              <p class="text-gray-600">Будьте первым, кто оставит отзыв об этом товаре!</p>
+              <h3 class="text-lg font-semibold text-stone-800 mb-2">Отзывов пока нет</h3>
+              <p class="text-stone-600">Будьте первым, кто оставит отзыв об этом товаре!</p>
             </div>
           </div>
         </div>
       </section>
 
       <section class="animate-fade-in-up animation-delay-700">
-        <h2 class="text-2xl font-bold text-gray-800 mb-8">Похожие товары</h2>
+        <h2 class="text-2xl font-bold text-stone-800 mb-8">Похожие товары</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <ProductCard
               v-for="similarProduct in similarProducts"

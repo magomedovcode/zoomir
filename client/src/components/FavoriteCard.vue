@@ -1,7 +1,5 @@
 <template>
   <div class="bg-white rounded-2xl shadow-lg border border-stone-300 hover:shadow-2xl transition-all duration-500 group transform hover:-translate-y-1 relative overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-indigo-50/0 to-purple-50/0 group-hover:from-yellow-50/50 group-hover:to-amber-50/30 transition-all duration-500 rounded-2xl"></div>
-
     <div class="relative z-10">
       <router-link :to="`/details/${product.id}`" class="block">
         <div class="p-6">
@@ -10,7 +8,7 @@
           </h3>
 
           <div class="space-y-4">
-            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-stone-100 to-amber-50/30 rounded-xl border border-stone-100 hover:border-amber-200 transition-all duration-300 group/brand">
+            <div class="flex items-center justify-between p-4 border-l border-stone-100 hover:border-amber-500 transition-all duration-300 group/brand">
               <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 bg-white rounded-lg shadow-sm border border-stone-200 flex items-center justify-center p-1.5">
                   <img
@@ -25,14 +23,14 @@
                 </div>
                 <div>
                   <p class="text-xs font-medium text-stone-500 uppercase tracking-wide">Бренд</p>
-                  <p class="text-sm font-semibold text-stone-800 group-hover/brand:text-amber-500 transition-colors duration-300">
+                  <p class="text-sm font-semibold text-stone-800 group-hover/brand:text-amber-400 transition-colors duration-300">
                     {{ product.brand.name }}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-stone-100 to-amber-50/30 rounded-xl border border-stone-100 hover:border-amber-200 transition-all duration-300 group/country">
+            <div class="flex items-center justify-between p-4 border-l border-stone-100 hover:border-amber-400 transition-all duration-300 group/country">
               <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 bg-white rounded-lg shadow-sm border border-stone-200 flex items-center justify-center p-0.5">
                   <img
@@ -46,8 +44,8 @@
                   </svg>
                 </div>
                 <div>
-                  <p class="text-xs font-medium text-stone-500 uppercase tracking-wide">Страна</p>
-                  <p class="text-sm font-semibold text-stone-800 group-hover/country:text-amber-500 transition-colors duration-300">
+                  <p class="text-xs font-medium text-stone-500 uppercase tracking-wide">Страна производства</p>
+                  <p class="text-sm font-semibold text-stone-800 group-hover/country:text-amber-400 transition-colors duration-300">
                     {{ product.country.name }}
                   </p>
                 </div>

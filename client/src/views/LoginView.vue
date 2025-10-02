@@ -1,25 +1,21 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50/30 to-pink-50/20 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-    <div class="absolute inset-0 opacity-50">
-      <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse"></div>
-      <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse animation-delay-2000"></div>
-      <div class="absolute bottom-1/4 left-1/3 w-80 h-80 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl animate-pulse animation-delay-4000"></div>
-    </div>
+  <div class="min-h-screen flex flex-col bg-white">
+    <AppHeader />
 
-    <div class="relative sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-4">
       <div class="text-center animate-fade-in-up">
-        <h2 class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-700 bg-clip-text text-transparent mb-3">
+        <h2 class="text-4xl font-bold bg-gradient-to-r from-yellow-500 to-amber-500 bg-clip-text text-transparent mb-3">
           Вход в аккаунт
         </h2>
-        <p class="text-gray-600">Войдите в свой аккаунт Zoomir</p>
+        <p class="text-stone-600 text-lg">Войдите в свой аккаунт Zoomir</p>
       </div>
     </div>
 
-    <div class="relative mt-8 sm:mx-auto sm:w-full sm:max-w-md animate-fade-in-up animation-delay-300">
-      <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/60 py-8 px-6 sm:px-10 transform transition-all duration-500 hover:shadow-3xl">
+    <div class="relative mt-8 sm:mx-auto sm:w-full sm:max-w-md animate-fade-in-up animation-delay-300 mb-16">
+      <div class="bg-gradient-to-r from-stone-800 to-stone-700 backdrop-blur-sm rounded-2xl shadow-2xl py-8 px-6 sm:px-10 transform transition-all duration-500 hover:shadow-3xl">
         <form class="space-y-6" @submit.prevent="login">
           <div class="group">
-            <label for="username" class="block text-sm font-medium text-gray-700 mb-2">
+            <label for="username" class="block text-base font-medium text-white mb-2">
               Имя пользователя
             </label>
             <div class="relative">
@@ -28,14 +24,14 @@
                   v-model="userData.username"
                   type="text"
                   required
-                  class="block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300 bg-white/50 backdrop-blur-sm group-hover:border-indigo-300"
+                  class="block w-full pl-6 pr-3 py-3 rounded-xl placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all duration-300 bg-stone-700 backdrop-blur-sm group-hover:border-yellow-300"
                   placeholder="Введите имя пользователя"
               >
             </div>
           </div>
 
           <div class="group">
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+            <label for="password" class="block text-base font-medium text-white mb-2">
               Пароль
             </label>
             <div class="relative">
@@ -44,7 +40,7 @@
                   v-model="userData.password"
                   type="password"
                   required
-                  class="block w-full pl-6 pr-3 py-3 border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300 bg-white/50 backdrop-blur-sm group-hover:border-indigo-300"
+                  class="block w-full pl-6 pr-3 py-3 rounded-xl placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-all duration-300 bg-stone-700 backdrop-blur-sm group-hover:border-yellow-300"
                   placeholder="Введите пароль"
               >
             </div>
@@ -66,7 +62,7 @@
             <button
                 type="submit"
                 :disabled="authStore.isLoading"
-                class="group relative w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-white bg-gradient-to-r from-indigo-600 to-purple-700 hover:from-indigo-700 hover:to-purple-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-all duration-500 transform hover:-translate-y-1 hover:shadow-2xl disabled:hover:transform-none"
+                class="group relative w-full flex justify-center py-4 px-4 border border-transparent rounded-xl shadow-lg text-lg font-bold text-stone-800 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-600 hover:to-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 disabled:opacity-50 transition-all duration-500 transform hover:-translate-y-1 hover:shadow-2xl disabled:hover:transform-none"
             >
               <svg
                   v-if="authStore.isLoading"
@@ -84,10 +80,10 @@
             </button>
           </div>
 
-          <div class="text-center pt-4 border-t border-gray-200/60">
+          <div class="text-center pt-4 border-t border-stone-600">
             <router-link
                 to="/register"
-                class="group inline-flex items-center text-indigo-600 hover:text-indigo-700 font-medium transition-all duration-300 transform hover:-translate-y-0.5"
+                class="group inline-flex items-center text-yellow-500 hover:text-yellow-600 font-medium transition-all duration-300 transform hover:-translate-y-0.5"
             >
               <span>Нет аккаунта? Зарегистрируйтесь</span>
               <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,6 +94,8 @@
         </form>
       </div>
     </div>
+
+    <AppFooter />
   </div>
 </template>
 
@@ -106,6 +104,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStore'
 import type { User } from '@/types'
+import AppHeader from "@/components/AppHeader.vue";
+import AppFooter from "@/components/AppFooter.vue";
 
 const router = useRouter()
 const authStore = useAuthStore()

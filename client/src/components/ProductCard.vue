@@ -64,7 +64,7 @@
 
           <div class="flex items-center space-x-1">
             <svg
-                class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-current"
+                class="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500 fill-current"
                 viewBox="0 0 20 20"
             >
               <path

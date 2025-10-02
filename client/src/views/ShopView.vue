@@ -3,16 +3,9 @@
     <AppHeader />
 
     <div class="flex-grow container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div class="text-center mb-12">
+      <div class="text-center mb-12 mt-4">
         <div class="flex flex-row justify-center items-center gap-3">
-          <div class="flex justify-center items-center mb-4">
-            <div class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-amber-400 rounded-xl flex items-center justify-center shadow-lg">
-              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-              </svg>
-            </div>
-          </div>
-          <h1 class="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-amber-400 bg-clip-text text-transparent mb-4">
+          <h1 class="text-4xl font-bold bg-gradient-to-r from-yellow-500 to-amber-500 bg-clip-text text-transparent mb-4">
             Товары из категории
           </h1>
         </div>
@@ -24,7 +17,7 @@
           <h2 class="text-lg font-semibold text-stone-800">Фильтры</h2>
           <button
               @click="showMobileFilters = !showMobileFilters"
-              class="flex items-center gap-2 px-4 py-3 bg-white border border-stone-300 rounded-xl hover:border-yellow-400 hover:bg-yellow-50 transition-all duration-300 shadow-sm"
+              class="flex items-center gap-2 px-4 py-3 bg-white border border-stone-300 rounded-xl hover:border-yellow-500 hover:bg-yellow-50 transition-all duration-300 shadow-sm"
           >
             <span class="font-medium text-stone-700">Фильтры</span>
             <ChevronUpDownIcon class="h-5 w-5 text-stone-500" aria-hidden="true" />
