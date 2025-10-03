@@ -8,7 +8,7 @@
           </h3>
 
           <div class="space-y-4">
-            <div class="flex items-center justify-between p-4 border-l border-stone-100 hover:border-amber-500 transition-all duration-300 group/brand">
+            <div class="flex items-center justify-between p-4 transition-all duration-300 group/brand">
               <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 bg-white rounded-lg shadow-sm border border-stone-200 flex items-center justify-center p-1.5">
                   <img
@@ -23,14 +23,14 @@
                 </div>
                 <div>
                   <p class="text-xs font-medium text-stone-500 uppercase tracking-wide">Бренд</p>
-                  <p class="text-sm font-semibold text-stone-800 group-hover/brand:text-amber-400 transition-colors duration-300">
+                  <p class="text-sm font-semibold text-stone-800 transition-colors duration-300">
                     {{ product.brand.name }}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div class="flex items-center justify-between p-4 border-l border-stone-100 hover:border-amber-400 transition-all duration-300 group/country">
+            <div class="flex items-center justify-between p-4 transition-all duration-300 group/country">
               <div class="flex items-center space-x-3">
                 <div class="w-10 h-10 bg-white rounded-lg shadow-sm border border-stone-200 flex items-center justify-center p-0.5">
                   <img
@@ -45,7 +45,7 @@
                 </div>
                 <div>
                   <p class="text-xs font-medium text-stone-500 uppercase tracking-wide">Страна производства</p>
-                  <p class="text-sm font-semibold text-stone-800 group-hover/country:text-amber-400 transition-colors duration-300">
+                  <p class="text-sm font-semibold text-stone-800 transition-colors duration-300">
                     {{ product.country.name }}
                   </p>
                 </div>

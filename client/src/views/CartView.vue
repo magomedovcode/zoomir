@@ -27,7 +27,7 @@
                 <div class="block sm:hidden">
                   <div class="flex justify-between items-start mb-3">
                     <router-link
-                        :to="`/details/${item.product_variant.product_id}`"
+                        :to="getProductLink(item)"
                         class="flex-shrink-0 relative"
                     >
                       <img
@@ -53,7 +53,7 @@
 
                   <div class="space-y-2">
                     <router-link
-                        :to="`/details/${item.product_variant.product_id}`"
+                        :to="getProductLink(item)"
                         class="text-base font-semibold text-stone-800 hover:text-yellow-500 transition-colors duration-300 line-clamp-2"
                     >
                       {{ item.product_variant.product_title }}
@@ -104,7 +104,7 @@
 
                 <div class="hidden sm:flex space-x-6">
                   <router-link
-                      :to="`/details/${item.product_variant.product_id}`"
+                      :to="getProductLink(item)"
                       class="flex-shrink-0 relative"
                   >
                     <img
@@ -121,7 +121,7 @@
                     <div class="flex items-start justify-between">
                       <div class="flex-1">
                         <router-link
-                            :to="`/details/${item.product_variant.product_id}`"
+                            :to="getProductLink(item)"
                             class="text-lg font-semibold text-stone-800 hover:text-yellow-500 transition-colors duration-300"
                         >
                           {{ item.product_variant.product_title }}
@@ -278,12 +278,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import {computed, onMounted} from 'vue'
 import { useRouter } from 'vue-router'
 import AppHeader from '@/components/AppHeader.vue'
 import { useCartStore } from '@/stores/cartStore'
 import { MEDIA_URL } from '@/services/baseURL'
 import AppFooter from "@/components/AppFooter.vue";
+import type {ProductInCart} from "@/types";
 
 const router = useRouter()
 const cartStore = useCartStore()
@@ -291,6 +292,15 @@ const cartStore = useCartStore()
 onMounted(async () => {
   await cartStore.fetchCart();
 })
+
+const getProductLink = (item: ProductInCart) => {
+  return {
+    path: `/details/${item.product_variant.product_id}`,
+    query: {
+      variant: item.product_variant.id.toString()
+    }
+  }
+}
 
 const updateQuantity = async (productId: number, newQuantity: number) => {
   if (newQuantity < 1) return

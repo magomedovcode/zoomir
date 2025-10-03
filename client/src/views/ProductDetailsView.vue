@@ -177,7 +177,10 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-              <div class="flex items-center space-x-3 p-4 rounded-xl">
+              <router-link
+                  :to="getBrandLink"
+                  class="flex items-center space-x-3 p-4 rounded-xl hover:bg-yellow-100"
+              >
                 <div class="w-12 h-12 bg-white rounded-lg shadow-sm border border-stone-300 flex items-center justify-center p-2">
                   <img
                       v-if="productDetail.brand.logo"
@@ -190,8 +193,11 @@
                   <p class="text-sm text-stone-500">Бренд</p>
                   <p class="font-semibold text-stone-800">{{ productDetail.brand.name }}</p>
                 </div>
-              </div>
-              <div class="flex items-center space-x-3 p-4  rounded-xl">
+              </router-link>
+              <router-link
+                  :to="getCountryLink"
+                  class="flex items-center space-x-3 p-4  rounded-xl hover:bg-yellow-100"
+              >
                 <div class="w-12 h-12 bg-white rounded-lg shadow-sm border border-stone-300 flex items-center justify-center p-1">
                   <img
                       v-if="productDetail.country.flag"
@@ -204,7 +210,7 @@
                   <p class="text-sm text-stone-500">Страна произоводства</p>
                   <p class="font-semibold text-stone-800">{{ productDetail.country.name }}</p>
                 </div>
-              </div>
+              </router-link>
             </div>
 
             <div class="mb-6">
@@ -564,7 +570,7 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router' // Добавьте useRouter
 import AppHeader from '@/components/AppHeader.vue'
 import AppFooter from '@/components/AppFooter.vue'
 import ProductCard from '@/components/ProductCard.vue'
@@ -576,6 +582,7 @@ import { useReviewStore } from '@/stores/reviewStore'
 import type { VariantInProduct, CreateReviewBody, ProductVariant, ProductImage, Attribute } from '@/types'
 
 const route = useRoute()
+const router = useRouter()
 const productStore = useProductStore()
 const authStore = useAuthStore()
 const cartStore = useCartStore()
@@ -592,6 +599,29 @@ const currentImageIndex = ref(0)
 const isZoomed = ref(false)
 const isFullscreen = ref(false)
 const fullscreenZoom = ref(1)
+
+const getBrandLink = computed(() => {
+  return {
+    path: `/shop/${productDetail.value?.product_category.product_chapter.id}`,
+    query: {
+      brands: productDetail.value?.brand.id
+    }
+  }
+})
+
+const getCountryLink = computed(() => {
+  return {
+    path: `/shop/${productDetail.value?.product_category.product_chapter.id}`,
+    query: {
+      countries: productDetail.value?.country.id
+    }
+  }
+})
+
+const variantIdFromUrl = computed(() => {
+  const variantId = route.query.variant
+  return variantId ? Number(variantId) : null
+})
 
 const allAttributes = computed<Attribute[]>(() => {
   if (!currentVariant.value?.attributes && !productDetail.value?.product_variants[0]?.attributes) {
@@ -654,18 +684,50 @@ watch(() => route.params.id, async () => {
   await loadProductData()
 })
 
+watch(() => route.query.variant, (newVariantId) => {
+  if (newVariantId && productDetail.value) {
+    applyVariantFromUrl(Number(newVariantId))
+  }
+})
+
 const loadProductData = async () => {
   await productStore.fetchProductDetails(productId.value)
 
   if (productDetail.value?.product_variants?.length) {
-    currentVariant.value = productDetail.value.product_variants[0]
-    currentImageIndex.value = 0
+    if (variantIdFromUrl.value) {
+      applyVariantFromUrl(variantIdFromUrl.value)
+    } else {
+      currentVariant.value = productDetail.value.product_variants[0]
+      currentImageIndex.value = 0
+    }
   }
 
   if (authStore.isAuthenticated) {
     await cartStore.fetchCart()
     await favoritesStore.fetchFavoriteProducts()
   }
+}
+
+const applyVariantFromUrl = (variantId: number) => {
+  if (!productDetail.value) return
+
+  const variant = productDetail.value.product_variants.find(v => v.id === variantId)
+  if (variant) {
+    currentVariant.value = variant
+    currentImageIndex.value = 0
+  } else {
+    currentVariant.value = productDetail.value.product_variants[0]
+    currentImageIndex.value = 0
+  }
+}
+
+const updateUrlWithVariant = (variantId: number) => {
+  router.replace({
+    query: {
+      ...route.query,
+      variant: variantId.toString()
+    }
+  })
 }
 
 const nextImage = () => {
@@ -744,6 +806,7 @@ const selectVariant = (variant: VariantInProduct) => {
   currentImageIndex.value = 0
   isZoomed.value = false
   fullscreenZoom.value = 1
+  updateUrlWithVariant(variant.id)
 }
 
 const addToCart = async () => {

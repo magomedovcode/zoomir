@@ -635,7 +635,7 @@
 
 <script setup lang="ts">
 import {computed, onMounted, ref, watch} from 'vue'
-import {useRoute} from 'vue-router'
+import {useRoute, useRouter} from 'vue-router'
 import {
   Listbox,
   ListboxButton,
@@ -657,6 +657,7 @@ import {ProductOrdering} from '@/types'
 import AppFooter from "@/components/AppFooter.vue";
 
 const route = useRoute()
+const router = useRouter()
 const productStore = useProductStore()
 const filtersStore = useProductFiltersStore()
 
@@ -712,6 +713,96 @@ const getOrderingLabel = (value: ProductOrdering) => {
   return option ? option.label : 'По умолчанию'
 }
 
+const updateURL = () => {
+  const query: Record<string, string> = {}
+
+  if (searchQuery.value) query.search = searchQuery.value
+  if (selectedBrands.value.length > 0) query.brands = selectedBrands.value.join(',')
+  if (selectedCountries.value.length > 0) query.countries = selectedCountries.value.join(',')
+  if (selectedCategories.value.length > 0) query.categories = selectedCategories.value.join(',')
+  if (priceMin.value) query.price_min = priceMin.value.toString()
+  if (priceMax.value) query.price_max = priceMax.value.toString()
+  if (ordering.value !== ProductOrdering.PRICE_DEFAULT) query.ordering = ordering.value
+
+  router.replace({
+    query: Object.keys(query).length > 0 ? query : undefined
+  })
+}
+
+const parseQueryParams = () => {
+  const query = route.query
+
+  if (query.search) {
+    searchQuery.value = Array.isArray(query.search) ? query.search[0] || '' : query.search || ''
+  } else {
+    searchQuery.value = ''
+  }
+
+  if (query.brands) {
+    const brandsParam = Array.isArray(query.brands) ? query.brands[0] : query.brands
+    if (brandsParam) {
+      selectedBrands.value = brandsParam.split(',').map(Number).filter(id => !isNaN(id))
+    } else {
+      selectedBrands.value = []
+    }
+  } else {
+    selectedBrands.value = []
+  }
+
+  if (query.countries) {
+    const countriesParam = Array.isArray(query.countries) ? query.countries[0] : query.countries
+    if (countriesParam) {
+      selectedCountries.value = countriesParam.split(',').map(Number).filter(id => !isNaN(id))
+    } else {
+      selectedCountries.value = []
+    }
+  } else {
+    selectedCountries.value = []
+  }
+
+  if (query.categories) {
+    const categoriesParam = Array.isArray(query.categories) ? query.categories[0] : query.categories
+    if (categoriesParam) {
+      selectedCategories.value = categoriesParam.split(',').map(Number).filter(id => !isNaN(id))
+    } else {
+      selectedCategories.value = []
+    }
+  } else {
+    selectedCategories.value = []
+  }
+
+  if (query.price_min) {
+    const priceMinParam = Array.isArray(query.price_min) ? query.price_min[0] : query.price_min
+    if (priceMinParam) {
+      const parsed = Number(priceMinParam)
+      priceMin.value = isNaN(parsed) ? undefined : parsed
+    } else {
+      priceMin.value = undefined
+    }
+  } else {
+    priceMin.value = undefined
+  }
+
+  if (query.price_max) {
+    const priceMaxParam = Array.isArray(query.price_max) ? query.price_max[0] : query.price_max
+    if (priceMaxParam) {
+      const parsed = Number(priceMaxParam)
+      priceMax.value = isNaN(parsed) ? undefined : parsed
+    } else {
+      priceMax.value = undefined
+    }
+  } else {
+    priceMax.value = undefined
+  }
+
+  if (query.ordering) {
+    const orderingParam = Array.isArray(query.ordering) ? query.ordering[0] : query.ordering
+    if (orderingParam && Object.values(ProductOrdering).includes(orderingParam as ProductOrdering)) {
+      ordering.value = orderingParam as ProductOrdering
+    }
+  }
+}
+
 const filters = computed(() => ({
   search: searchQuery.value,
   brand: selectedBrands.value,
@@ -729,11 +820,20 @@ const filters = computed(() => ({
 const clearPriceFilter = () => {
   priceMin.value = undefined
   priceMax.value = undefined
+  updateURL()
 }
+
+watch([searchQuery, selectedBrands, selectedCountries, selectedCategories, priceMin, priceMax, ordering], () => {
+  updateURL()
+}, { deep: true })
 
 watch(filters, async () => {
   await productStore.fetchProducts(filters.value)
 }, { deep: true })
+
+watch(() => route.query, () => {
+  parseQueryParams()
+})
 
 const loadPage = (page: number) => {
   productStore.currentPage = page
@@ -741,7 +841,8 @@ const loadPage = (page: number) => {
 }
 
 onMounted(async () => {
-  await productStore.fetchProducts(filters.value)
+  parseQueryParams()
   await filtersStore.fetchProductCategories(Number(route.params.chapterId))
+  await productStore.fetchProducts(filters.value)
 })
 </script>

@@ -63,7 +63,9 @@
                   :key="item.id"
                   class="flex items-center space-x-3 md:space-x-4 p-3 md:p-4 bg-white rounded-lg md:rounded-xl hover:bg-white transition-all duration-300 group"
               >
-                <div class="relative flex-shrink-0">
+                <router-link
+                    :to="getProductLink(item)"
+                    class="relative flex-shrink-0">
                   <img
                       :src="MEDIA_URL + item.product_variant.first_image"
                       :alt="item.product_variant.product_title"
@@ -72,12 +74,14 @@
                   <div class="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-yellow-500 text-white text-xs font-bold px-1.5 py-0.5 md:px-2 md:py-1 rounded-full shadow-sm text-[10px] md:text-xs">
                     ×{{ item.quantity }}
                   </div>
-                </div>
+                </router-link>
 
                 <div class="flex-1 min-w-0">
-                  <p class="font-medium text-stone-800 group-hover:text-yellow-500 transition-colors duration-300 text-sm md:text-base truncate">
+                  <router-link
+                      :to="getProductLink(item)"
+                      class="font-medium text-stone-800 group-hover:text-yellow-500 transition-colors duration-300 text-sm md:text-base truncate">
                     {{ item.product_variant.product_title }}
-                  </p>
+                  </router-link>
                   <p class="text-xs md:text-sm text-stone-600 mt-1 truncate">Вариант: {{ item.product_variant.name }}</p>
                   <p class="text-xs md:text-sm text-stone-500 mt-1">
                     {{ Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'RUB' }).format(+item.price) }} × {{ item.quantity }}
@@ -204,14 +208,23 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import {computed, onMounted} from 'vue'
 import AppHeader from '@/components/AppHeader.vue'
 import { useOrderStore } from '@/stores/orderStore'
-import { Status } from '@/types'
+import {type ProductInCart, Status} from '@/types'
 import { MEDIA_URL } from '@/services/baseURL'
 import AppFooter from "@/components/AppFooter.vue";
 
 const orderStore = useOrderStore()
+
+const getProductLink = (item: ProductInCart) => {
+  return {
+    path: `/details/${item.product_variant.product_id}`,
+    query: {
+      variant: item.product_variant.id.toString()
+    }
+  }
+}
 
 const statusLabels = {
   [Status.PENDING]: 'В обработке',

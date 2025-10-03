@@ -3,7 +3,7 @@
       class="bg-white rounded-lg sm:rounded-2xl shadow-md sm:shadow-lg border border-stone-300 hover:shadow-xl sm:hover:shadow-2xl transition-all duration-500 group relative overflow-hidden"
   >
     <router-link
-        :to="`/details/${product.product_id}`"
+        :to="getProductLink"
         class="block relative z-10"
     >
       <div
@@ -152,7 +152,6 @@
   </div>
 </template>
 
-
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { ProductVariant } from '@/types'
@@ -167,6 +166,15 @@ interface Props {
 const props = defineProps<Props>()
 const favoritesStore = useFavoriteProductStore()
 const cartStore = useCartStore()
+
+const getProductLink = computed(() => {
+  return {
+    path: `/details/${props.product.product_id}`,
+    query: {
+      variant: props.product.id
+    }
+  }
+})
 
 const isFavorite = computed(() => {
   return favoritesStore.favoriteProducts.some(fp => fp.product.id === props.product.product_id)
